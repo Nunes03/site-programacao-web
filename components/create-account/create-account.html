@@ -1,15 +1,45 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <body>
-        
-        
-        
-    </body>
+    <title>Criar Conta</title>
+
+    <link rel="stylesheet" type="text/css" href="create-account.css" />
+  </head>
+
+  <body>
+
+    <form>
+      <table>
+        <tr>
+          <td>
+            <label>Email</label>
+            <input type="email">
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <label>Senha</label>
+            <input id="password" type="password">
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <label>Confirmar Senha</label>
+            <input id="confirm-password" type="password">
+            <label id="message-validation" style="color: red;"></label>
+          </td>
+        </tr>
+      </table>
+
+      <button onclick="validatePassword()" type="submit" id="create-account">Criar Conta</button>
+    </form>
+
+    <script src="create-account.js"></script>
+  </body>
 </html>
