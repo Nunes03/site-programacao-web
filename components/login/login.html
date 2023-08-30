@@ -10,19 +10,27 @@
   </head>
 
   <body>
-    <div class="div-master-login-class">
-      <div class="div-login-class">
-        <h1 class="h1-site-name-class">Rede Social</h1>
+    <div class="container">
+      <div class="box">
+        <div class="line">
+          <h1 class="title">Uniaservice</h1>
+        </div>
 
-        <input type="email" class="input-email" placeholder="Email" />
+        <div class="line">
+          <input type="email" class="input" placeholder="Email" />
+        </div>
 
-        <input type="password" class="input-login" placeholder="Senha" />
-      </div>
+        <div class="line">
+          <input type="password" class="input" placeholder="Senha" />
+        </div>
 
-      <div class="buttons-login-class">
-        <button class="button-login-class">Entrar</button>
+        <div class="buttons">
+            <button class="button">Entrar</button>
 
-        <a href="create-account.html">Criar Conta</a>
+            <button class="button" onclick="createAccountRedirect()">
+              Criar Conta
+            </button>
+        </div>
       </div>
     </div>
   </body>
