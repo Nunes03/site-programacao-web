@@ -19,3 +19,13 @@ img {
   color: #FFF;
   border-radius: 50%;
 }
+
+.value {
+  width: 70%;
+}
+
+.topic {
+  float:left;
+  width: 30%;
+
+}
