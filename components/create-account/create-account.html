@@ -2,44 +2,38 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Criar Conta</title>
+    <title>Entrar</title>
 
     <link rel="stylesheet" type="text/css" href="create-account.css" />
   </head>
 
   <body>
+    <div class="container">
+      <div class="box">
+        <div class="line">
+          <h1 class="title">Uniaservice</h1>
+        </div>
 
-    <form>
-      <table>
-        <tr>
-          <td>
-            <label>Email</label>
-            <input type="email">
-          </td>
-        </tr>
+        <div class="line">
+          <input type="email" class="input" placeholder="Email" />
+        </div>
 
-        <tr>
-          <td>
-            <label>Senha</label>
-            <input id="password" type="password">
-          </td>
-        </tr>
+        <div class="line">
+          <input id="password" type="password" class="input" placeholder="Senha" />
+        </div>
 
-        <tr>
-          <td>
-            <label>Confirmar Senha</label>
-            <input id="confirm-password" type="password">
-            <label id="message-validation" style="color: red;"></label>
-          </td>
-        </tr>
-      </table>
+        <div class="line">
+          <input id="confirmPassword" type="password" class="input" placeholder="Confirmar Senha" />
+        </div>
 
-      <button onclick="validatePassword()" type="submit" id="create-account">Criar Conta</button>
-    </form>
-
-    <script src="create-account.js"></script>
+        <div class="buttons">
+            <button id="createAccount"  class="button">Criar</button>        
+            <button id="viewPassword" class="button">Ver Senha</button>
+        </div>
+      </div>
+    </div>
   </body>
+
+  <script src="create-account.js"></script>
 </html>
