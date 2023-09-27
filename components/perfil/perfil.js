@@ -1,5 +1,6 @@
-var userPhoto = document.getElementById('userPhoto');
-userPhoto.src = "../../assets/emptyPicture.jpg";
+var userPhoto = document.getElementById('userPhoto').src = "../../assets/emptyPicture.jpg";
+
+document
 
 // validateUserPhoto();
 // var nome = document.getElementById('name')
