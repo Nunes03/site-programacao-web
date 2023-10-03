@@ -25,26 +25,23 @@
           </td>
         </tr>
         <tr>
-          <td> <label>Nome: </label> <input style="margin-left: 80px;" id="name" ></input></td>
-          <td> <button><img src="../../assets/editIcon.png" id= "editNome" class="button"/></button></td>
+          <td> <label>Nome: </label> <input style="margin-left: 80px;" id="name"  ></input></td>
         </tr>
         <tr>
           <td>
             <div>
               <label>Sobrenome: </label>
-              <input style="margin-left: 48px;" id="lastName"></input>
+              <input style="margin-left: 48px;" id="lastName" ></input>
             </div>
           </td>
-          <td> <button><img src="../../assets/editIcon.png" id= "editSobrenome" class="button"/></button></td>
         </tr>
         <tr>
           <td>
             <div>
               <label>Data Nascimento: </label>
-              <input style="margin-left: 13px;" id="birth"></input>
+              <input style="margin-left: 13px;" id="birth" type="date"></input>
             </div>
           </td>
-          <td> <button><img src="../../assets/editIcon.png" id= "editDataNacimento" class="button"/></button></td>
         </tr>
         <tr>
           <td>
@@ -53,11 +50,14 @@
         </tr>
         <tr>
           <td>
-            <textarea style="width: 97%;"></textarea>
+            <textarea id="status" style="width: 100%;" ></textarea>
           </td>
-          <td> <button><img src="../../assets/editIcon.png" id= "editStstus" class="button"/></button></td>
         </tr>
-        <tr><td><button>Editar</button></td></tr>
+        <tr>
+          <td><button id="buttonEdit">Editar</button>
+            <button id="buttonSave">Salvar</button>
+            <button id="buttonCancel">Cancelar</button></td>
+        </tr>
       </table>
     </div>
   </div>
