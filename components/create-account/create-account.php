@@ -1,16 +1,21 @@
 <?php
-    include "..\database\ConnectionDatabase.php";
+	$hostname = "localhost";
 
-    echo(new ConnectionDatabase());
+	$username = "root";
 
-    // $connection = new ConnectionDatabase();
+	$password = "";
 
-    // $result = $connection.executeQuery('select count(*) from teste;');
+	$databaseName = "uniaservice";
 
-    // if($result){
-	// 	while($row = mysqli_fetch_array($result)){
-	// 		$name = $row["count(*)"];
-	// 		echo($name);
-	// 	}
-	// }
+	$mysqli = new mysqli($hostname, $username, $password, $databaseName);
+    $result = $mysqli->query('select nome from teste');
+
+    if ($result) {
+		while($row = mysqli_fetch_array($result)){
+			$name = $row["nome"];
+			echo($name);
+		}
+	}
+	
+	$mysqli->close();
 ?>
