@@ -25,7 +25,7 @@ document.getElementById('buttonCancel').onclick = () => {
 function preencherDadosUsuario() {
     document.getElementById('name').value = usuario.nome;
     document.getElementById('lastName').value = usuario.sobrenome;
-    document.getElementById('fullName').value = usuario.nome + ' ' + usuario.sobrenome;
+    document.getElementById('fullName').innerText = usuario.nome + ' ' + usuario.sobrenome;
     document.getElementById('birth').value = usuario.nascimento;
     document.getElementById('status').value = usuario.status;
 

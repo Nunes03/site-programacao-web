@@ -15,8 +15,8 @@ img {
 
   background-color: rgb(0,200,155);
 
-  width: 30%;
-  height: 45%;
+  width: 40%;
+  height: 55%;
 
   border-radius: 25px;
 }
@@ -37,6 +37,11 @@ img {
   font-family: sans-serif;
   font-size: 30px;
   color: white;
+}
+
+.line {
+  left: 50%; 
+  position: Absolute;
 }
 
 .button {
