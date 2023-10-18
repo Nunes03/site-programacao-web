@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perfil</title>
+</head>
+<link rel="stylesheet" href="perfil.css" />
+
+<body>
+
+  <div class="container">
+    <div class="box">
+      <table>
+        <tr>
+          <td>
+            <img id="userPhoto" />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <h1 class="title" id="fullName">NOME COMPLETO</h1>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div><label >Nome: </label> <input class="line" id="name"></input>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div>
+              <label>Sobrenome: </label>
+              <input class="line" id="lastName"></input>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div>
+              <label>Data Nascimento: </label>
+              <input class="line" id="birth" type="date"></input>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>Status: </label>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <textarea id="status" style="width: 100%;"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td><button id="buttonEdit">Editar</button>
+            <button id="buttonSave">Salvar</button>
+            <button id="buttonCancel">Cancelar</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</body>
+<script src="perfil.js"></script>
+
+
+</html>
