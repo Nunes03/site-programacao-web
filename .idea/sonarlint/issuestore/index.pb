@@ -17,3 +17,10 @@ $src/Database/entities/UserEntity.php,6\9\691b9035ae5ed16797c08b8dfe292097fa47c
 ,components/create-account/create-account.php,6\4\648cbc1ccb90f920fd9756780201349911821d96
 P
  src/Converters/UserConverter.php,7\3\73f1018fa1b505cc07f18f8731fc64fa422f8975
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
+=
+src/teste.php,4\b\4bd5d73276850dee086d8177aaa0978fa3c6c3e0
+S
+#src/Database/DatabaseConnection.php,d\1\d1192ec11aefaf61f378b55130db972786fa9f6e

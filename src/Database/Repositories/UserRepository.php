@@ -1,7 +1,6 @@
 <?php
-require "../DatabaseConnection.php";
-
-require "../../Converters/UserConverter.php";
+include __DIR__."\\..\\DatabaseConnection.php";
+include __DIR__."\\..\\..\\Converters\\UserConverter.php";
 
 class UserRepository
 {
@@ -14,7 +13,8 @@ class UserRepository
         $converter = new UserConverter();
 
         $databaseConnection = new DatabaseConnection();
-        return $databaseConnection->executeQuery("select * from user;", $converter);
+        return $databaseConnection->executeQuery("select * from `user`;", $converter);
     }
 }
+
 ?>

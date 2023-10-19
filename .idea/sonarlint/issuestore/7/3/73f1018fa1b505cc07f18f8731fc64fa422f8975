@@ -1,5 +1,7 @@
 
-B	php:S2003"&Replace "include" with "include_once".(÷œ°8ÞÍè¦´1
-B	php:S2003"&Replace "include" with "include_once".(µž½é8ÞÍè¦´1
-h	php:S4833"LReplace "include" with namespace import mechanism through the "use" keyword.(÷œ°8ÞÍè¦´1
-h	php:S4833"LReplace "include" with namespace import mechanism through the "use" keyword.(µž½é8ÞÍè¦´1
+>	php:S1780#"Remove this closing tag "?>".(Ö‘äÏúÿÿÿÿ8å¨±½´1
+:php:S113"'Add a new line at the end of this file.8å¨±½´1
+„	php:S1488"cImmediately return this expression instead of assigning it to the temporary variable "$userEntity".(áÈŒ†úÿÿÿÿ8å¨±½´1
+M	php:S1172",Remove the unused function parameter "$row".(…Ëíþÿÿÿÿÿ8å¨±½´1
+A	php:S2003"&Replace "require" with "require_once".(•Îß@8æ¨±½´1
+g	php:S4833"LReplace "require" with namespace import mechanism through the "use" keyword.(•Îß@8æ¨±½´1

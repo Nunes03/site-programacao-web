@@ -1,5 +1,5 @@
 <?php
-require "../Database/Entities/UserEntity.php";
+require __DIR__.str_replace("/../Database/Entities/UserEntity.php", "/", DIRECTORY_SEPARATOR);
 
 class UserConverter
 {

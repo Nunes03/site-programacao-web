@@ -1,3 +1,7 @@
 
-G	php:S2003"&Replace "include" with "include_once".(±ðƒ™ùÿÿÿÿ8Œÿ¯¦´1
-m	php:S4833"LReplace "include" with namespace import mechanism through the "use" keyword.(±ðƒ™ùÿÿÿÿ8Œÿ¯¦´1
+>	php:S1780"Remove this closing tag "?>".(Ö‘äÏúÿÿÿÿ8“Ü¼½´1
+ˆ	php:S1186"lAdd a nested comment explaining why this method is empty, throw an Exception or complete the implementation.(ƒöÙƒ8¢Ü¼½´1
+V	php:S6600"5Remove the parentheses from this "require_once" call.(ÙóÌºÿÿÿÿÿ8¢Ü¼½´1
+V	php:S6600"5Remove the parentheses from this "require_once" call.(÷½¸àýÿÿÿÿ8¾ô¼½´1
+r	php:S4833"QReplace "require_once" with namespace import mechanism through the "use" keyword.(ÙóÌºÿÿÿÿÿ8¢Ü¼½´1
+r	php:S4833"QReplace "require_once" with namespace import mechanism through the "use" keyword.(÷½¸àýÿÿÿÿ8¾ô¼½´1

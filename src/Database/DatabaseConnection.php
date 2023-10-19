@@ -9,10 +9,10 @@ class DatabaseConnection
     public function executeQuery($query, $converter)
     {
         $connection = $this->getConnectionDatabase();
-        $resultSet = mysqli_query($connection, $query);
-        mysqli_close($connection);
+//        $resultSet = mysqli_query($connection, $query);
+//        mysqli_close($connection);
 
-        return $converter->convert($resultSet);
+        return $converter->convert(null);
     }
 
     public function getConnectionDatabase()
@@ -22,7 +22,10 @@ class DatabaseConnection
         $password = "";
         $databaseName = "uniaservice";
 
-        return mysqli_connect($hostname, $username, $password, $databaseName);
+        return null;
+//        return mysqli_connect($hostname, $username, $password, $databaseName);
     }
 }
+
 ?>
+
