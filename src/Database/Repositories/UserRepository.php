@@ -1,7 +1,7 @@
 <?php
-require "src/Database/DatabaseConnection.php";
+require "../DatabaseConnection.php";
 
-require "src/Converters/UserConverter.php";
+require "../../Converters/UserConverter.php";
 
 class UserRepository
 {
