@@ -20,6 +20,10 @@ document.getElementById('buttonCancel').onclick = () => {
     preencherDadosUsuario(); 
 }
 
+document.getElementById('filename').onchange = () => { 
+    Checkfiles(); 
+}
+
 
 
 function preencherDadosUsuario() {
@@ -56,6 +60,7 @@ function salvarAlteracao() {
 function esconderBotoes(esconder) {
     document.getElementById('buttonSave').hidden = esconder;
     document.getElementById('buttonCancel').hidden = esconder;
+    document.getElementById('filePhoto').hidden = esconder;
     document.getElementById('buttonEdit').hidden = !esconder;
 
 }
@@ -66,6 +71,21 @@ function desabilitarCampos(desabilitar) {
     document.getElementById('fullName').disabled = desabilitar;
     document.getElementById('birth').disabled = desabilitar;
     document.getElementById('status').disabled = desabilitar;
+}
+
+function Checkfiles(){
+    var fup = document.getElementById('filePhoto');
+    const file = fup.files[0];
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            document.getElementById('userPhoto').src = e.target.result;
+            document.getElementById('userPhoto').style.maxWidth = "400px";
+            document.getElementById('userPhoto').style.maxHeight  = "300px";
+        };
+        reader.readAsDataURL(file);
+    }
 }
 
 function value() {

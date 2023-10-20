@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Perfil</title>
 </head>
-<link rel="stylesheet" href="perfil.css" />
+<link rel="stylesheet" type="text/css" href="perfil.css" />
 
 <body>
 
@@ -16,7 +16,13 @@
       <table>
         <tr>
           <td>
-            <img id="userPhoto" />
+            <img  id="userPhoto" />
+            <br>
+            <div>
+
+              <label for="fileNome">Escolha um foto</label>
+              <input  id="filePhoto" type="file" name="fileNome" accept="image/png, image/jpeg" multiple   />
+            </div>
           </td>
         </tr>
         <tr>
@@ -26,7 +32,7 @@
         </tr>
         <tr>
           <td>
-            <div><label >Nome: </label> <input class="line" id="name"></input>
+            <div><label>Nome: </label> <input class="line" id="name"></input>
             </div>
           </td>
         </tr>
@@ -57,9 +63,11 @@
           </td>
         </tr>
         <tr>
-          <td><button id="buttonEdit">Editar</button>
+          <td>
+            <button id="buttonEdit">Editar</button>
             <button id="buttonSave">Salvar</button>
             <button id="buttonCancel">Cancelar</button>
+            
           </td>
         </tr>
       </table>
