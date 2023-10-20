@@ -1,9 +1,9 @@
 <?php
-require __DIR__.str_replace("/../Database/Entities/UserEntity.php", "/", DIRECTORY_SEPARATOR);
+require __DIR__.str_replace("/", DIRECTORY_SEPARATOR, "/../Database/Entities/UserEntity.php");
+require __DIR__.str_replace("/", DIRECTORY_SEPARATOR, "/Interfaces/ConverterInterface.php");
 
-class UserConverter
+class UserConverter implements ConverterInterface
 {
-
     public function convert($resultSet)
     {
         $userEntities = array();
@@ -13,6 +13,7 @@ class UserConverter
 
             while ($row = mysqli_fetch_array($resultSet)) {
                 $userEntities[$amountRegister] = $this->convertRow($row);
+                $amountRegister++;
             }
         }
 
@@ -22,12 +23,14 @@ class UserConverter
     private function convertRow($row)
     {
         $userEntity = new UserEntity();
-
-//        $row["id"],
-//            $row["nome"],
-//            $row["email"],
-//            $row["password"]
-
+        $userEntity->setId($row["id"]);
+        $userEntity->setName($row["name"]);
+        $userEntity->setLastName($row["last_name"]);
+        $userEntity->setBirthday($row["birthday"]);
+        $userEntity->setStatus($row["status"]);
+        $userEntity->setEmail($row["email"]);
+        $userEntity->setPassword($row["password"]);
+        
         return $userEntity;
     }
 }
