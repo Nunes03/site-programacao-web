@@ -1,0 +1,17 @@
+.tabela-container {
+    width: 33.33%;
+    float: left;
+    box-sizing: border-box;
+}
+
+.tabela {
+    width: 100%;
+    border: 1px solid #000;
+    border-collapse: collapse;
+}
+
+.tabela th, .tabela td {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: center;
+}
