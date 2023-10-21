@@ -6,9 +6,9 @@ const SELECT_ALL = "select * from user";
 
 const SELECT_BY_ID = "select * from user where user.id = {id}";
 
-const SELECT_BY_EMAIL = "select * from user where user.email = {email}";
+const SELECT_BY_EMAIL = "select * from user where user.email = '{email}'";
 
-const SELECT_BY_EMAIL_AND_PASSWORD = "select * from user where user.email = {email} and user.password = {password}";
+const SELECT_BY_EMAIL_AND_PASSWORD = "select * from user where user.email = '{email}' and user.password = '{password}'";
 
 define(
     "INSERT_INTO_SQL",
