@@ -1,5 +1,4 @@
 
->	php:S1780"Remove this closing tag "?>".(Ö‘äÏúÿÿÿÿ8à§½´1
+>	php:S1780"Remove this closing tag "?>".(Ö‘äÏúÿÿÿÿ8à§½´1
 :php:S113"'Add a new line at the end of this file.8î§½´1
-G	php:S2003"&Replace "require" with "require_once".(ÒÕà”ıÿÿÿÿ8ı§½´1
-m	php:S4833"LReplace "require" with namespace import mechanism through the "use" keyword.(ÒÕà”ıÿÿÿÿ8Œ§½´1
+m	php:S4833"QReplace "require_once" with namespace import mechanism through the "use" keyword.(ëäùî8¾Äªü´1

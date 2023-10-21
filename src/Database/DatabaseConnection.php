@@ -1,31 +1,54 @@
 <?php
 
+define(
+    "CREATE_DATABASE_FILE_PATH",
+    __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/Sql/create_database.sql")
+);
+
+const HOSTNAME = "localhost";
+
+const USERNAME = "root";
+
+const PASSWORD = "";
+
+const DATABASE_NAME = "uniaservice";
+
 class DatabaseConnection
 {
-    public function __construct()
+
+    public static function executeSql($query)
     {
+        self::createDatabase();
+        $connection = self::getConnectionDatabase();
+        return self::executeSqlNotValidation($query, $connection);
     }
 
-    public function executeQuery($query, $converter)
+    private static function createDatabase()
     {
-        $connection = $this->getConnectionDatabase();
-//        $resultSet = mysqli_query($connection, $query);
-//        mysqli_close($connection);
+        $fileContent = file_get_contents(CREATE_DATABASE_FILE_PATH);
+        $createdatabaseSql = explode(";", $fileContent);
 
-        return $converter->convert(null);
+        foreach ($createdatabaseSql as $sql) {
+            $connection = self::getConnectionServer();
+            self::executeSqlNotValidation($sql, $connection);
+        }
     }
 
-    public function getConnectionDatabase()
+    private static function executeSqlNotValidation($sql, $connection)
     {
-        $hostname = "localhost";
-        $username = "root";
-        $password = "";
-        $databaseName = "uniaservice";
+        $resultSet = mysqli_query($connection, $sql);
+        mysqli_close($connection);
 
-        return null;
-//        return mysqli_connect($hostname, $username, $password, $databaseName);
+        return $resultSet;
+    }
+
+    private static function getConnectionServer()
+    {
+        return mysqli_connect(HOSTNAME, USERNAME, PASSWORD);
+    }
+
+    private static function getConnectionDatabase()
+    {
+        return mysqli_connect(HOSTNAME, USERNAME, PASSWORD, DATABASE_NAME);
     }
 }
-
-?>
-

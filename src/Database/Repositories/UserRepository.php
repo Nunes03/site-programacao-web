@@ -1,20 +1,86 @@
 <?php
-include __DIR__."\\..\\DatabaseConnection.php";
-include __DIR__."\\..\\..\\Converters\\UserConverter.php";
+require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../Converters/UserConverter.php");
+require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/AbstractRepository.php");
 
-class UserRepository
+const SELECT_ALL = "select * from user";
+
+const SELECT_BY_ID = "select * from user where user.id = {id}";
+
+const SELECT_BY_EMAIL = "select * from user where user.email = {email}";
+
+const SELECT_BY_EMAIL_AND_PASSWORD = "select * from user where user.email = {email} and user.password = {password}";
+
+define(
+    "INSERT_INTO_SQL",
+    "insert into user (name, last_name, birthday, status, email, password) values "
+    . "('{nome}', '{lastName}', '{birthday}',"
+    . "'{status}', '{email}', '{password}')"
+);
+
+class UserRepository extends AbstractRepository
 {
-    public function __construct()
+
+    public function save($entity)
     {
+        $sql = str_replace(
+            array("{nome}", "{lastName}", "{birthday}", "{status}", "{email}", "{password}"),
+            array(
+                $entity->getName(), $entity->getLastName(), $entity->getBirthday(),
+                $entity->getStatus(), $entity->getEmail(), $entity->getPassword()
+            ),
+            INSERT_INTO_SQL
+        );
+
+        parent::execute($sql);
     }
 
     public function findAll()
     {
-        $converter = new UserConverter();
+        return parent::executeQueryList(SELECT_ALL, new UserConverter());
+    }
 
-        $databaseConnection = new DatabaseConnection();
-        return $databaseConnection->executeQuery("select * from `user`;", $converter);
+    public function findById($id)
+    {
+        $sql = str_replace(
+            "{id}",
+            $id,
+            SELECT_BY_ID
+        );
+
+        return parent::executeQuery($sql, new UserConverter());
+    }
+
+    public function deleteById($id)
+    {
+        return null;
+    }
+
+    public function existById($id)
+    {
+        return null;
+    }
+
+    public function existByEmail($email)
+    {
+        $sql = str_replace(
+            "{email}",
+            $email,
+            SELECT_BY_EMAIL
+        );
+
+        $resultSet = parent::executeQuery($sql, new UserConverter());
+        return $resultSet != null;
+    }
+
+    public function existByEmailAndPassword($email, $password)
+    {
+        $sql = str_replace(
+            array("{email}", "{password"),
+            array($email, $password),
+            SELECT_BY_EMAIL_AND_PASSWORD
+        );
+
+        $resultSet = parent::executeQuery($sql, new UserConverter());
+        return $resultSet != null;
     }
 }
-
-?>
