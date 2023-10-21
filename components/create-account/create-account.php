@@ -2,25 +2,32 @@
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Database/Repositories/UserRepository.php");
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Database/Entities/UserEntity.php");
 
+header("Content-Type: text/html; charset=utf-8");
+
+$response = "";
+
 if (userExists()) {
-    echo "Já existe um usuário cadastrado com esse email.";
+    $response = "Já existe um usuário cadastrado com esse email.";
 } else {
     createUser();
-    echo "Usuário criado com sucesso!";
+    $response = "Usuário criado com sucesso!";
 }
 
-function userExists() {
+function userExists()
+{
     $userRepository = new UserRepository();
-    return $userRepository->existByEmail($_POST["email"]);
+    return $userRepository->existByEmail($_GET["email"]);
 }
 
 function createUser()
 {
     $userEntity = new UserEntity();
-    $userEntity->setName($_POST["name"]);
-    $userEntity->setEmail($_POST["email"]);
-    $userEntity->setPassword($_POST["password"]);
+    $userEntity->setName($_GET["name"]);
+    $userEntity->setEmail($_GET["email"]);
+    $userEntity->setPassword($_GET["password"]);
 
     $userRepository = new UserRepository();
     $userRepository->save($userEntity);
 }
+
+echo utf8_encode($response);

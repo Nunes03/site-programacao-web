@@ -12,11 +12,9 @@ function validatePassword() {
     if (validateEmptyFields()) {
         if (password.value !== confirmPassword.value) {
             infoMessage.innerHTML = "Senhas não conferem";
-            createAccountButton.type = "button";
         } else {
             infoMessage.innerHTML = "";
-            createAccountButton.type = "submit";
-            createAccountButton.submit();
+            callToCreateAccountPhp();
         }
     }
 }
@@ -51,4 +49,26 @@ function viewPassword() {
         password.type = "password";
         confirmPassword.type = "password";
     }
+}
+
+function callToCreateAccountPhp() {
+    const xmlHttpRequest = new XMLHttpRequest();
+
+    xmlHttpRequest.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            infoMessage.innerHTML = this.responseText;
+        }
+    };
+
+    const url = buildCreateAccountUrl();
+    xmlHttpRequest.open("GET", url, true);
+    xmlHttpRequest.send();
+}
+
+function buildCreateAccountUrl() {
+    const name = document.querySelector("#name").value;
+    const email = document.querySelector("#email").value;
+    const password = document.querySelector("#password").value;
+
+    return `create-account.php?name=${name}&email=${email}&password=${password}`;
 }
