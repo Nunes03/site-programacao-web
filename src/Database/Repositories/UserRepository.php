@@ -6,9 +6,7 @@ class UserRepository extends AbstractRepository
 {
 
     public static function save($entity)
-    {   
-        var_dump("Entidade: ");
-        var_dump($entity);
+    {
         $sql = "insert into user (name, last_name, birthday, status, email, password) "
             . "values ('{nome}', '{lastName}', '{birthday}', '{status}', '{email}', '{password}')";
 
@@ -20,8 +18,6 @@ class UserRepository extends AbstractRepository
             ),
             $sql
         );
-        
-var_dump($sql);
 
         parent::execute($sql);
     }
