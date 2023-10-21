@@ -4,15 +4,15 @@ require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../DatabaseConnec
 abstract class AbstractRepository
 {
 
-    static abstract function save($entity);
+    abstract public function save($entity);
 
-    static abstract function findAll();
+    abstract public function findAll();
 
-    static abstract function findById($id);
+    abstract public function findById($id);
 
-    static abstract function deleteById($id);
+    abstract public function deleteById($id);
 
-    static abstract function existById($id);
+    abstract public function existById($id);
 
     public static function executeQuery($query, $converter)
     {
@@ -27,11 +27,12 @@ abstract class AbstractRepository
 
     public static function executeQueryList($query, $converter)
     {
-        $resultSet = DatabaseConnection::executeQuery($query);
+        $resultSet = DatabaseConnection::executeSql($query);
         return $converter->convert($resultSet);
     }
 
-    public static function execute($query) {
-        DatabaseConnection::executeQuery($query);
+    public static function execute($query)
+    {
+        DatabaseConnection::executeSql($query);
     }
 }

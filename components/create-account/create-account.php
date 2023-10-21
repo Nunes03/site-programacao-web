@@ -1,19 +1,26 @@
 <?php
-require_once __DIR__.str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Database/Repositories/UserRepository.php");
-require_once __DIR__.str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Database/Entities/UserEntity.php");
+require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Database/Repositories/UserRepository.php");
+require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Database/Entities/UserEntity.php");
 
-// $data = '26/11/2017';
-// $data = date('d/m/Y', strtotime($data));
+if (userExists()) {
+    echo "Já existe um usuário cadastrado com esse email.";
+} else {
+    createUser();
+    echo "Usuário criado com sucesso!";
+}
 
-// $user = new UserEntity();
-// $user->setName("Lucas");
-// $user->setLastName("Nunes");
-// $user->setBirthday($data);
-// $user->setStatus("Status");
-// $user->setEmail("lucas@email.com");
-// $user->setPassword("senha");
+function userExists() {
+    $userRepository = new UserRepository();
+    return $userRepository->existByEmail($_POST["email"]);
+}
 
-// UserRepository::save($user);
+function createUser()
+{
+    $userEntity = new UserEntity();
+    $userEntity->setName($_POST["name"]);
+    $userEntity->setEmail($_POST["email"]);
+    $userEntity->setPassword($_POST["password"]);
 
-var_dump(UserRepository::findById(1));
-?>
+    $userRepository = new UserRepository();
+    $userRepository->save($userEntity);
+}

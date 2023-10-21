@@ -20,7 +20,15 @@ P
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
-=
-src/teste.php,4\b\4bd5d73276850dee086d8177aaa0978fa3c6c3e0
 S
 #src/Database/DatabaseConnection.php,d\1\d1192ec11aefaf61f378b55130db972786fa9f6e
+T
+$src/Database/Entities/UserEntity.php,f\d\fde900a5deb89106a3b7cf8ccbf0f16579cb9c45
+K
+components/login/login.html,a\3\a3a80665e687b54e7f5b3dd7e476bbc05e4d80d9
+M
+components/perfil/perfil.html,9\2\922f5413f798a62cebf8a8d7e9a58149431b63ed
+I
+components/home/home.html,a\8\a89aa01de5cc99cd338ed19029857ffed679fef9
+[
++components/create-account/create-account.js,3\0\302f417ef39b3161db33effd2109478db75437df

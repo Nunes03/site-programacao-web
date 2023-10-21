@@ -1,7 +1,7 @@
 
->	php:S1780"Remove this closing tag "?>".(Ö‘äÏúÿÿÿÿ8“Ü¼½´1
-ˆ	php:S1186"lAdd a nested comment explaining why this method is empty, throw an Exception or complete the implementation.(ƒöÙƒ8¢Ü¼½´1
-V	php:S6600"5Remove the parentheses from this "require_once" call.(ÙóÌºÿÿÿÿÿ8¢Ü¼½´1
-V	php:S6600"5Remove the parentheses from this "require_once" call.(÷½¸àıÿÿÿÿ8¾ô¼½´1
-r	php:S4833"QReplace "require_once" with namespace import mechanism through the "use" keyword.(ÙóÌºÿÿÿÿÿ8¢Ü¼½´1
-r	php:S4833"QReplace "require_once" with namespace import mechanism through the "use" keyword.(÷½¸àıÿÿÿÿ8¾ô¼½´1
+	php:S1186*"lAdd a nested comment explaining why this method is empty, throw an Exception or complete the implementation.(î™îúúÿÿÿÿ8†İàü´1
+	php:S1186."lAdd a nested comment explaining why this method is empty, throw an Exception or complete the implementation.(óœ˜ıÿÿÿÿ8‡İàü´1
+B	php:S2003"&Replace "require" with "require_once".(¬·—Ñ8‡İàü´1
+B	php:S2003"&Replace "require" with "require_once".(ÌåÅ˜8‡İàü´1
+h	php:S4833"LReplace "require" with namespace import mechanism through the "use" keyword.(¬·—Ñ8‡İàü´1
+h	php:S4833"LReplace "require" with namespace import mechanism through the "use" keyword.(ÌåÅ˜8‡İàü´1

@@ -1,49 +1,86 @@
 <?php
-require __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../Converters/UserConverter.php");
-require __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/AbstractRepository.php");
+require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../Converters/UserConverter.php");
+require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/AbstractRepository.php");
+
+const SELECT_ALL = "select * from user";
+
+const SELECT_BY_ID = "select * from user where user.id = {id}";
+
+const SELECT_BY_EMAIL = "select * from user where user.email = {email}";
+
+const SELECT_BY_EMAIL_AND_PASSWORD = "select * from user where user.email = {email} and user.password = {password}";
+
+define(
+    "INSERT_INTO_SQL",
+    "insert into user (name, last_name, birthday, status, email, password) values "
+    . "('{nome}', '{lastName}', '{birthday}',"
+    . "'{status}', '{email}', '{password}')"
+);
 
 class UserRepository extends AbstractRepository
 {
 
-    public static function save($entity)
+    public function save($entity)
     {
-        $sql = "insert into user (name, last_name, birthday, status, email, password) "
-            . "values ('{nome}', '{lastName}', '{birthday}', '{status}', '{email}', '{password}')";
-
         $sql = str_replace(
             array("{nome}", "{lastName}", "{birthday}", "{status}", "{email}", "{password}"),
             array(
                 $entity->getName(), $entity->getLastName(), $entity->getBirthday(),
                 $entity->getStatus(), $entity->getEmail(), $entity->getPassword()
             ),
-            $sql
+            INSERT_INTO_SQL
         );
 
         parent::execute($sql);
     }
 
-    public static function findAll()
+    public function findAll()
     {
-        $sql = "select * from `user`";
-        return parent::executeQueryList($sql, new UserConverter());
+        return parent::executeQueryList(SELECT_ALL, new UserConverter());
     }
 
-    public static function findById($id)
+    public function findById($id)
     {
         $sql = str_replace(
             "{id}",
             $id,
-            "select * from `user` where `user`.id = {id}"
+            SELECT_BY_ID
         );
 
         return parent::executeQuery($sql, new UserConverter());
     }
 
-    public static function deleteById($id)
+    public function deleteById($id)
     {
+        return null;
     }
 
-    public static function existById($id)
+    public function existById($id)
     {
+        return null;
+    }
+
+    public function existByEmail($email)
+    {
+        $sql = str_replace(
+            "{email}",
+            $email,
+            SELECT_BY_EMAIL
+        );
+
+        $resultSet = parent::executeQuery($sql, new UserConverter());
+        return $resultSet != null;
+    }
+
+    public function existByEmailAndPassword($email, $password)
+    {
+        $sql = str_replace(
+            array("{email}", "{password"),
+            array($email, $password),
+            SELECT_BY_EMAIL_AND_PASSWORD
+        );
+
+        $resultSet = parent::executeQuery($sql, new UserConverter());
+        return $resultSet != null;
     }
 }
