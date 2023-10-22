@@ -99,7 +99,7 @@ function base64ToObject(base64) {
 }
 
 function stringToBase64(value) {
-    return window.btoa(encodeURIComponent(value));
+    return btoa(encodeURIComponent(value));
 }
 
 function base64ToString(value) {
