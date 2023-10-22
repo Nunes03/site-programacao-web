@@ -1,33 +1,44 @@
 <?php
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Database/Repositories/UserRepository.php");
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Database/Entities/UserEntity.php");
+require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Dto/CreateAccountOutput.php");
+require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Utils/Util.php");
 
 header("Content-Type: text/html; charset=utf-8");
 
-$response = "";
+$createAccountOutput = new CreateAccountOutput();
 
 if (userExists()) {
-    $response = "Já existe um usuário cadastrado com esse email.";
+    $createAccountOutput->message = utf8_encode("Já existe um usuário cadastrado com esse email.");
 } else {
     createUser();
-    $response = "Usuário criado com sucesso!";
+    $createAccountOutput->message = utf8_encode("Usuário criado com sucesso!");
+}
+
+function convertBase64ToObject() {
+    $data = $_GET["data"];
+    return Util::base64ToObject($data);
 }
 
 function userExists()
 {
+    $createAccountInput = convertBase64ToObject();
     $userRepository = new UserRepository();
-    return $userRepository->existByEmail($_GET["email"]);
+    return $userRepository->existByEmail($createAccountInput->email);
 }
 
 function createUser()
 {
+    $createAccountInput = convertBase64ToObject();
+
     $userEntity = new UserEntity();
-    $userEntity->setName($_GET["name"]);
-    $userEntity->setEmail($_GET["email"]);
-    $userEntity->setPassword($_GET["password"]);
+    $userEntity->setName($createAccountInput->name);
+    $userEntity->setEmail($createAccountInput->email);
+    $userEntity->setPassword($createAccountInput->password);
 
     $userRepository = new UserRepository();
     $userRepository->save($userEntity);
 }
 
-echo utf8_encode($response);
+$json = json_encode($createAccountOutput);
+echo Util::objectToBase64($createAccountOutput);
