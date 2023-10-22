@@ -1,16 +1,17 @@
 const createAccountButton = document.querySelector("#createAccount");
 const viewPasswordButton = document.querySelector("#viewPassword");
-const infoMessage = document.querySelector("#infoMessage")
+
+const infoMessage = document.querySelector("#infoMessage");
 
 createAccountButton.addEventListener("click", () => validatePassword());
 viewPasswordButton.addEventListener("click", () => viewPassword());
 
 function validatePassword() {
-    const password = document.querySelector("#password");
-    const confirmPassword = document.querySelector("#confirmPassword");
+    const valuePassword = document.querySelector("#password").value;
+    const valueConfirmPassword = document.querySelector("#confirmPassword").value;
 
     if (validateEmptyFields()) {
-        if (password.value !== confirmPassword.value) {
+        if (valuePassword.value !== valueConfirmPassword.value) {
             infoMessage.innerHTML = "Senhas não conferem";
         } else {
             infoMessage.innerHTML = "";
@@ -39,15 +40,15 @@ function validateEmptyFields() {
 }
 
 function viewPassword() {
-    const password = document.querySelector("#password");
-    const confirmPassword = document.querySelector("#confirmPassword");
+    const valuePassword = document.querySelector("#password").value;
+    const valueConfirmPassword = document.querySelector("#confirmPassword").value;
 
-    if (password.type === "password") {
-        password.type = "text";
-        confirmPassword.type = "text";
+    if (valuePassword.type === "password") {
+        valuePassword.type = "text";
+        valueConfirmPassword.type = "text";
     } else {
-        password.type = "password";
-        confirmPassword.type = "password";
+        valuePassword.type = "password";
+        valueConfirmPassword.type = "password";
     }
 }
 
@@ -56,7 +57,9 @@ function callToCreateAccountPhp() {
 
     xmlHttpRequest.onreadystatechange = function () {
         if (this.readyState === 4) {
-            infoMessage.innerHTML = this.responseText;
+            const responseObject = base64ToObject(this.responseText);
+
+            infoMessage.innerHTML = responseObject.message;
         }
     };
 
@@ -66,9 +69,39 @@ function callToCreateAccountPhp() {
 }
 
 function buildCreateAccountUrl() {
-    const name = document.querySelector("#name").value;
-    const email = document.querySelector("#email").value;
-    const password = document.querySelector("#password").value;
+    const object = buildCreateAccountObject();
+    const base64Object = objectToBase64(object);
 
-    return `create-account.php?name=${name}&email=${email}&password=${password}`;
+    return `create-account.php?data=${base64Object}`;
+}
+
+function buildCreateAccountObject() {
+    const valueName = document.querySelector("#name").value;
+    const valueEmail = document.querySelector("#email").value;
+    const valuePassword = document.querySelector("#password").value;
+
+    return {
+        name: valueName,
+        email: valueEmail,
+        password: valuePassword
+    }
+}
+
+function objectToBase64(object) {
+    const objectJson = JSON.stringify(object);
+
+    return stringToBase64(objectJson);
+}
+
+function base64ToObject(base64) {
+    const string = base64ToString(base64);
+    return JSON.parse(string);
+}
+
+function stringToBase64(value) {
+    return window.btoa(encodeURIComponent(value));
+}
+
+function base64ToString(value) {
+    return decodeURIComponent(atob(value));
 }
