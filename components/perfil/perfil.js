@@ -20,7 +20,7 @@ document.getElementById('buttonCancel').onclick = () => {
     preencherDadosUsuario(); 
 }
 
-document.getElementById('filename').onchange = () => { 
+document.getElementById('filePhoto').onchange = () => { 
     Checkfiles(); 
 }
 
@@ -34,7 +34,7 @@ function preencherDadosUsuario() {
     document.getElementById('status').value = usuario.status;
 
     if (!!usuario.foto)
-        document.getElementById('userPhoto').src = 'data:image/bmp;base64,' + Base64.encode(usuario.foto);
+        document.getElementById('userPhoto').src = usuario.foto;  
     else
         document.getElementById('userPhoto').src = "../../assets/emptyPicture.jpg";
 
@@ -55,6 +55,7 @@ function salvarAlteracao() {
     usuario.sobrenome = document.getElementById('lastName').value;
     usuario.nascimento = document.getElementById('birth').value;
     usuario.status = document.getElementById('status').value;
+    usuario.foto = document.getElementById('userPhoto').src;
 }
 
 function esconderBotoes(esconder) {
