@@ -1,51 +1,64 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
-
-    <link rel="stylesheet" type="text/css" href="home.css" />
-    <script src="home.js"></script>
-  </head>
-
-  <body>
-    <div class="tabela-container">
-    
-                <table style="height: 100%; width: 100%;" border="1">
-                    <th colspan="2"> Perfil </th>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="UTF-8" />
+        <title>Página Inicial</title>
+        <link rel="stylesheet" type="text/css" href="home.css" />
+        <script src="home.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="container-menu">
+                <a class="menu-item">UNIASERVICE</a>
+                <input type="text" placeholder="Pesquisar..." />
+                <button>Pesquisar</button>
+                <a class="menu-item">Perfil</a>
+            </div>
+            <div class="container-conhecer-pessoas">
+                <h4>Pessoas que você talvez conheça</h4>
+                <div class="conhecer-pessoas-dados">
+                    <div>
+                        <img class="conhecer-pessoas-img" src="../../assets/emptyPicture.jpg">
+                    </div>
+                    <div class="conhecer-pessoas-nome">
+                        <a>Fulano de Tal</a>
+                    </div>
+                </div>
+                <div class="conhecer-pessoas-botao">
+                    <button class="botao-conhecer-pessoas botao-conhecer-pessoas-adicionar">Adicionar</button>
+                    <button class="botao-conhecer-pessoas">Próximo</button>
+                </div>
+            </div>
+            <div class="container-postar">
+                <textarea class="postar-texto" placeholder="Escreva algo aqui!"></textarea>
+                <button>Postar</button>
+                <input type="file" name="arquivos" accept="image/png, image/jpeg"  multiple />
+            </div>
+            <div class="container-postagem">
+                <a>Confira o que há de novo</a>
+                <table>
                     <tr>
-                        <td colspan="2" style="border-collapse: 100%;"> <img id="userPhoto" /></td>
-                    </tr >
-                    <tr>
-                        <td>NOME COMPLETO </td>
-                       <td> <button>Editar</button></td>
+                        <td>
+                            <div class="postagem">
+                                <div>
+                                    <img class="postagem-foto-perfil" src="../../assets/fotoPerfil.jpg">
+                                    <a class="postagem-nome-usuario">UsuarioFulano</a>
+                                </div>
+                                <div>
+                                    <a class="postagem-data-postagem">Postado: 15/10/2023</a>
+                                </div>
+                                <div class="postagem-dados">
+                                    <a> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam illo enim nam! Vel earum reprehenderit a ipsa, nesciunt facere delectus dignissimos enim error in ipsam itaque corporis sequi praesentium laboriosam.</a>
+                                    <img class="postagem-dados-foto" src="../../assets/emptyPicture.jpg">
+                                </div>
+                                <div>
+                                    <button class="botao-curtir"><img class="botao-curtir-imagem" src="../../assets/gostar.png">Curtir</button>
+                                </div>
+                            </div> 
+                        </td>
                     </tr>
                 </table>
             </div>
-            <div class="tabela-container">
-                <table style="height: 100%; width: 100%;" border="1">
-                    <th> Postagens </th>
-                    <tr>
-                        <td> postagem 1</td>
-                    </tr>
-                    <tr>
-                        <td> postagem 2</td>
-                    </tr>
-                    </table>
-            </div>
-            <div class="tabela-container">
-                <table style="height: 100%; width: 100%;" border="1">
-                    <th colspan="2"> Postar </th>
-                    <tr>
-                        <td colspan="2"> Faça uma postagem! </td>
-                    </tr>
-                    <tr>
-                        <td >  <textarea id="textoPostagem"></textarea></td>
-                        <td>  <button>Postar</button></td>
-                    </tr>
-                </table>
-            </div>
-            
-  </body>
+        </div>
+    </body>
 </html>
