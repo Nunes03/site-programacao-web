@@ -31,6 +31,18 @@ define(
         . "where id = {id}"
 );
 
+define(
+    "UPDATE_SQL",
+    "update user "
+        . "set "
+        . "name = '{name}', "
+        . "last_name = '{lastName}', "
+        . "birthday = '{birthday}', "
+        . "status = '{status}' "
+        
+);
+
+
 class UserRepository extends AbstractRepository
 {
 
@@ -55,6 +67,20 @@ class UserRepository extends AbstractRepository
             array(
                 $entity->getName(), $entity->getLastName(), $entity->getBirthday(),
                 $entity->getStatus(), $entity->getEmail(), $entity->getPassword()
+            ),
+            UPDATE_SQL
+        );
+
+        parent::execute($sql);
+    }
+
+    public function update($entity)
+    {
+        $sql = str_replace(
+            array("{name}", "{lastName}", "{birthday}", "{status}"),
+            array(
+                $entity->getName(), $entity->getLastName(), $entity->getBirthday(),
+                $entity->getStatus()
             ),
             UPDATE_SQL
         );
