@@ -1,14 +1,16 @@
 const createAccountButton = document.querySelector("#createAccount");
 const viewPasswordButton = document.querySelector("#viewPassword");
+const backToLoginButton = document.querySelector("#backToLogin");
 
 const infoMessage = document.querySelector("#infoMessage");
 
 createAccountButton.addEventListener("click", () => validatePassword());
 viewPasswordButton.addEventListener("click", () => viewPassword());
+backToLoginButton.addEventListener("click", () => backToLogin());
 
 function validatePassword() {
-    const valuePassword = document.querySelector("#password").value;
-    const valueConfirmPassword = document.querySelector("#confirmPassword").value;
+    const valuePassword = document.querySelector("#password");
+    const valueConfirmPassword = document.querySelector("#confirmPassword");
 
     if (validateEmptyFields()) {
         if (valuePassword.value !== valueConfirmPassword.value) {
@@ -18,6 +20,23 @@ function validatePassword() {
             callToCreateAccountPhp();
         }
     }
+}
+
+function viewPassword() {
+    const inputPassword = document.querySelector("#password");
+    const inputConfirmPassword = document.querySelector("#confirmPassword");
+
+    if (inputPassword.type === "password") {
+        inputPassword.type = "text";
+        inputConfirmPassword.type = "text";
+    } else {
+        inputPassword.type = "password";
+        inputConfirmPassword.type = "password";
+    }
+}
+
+function backToLogin() {
+    window.location.pathname = "/site-programacao-web-main/components/login/login.html";
 }
 
 function validateEmptyFields() {
@@ -37,19 +56,6 @@ function validateEmptyFields() {
 
     infoMessage.innerHTML = "";
     return true;
-}
-
-function viewPassword() {
-    const valuePassword = document.querySelector("#password").value;
-    const valueConfirmPassword = document.querySelector("#confirmPassword").value;
-
-    if (valuePassword.type === "password") {
-        valuePassword.type = "text";
-        valueConfirmPassword.type = "text";
-    } else {
-        valuePassword.type = "password";
-        valueConfirmPassword.type = "password";
-    }
 }
 
 function callToCreateAccountPhp() {
@@ -99,9 +105,9 @@ function base64ToObject(base64) {
 }
 
 function stringToBase64(value) {
-    return window.btoa(encodeURIComponent(value));
+    return window.btoa(value);
 }
 
 function base64ToString(value) {
-    return decodeURIComponent(atob(value));
+    return atob(value);
 }
