@@ -9,10 +9,10 @@ header("Content-Type: text/html; charset=utf-8");
 $createAccountOutput = new CreateAccountOutput();
 
 if (userExists()) {
-    $createAccountOutput->message = utf8_encode("Já existe um usuário cadastrado com esse email.");
+    $createAccountOutput->message = utf8_encode("Jï¿½ existe um usuï¿½rio cadastrado com esse email.");
 } else {
     createUser();
-    $createAccountOutput->message = utf8_encode("Usuário criado com sucesso!");
+    $createAccountOutput->message = utf8_encode("Usuï¿½rio criado com sucesso!");
 }
 
 function convertBase64ToObject() {
@@ -37,7 +37,7 @@ function createUser()
     $userEntity->setPassword($createAccountInput->password);
 
     $userRepository = new UserRepository();
-    $userRepository->save($userEntity);
+    $userRepository->create($userEntity);
 }
 
 $json = json_encode($createAccountOutput);

@@ -6,7 +6,6 @@
     <title>Entrar</title>
 
     <link rel="stylesheet" type="text/css" href="login.css" />
-    <script src="login.js"></script>
   </head>
 
   <body>
@@ -17,21 +16,37 @@
         </div>
 
         <div class="line">
-          <input type="email" class="input" placeholder="Email" />
+          <input type="email" id="email" class="input" placeholder="Email" />
         </div>
 
         <div class="line">
-          <input type="password" class="input" placeholder="Senha" />
+          <input type="password" id="password" class="input" placeholder="Senha" />
+        </div>
+
+        <div class="line">
+          <span 
+            id="infoMessage"
+            class="infoMessage">
+            Prencha os campos para realizar o login
+          </span>
         </div>
 
         <div class="buttons">
-            <button class="button"0>Entrar</button>
+            <button 
+              id = "login"
+              class="button">
+              Entrar
+            </button>
 
-            <button class="button" onclick="createAccountRedirect()">
+            <button 
+              id="createAccount"
+              class="button">
               Criar Conta
             </button>
         </div>
       </div>
     </div>
   </body>
+
+  <script src="login.js"></script>
 </html>

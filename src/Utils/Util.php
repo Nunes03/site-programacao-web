@@ -5,7 +5,6 @@ class Util
     public static function base64ToObject($base64)
     {
         $jsonObject = base64_decode($base64);
-        $jsonObject = urldecode($jsonObject);
 
         return json_decode($jsonObject);
     }
