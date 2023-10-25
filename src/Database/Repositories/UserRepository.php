@@ -11,16 +11,31 @@ const SELECT_BY_EMAIL = "select * from user where user.email = '{email}'";
 const SELECT_BY_EMAIL_AND_PASSWORD = "select * from user where user.email = '{email}' and user.password = '{password}'";
 
 define(
-    "INSERT_INTO_SQL",
-    "insert into user (name, last_name, birthday, status, email, password) values "
-    . "('{nome}', '{lastName}', '{birthday}',"
-    . "'{status}', '{email}', '{password}')"
+    "INSERT_SQL",
+    "insert into user "
+        . "(name, last_name, birthday, status, email, password) "
+        . "values "
+        . "('{nome}', '{lastName}', '{birthday}', '{status}', '{email}', '{password}')"
 );
+
+define(
+    "UPDATE_SQL",
+    "update user "
+        . "set "
+        . "name = '{name}', "
+        . "last_name = '{lastName}', "
+        . "birthday = '{birthday}', "
+        . "status = '{status}', "
+        . "email = '{email}', "
+        . "password = '{password}' "
+        . "where id = {id}"
+);
+
 
 class UserRepository extends AbstractRepository
 {
 
-    public function save($entity)
+    public function create($entity)
     {
         $sql = str_replace(
             array("{nome}", "{lastName}", "{birthday}", "{status}", "{email}", "{password}"),
@@ -28,7 +43,21 @@ class UserRepository extends AbstractRepository
                 $entity->getName(), $entity->getLastName(), $entity->getBirthday(),
                 $entity->getStatus(), $entity->getEmail(), $entity->getPassword()
             ),
-            INSERT_INTO_SQL
+            INSERT_SQL
+        );
+
+        parent::execute($sql);
+    }
+
+    public function update($entity)
+    {
+        $sql = str_replace(
+            array("{name}", "{lastName}", "{birthday}", "{status}"),
+            array(
+                $entity->getName(), $entity->getLastName(), $entity->getBirthday(),
+                $entity->getStatus()
+            ),
+            UPDATE_SQL
         );
 
         parent::execute($sql);
@@ -75,11 +104,11 @@ class UserRepository extends AbstractRepository
     public function existByEmailAndPassword($email, $password)
     {
         $sql = str_replace(
-            array("{email}", "{password"),
+            array("{email}", "{password}"),
             array($email, $password),
             SELECT_BY_EMAIL_AND_PASSWORD
         );
-
+        
         $resultSet = parent::executeQuery($sql, new UserConverter());
         return $resultSet != null;
     }

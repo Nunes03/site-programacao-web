@@ -4,7 +4,9 @@ require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../DatabaseConnec
 abstract class AbstractRepository
 {
 
-    abstract public function save($entity);
+    abstract public function create($entity);
+
+    abstract public function update($entity);
 
     abstract public function findAll();
 
