@@ -31,6 +31,7 @@ define(
         . "where id = {id}"
 );
 
+
 class UserRepository extends AbstractRepository
 {
 
@@ -51,10 +52,10 @@ class UserRepository extends AbstractRepository
     public function update($entity)
     {
         $sql = str_replace(
-            array("{nome}", "{lastName}", "{birthday}", "{status}", "{email}", "{password}"),
+            array("{name}", "{lastName}", "{birthday}", "{status}"),
             array(
                 $entity->getName(), $entity->getLastName(), $entity->getBirthday(),
-                $entity->getStatus(), $entity->getEmail(), $entity->getPassword()
+                $entity->getStatus()
             ),
             UPDATE_SQL
         );
