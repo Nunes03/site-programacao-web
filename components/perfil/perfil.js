@@ -81,8 +81,9 @@ function desabilitarCampos(desabilitar) {
 }
 
 function Checkfiles(){
-    var fup = document.getElementById('filePhoto');
+    const fup = document.getElementById('filePhoto');
     const file = fup.files[0];
+
     if (file) {
         const reader = new FileReader();
 
@@ -138,9 +139,7 @@ function saveChangesPhp() {
 
     xmlHttpRequest.onreadystatechange = function () {
         if (this.readyState === 4) {
-            const responseObject = base64ToObject(this.responseText);
-            console.log(responseObject);
-            // alert(responseObject.message);
+            base64ToObject(this.responseText);
         }
     };
 
@@ -168,10 +167,9 @@ function base64ToObject(base64) {
 }
 
 function stringToBase64(value) {
-    return window.btoa(encodeURIComponent(value));
+    return btoa(value);
 }
 
 function base64ToString(value) {
-    console.log(value);
-    return decodeURIComponent(atob(value));
+    return atob(value);
 }

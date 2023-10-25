@@ -7,14 +7,10 @@ require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Utils/U
 header("Content-Type: text/html; charset=utf-8");
 
 $perfilOutput = new PerfilOutput();
-$createAccountInput = convertBase64ToObject();
+$profileInput = convertBase64ToObject();
 
-if ($createAccountInput->action == 'get') {
-    $user = getUser();
-    $perfilOutput->name = $user->getName();
-    $perfilOutput->lastName = $user->getLastName();
-    $perfilOutput->birthday = $user->getBirthday();
-    $perfilOutput->status = $user->getStatus();
+if ($profileInput->action == "get") {
+    $perfilOutput = toOutput();
 } else {
     changesUser();
 }
@@ -31,9 +27,17 @@ function getUser()
     return $userRepository->findById($createAccountInput->idUser);
 }
 
-function toOutput($user, $perfilOutput)
+function toOutput()
 {
-    return $user;
+    $user = getUser();
+    $perfilOutput = new PerfilOutput();
+
+    $perfilOutput->name = $user->getName();
+    $perfilOutput->lastName = $user->getLastName();
+    $perfilOutput->birthday = $user->getBirthday();
+    $perfilOutput->status = $user->getStatus();
+
+    return $perfilOutput;
 }
 
 function changesUser()
