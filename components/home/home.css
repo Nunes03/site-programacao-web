@@ -132,3 +132,43 @@ h4 {
 .conhecer-pessoas-botao {
     margin-left: 60px;
 }
+
+.menu-item {
+    font-weight: bold;
+}
+
+.botao-pesquisar {
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+.postagem-botao-excluir {
+    font-weight: 400;
+    background-color: rgb(170, 7, 7);
+    border-color: rgb(170, 7, 7);
+    border-radius: 3px;
+    color: white;
+    display: inline-block;
+}
+
+.postagem-botao-editar {
+    font-weight: 400;
+    background-color: rgb(212, 223, 65);
+    border-color: rgb(212, 223, 65);
+    border-radius: 3px;
+    color: white;
+    display: inline-block;
+}
+
+.postagem-cabecalho-info {
+    text-align: start;
+    width: 150px;
+    display: inline-block;
+}
+
+.postagem-cabecalho-botao {
+    text-align: end;
+    width: 150px;
+    display: inline-block;
+    float: right;
+}
