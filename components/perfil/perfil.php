@@ -9,6 +9,8 @@ header("Content-Type: text/html; charset=utf-8");
 $perfilOutput = new PerfilOutput();
 $profileInput = convertBase64ToObject();
 
+//var_dump($perfilOutput);
+
 if ($profileInput->action == "get") {
     $perfilOutput = toOutput();
 } else {
@@ -20,11 +22,14 @@ function convertBase64ToObject() {
     return Util::base64ToObject($data);
 }
 
+/**
+ * @return UserEntity|null
+ */
 function getUser()
 {
     $createAccountInput = convertBase64ToObject();
     $userRepository = new UserRepository();
-    return $userRepository->findById($createAccountInput->idUser);
+    return $userRepository->findByEmail($createAccountInput->email);
 }
 
 function toOutput()

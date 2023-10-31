@@ -6,7 +6,7 @@ loginButton.addEventListener("click", () => login());
 createAccountButton.addEventListener("click", () => createAccountRedirect());
 
 function createAccountRedirect() {
-    window.location.pathname = "/site-programacao-web-main/components/create-account/create-account.html";
+    window.location.pathname = "/site-programacao-web/components/create-account/create-account.html";
 }
 
 function login() {
@@ -56,17 +56,10 @@ function vefifyUserExists() {
 
 function userExists() {
     const valueEmail = document.querySelector("#email").value;
+    const jsonLocalStorege = JSON.stringify({email: valueEmail});
 
-    localStorage.setItem(
-        "data", JSON.stringify([
-            {
-                user: {
-                    name: valueEmail
-                }
-            }
-        ])
-    )
-    window.location.pathname = "/site-programacao-web-main/components/home/home.html";
+    localStorage.setItem("user", jsonLocalStorege);
+    window.location.pathname = "/site-programacao-web/components/home/home.html";
 }
 
 function userNotExists(responseObject) {

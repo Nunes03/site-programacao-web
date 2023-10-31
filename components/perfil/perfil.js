@@ -1,66 +1,62 @@
-const idUser = window.sessionStorage?.user?.id  || 1;
-var usuario = getUserByIdPhp(idUser);
+var usuario;
+getUserByEmailPhp();
 desabilitarCampos(true);
 esconderBotoes(true);
 
-
-document.getElementById('buttonEdit').onclick = () => {
+document.querySelector('#buttonEdit').onclick = () => {
     desabilitarCampos(false);
     esconderBotoes(false);
 }
-document.getElementById('buttonSave').onclick = () => { 
-    if(validateEmptyFields()) {
-    desabilitarCampos(true); 
-    esconderBotoes(true); 
-    salvarAlteracao();
-    preencherDadosUsuario();
-    saveChangesPhp() 
+document.querySelector('#buttonSave').onclick = () => {
+    if (validateEmptyFields()) {
+        desabilitarCampos(true);
+        esconderBotoes(true);
+        salvarAlteracao();
+        preencherDadosUsuario();
+        saveChangesPhp()
     }
 }
-document.getElementById('buttonCancel').onclick = () => { 
-    desabilitarCampos(true); 
-    esconderBotoes(true); 
-    preencherDadosUsuario(); 
+document.querySelector('#buttonCancel').onclick = () => {
+    desabilitarCampos(true);
+    esconderBotoes(true);
+    preencherDadosUsuario();
 }
-document.getElementById('buttonBack').onclick = () => { 
-    console.log(window.location)
-    window.location.pathname = "/C:/Users/Aluno/Desktop/site-programacao-web-marcelo/components/home/home.html";
+document.querySelector('#buttonBack').onclick = () => {
+    window.location.pathname = "/site-programacao-web/components/home/home.html";
 }
 
-document.getElementById('filePhoto').onchange = () => { 
-    Checkfiles(); 
+document.querySelector('#filePhoto').onchange = () => {
+    checkFiles();
 }
 
 function preencherDadosUsuario() {
-    document.getElementById('name').value = usuario.name;
-    document.getElementById('lastName').value = usuario.lastName;
-    document.getElementById('fullName').innerText = usuario.name + ' ' + usuario.lastName;
-    document.getElementById('birthday').value = usuario.birthday;
-    document.getElementById('status').value = usuario.status;
+    document.querySelector('#name').value = usuario.name;
+    document.querySelector('#lastName').value = usuario.lastName;
+    document.querySelector('#fullName').innerText = usuario.name + ' ' + usuario.lastName;
+    document.querySelector('#birthday').value = usuario.birthday;
+    document.querySelector('#status').value = usuario.status;
 
-    if (!!usuario.foto)
-        document.getElementById('userPhoto').src = usuario.foto;  
-    else
-        document.getElementById('userPhoto').src = "../../assets/emptyPicture.jpg";
+    if (usuario.photo) {
+        document.querySelector('#photo').src = usuario.photo;
+    } else {
+        document.querySelector('#photo').src = "../../assets/emptyPicture.jpg";
+    }
 
 }
-
-// function buscaDadosUsuario() {
-//     return {
-//         nome: 'marcelo',
-//         sobrenome: 'schaefer',
-//         nascimento: '2003-02-17',
-//         status: 'ok',
-//         foto: '',
-//     };
-// }
 
 function salvarAlteracao() {
     usuario.name = document.getElementById('name').value;
     usuario.lastName = document.getElementById('lastName').value;
     usuario.birthday = document.getElementById('birthday').value;
     usuario.status = document.getElementById('status').value;
-    usuario.userPhoto = document.getElementById('userPhoto').src;
+
+    const reader = new FileReader();
+    reader.onload = function (progressEvent) {
+        usuario.photo = progressEvent.target.result;
+    };
+
+    const imagem = document.querySelector("#filePhoto").files[0];
+    reader.readAsDataURL(imagem);
 }
 
 function esconderBotoes(esconder) {
@@ -69,7 +65,6 @@ function esconderBotoes(esconder) {
     document.getElementById('filePhoto').hidden = esconder;
     document.getElementById('buttonEdit').hidden = !esconder;
     document.getElementById('buttonBack').hidden = !esconder;
-
 }
 
 function desabilitarCampos(desabilitar) {
@@ -80,24 +75,20 @@ function desabilitarCampos(desabilitar) {
     document.getElementById('status').disabled = desabilitar;
 }
 
-function Checkfiles(){
+function checkFiles() {
     const fup = document.getElementById('filePhoto');
     const file = fup.files[0];
 
     if (file) {
         const reader = new FileReader();
 
-        reader.onload = function (e) {
-            document.getElementById('userPhoto').src = e.target.result;
-            document.getElementById('userPhoto').style.maxWidth = "400px";
-            document.getElementById('userPhoto').style.maxHeight  = "300px";
+        reader.onload = function (progressEvent) {
+            document.getElementById('photo').src = progressEvent.target.result;
+            document.getElementById('photo').style.maxWidth = "400px";
+            document.getElementById('photo').style.maxHeight = "300px";
         };
         reader.readAsDataURL(file);
     }
-}
-
-function value() {
-    return usuario;
 }
 
 function validateEmptyFields() {
@@ -105,7 +96,7 @@ function validateEmptyFields() {
 
     const amountEmptyFields = Array
         .from(inputFields)
-        .filter(inputField => (inputField.value == null || inputField.value === "") && inputField.id != 'filePhoto')
+        .filter(inputField => (inputField.value == null || inputField.value === "") && inputField.id !== 'filePhoto')
         .length
     ;
 
@@ -118,18 +109,19 @@ function validateEmptyFields() {
     return true;
 }
 
-function getUserByIdPhp(idUser) {
+function getUserByEmailPhp() {
+    const userDataJson = localStorage.getItem("user");
+    const user = JSON.parse(userDataJson);
     const xmlHttpRequest = new XMLHttpRequest();
 
     xmlHttpRequest.onreadystatechange = function () {
         if (this.readyState === 4) {
             usuario = base64ToObject(this.responseText);
-            console.log(usuario)
             preencherDadosUsuario();
         }
     };
 
-    const url = buildCreateAccountUrl({idUser, action: 'get'});
+    const url = buildCreateAccountUrl({email: user.email, action: 'get'});
     xmlHttpRequest.open("GET", url, true);
     xmlHttpRequest.send();
 }

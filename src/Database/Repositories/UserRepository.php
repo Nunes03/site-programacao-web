@@ -31,7 +31,6 @@ define(
         . "where id = {id}"
 );
 
-
 class UserRepository extends AbstractRepository
 {
 
@@ -79,6 +78,17 @@ class UserRepository extends AbstractRepository
         return parent::executeQuery($sql, new UserConverter());
     }
 
+    public function findByEmail($email)
+    {
+        $sql = str_replace(
+            "{email}",
+            $email,
+            SELECT_BY_EMAIL
+        );
+
+        return parent::executeQuery($sql, new UserConverter());
+    }
+
     public function deleteById($id)
     {
         return null;
@@ -91,13 +101,7 @@ class UserRepository extends AbstractRepository
 
     public function existByEmail($email)
     {
-        $sql = str_replace(
-            "{email}",
-            $email,
-            SELECT_BY_EMAIL
-        );
-
-        $resultSet = parent::executeQuery($sql, new UserConverter());
+        $resultSet = self::findByEmail($email);
         return $resultSet != null;
     }
 
