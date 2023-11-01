@@ -19,7 +19,7 @@ define(
 );
 
 define(
-    "UPDATE_SQL",
+    "UPDATE_BY_EMAIL_SQL",
     "update user "
         . "set "
         . "name = '{name}', "
@@ -28,7 +28,7 @@ define(
         . "status = '{status}', "
         . "email = '{email}', "
         . "password = '{password}' "
-        . "where id = {id}"
+        . "where email = '{email}'"
 );
 
 class UserRepository extends AbstractRepository
@@ -48,15 +48,19 @@ class UserRepository extends AbstractRepository
         parent::execute($sql);
     }
 
+    /**
+     * @param $entity UserEntity
+     * @return void
+     */
     public function update($entity)
     {
         $sql = str_replace(
-            array("{name}", "{lastName}", "{birthday}", "{status}"),
+            array("{name}", "{lastName}", "{birthday}", "{status}", "{email}"),
             array(
                 $entity->getName(), $entity->getLastName(), $entity->getBirthday(),
-                $entity->getStatus()
+                $entity->getStatus(), $entity->getEmail()
             ),
-            UPDATE_SQL
+            UPDATE_BY_EMAIL_SQL
         );
 
         parent::execute($sql);
@@ -78,6 +82,10 @@ class UserRepository extends AbstractRepository
         return parent::executeQuery($sql, new UserConverter());
     }
 
+    /**
+     * @param $email string
+     * @return UserEntity|null
+     */
     public function findByEmail($email)
     {
         $sql = str_replace(

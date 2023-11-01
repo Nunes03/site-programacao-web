@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../Dto/UserDto.php");
 
 class UserEntity
 {
@@ -169,6 +170,23 @@ class UserEntity
     public function setPassword($password)
     {
         $this->password = $password;
+    }
+
+    /**
+     * @return UserDto
+     */
+    public function toDto()
+    {
+        $userDto = new UserDto();
+        $userDto->name = $this->getName();
+        $userDto->lastName = $this->getLastName();
+        $userDto->birthday = $this->getBirthday();
+        $userDto->status = $this->getStatus();
+        $userDto->photo = $this->getPhoto();
+        $userDto->email = $this->getEmail();
+        $userDto->password = $this->getPassword();
+
+        return $userDto;
     }
 }
 

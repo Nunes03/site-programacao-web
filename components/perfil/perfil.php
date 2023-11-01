@@ -4,60 +4,39 @@ require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Databas
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Dto/PerfilOutput.php");
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Utils/Util.php");
 
-header("Content-Type: text/html; charset=utf-8");
-
 $perfilOutput = new PerfilOutput();
-$profileInput = convertBase64ToObject();
+$profileInput = getUserPost();
 
-//var_dump($perfilOutput);
+changesUser();
 
-if ($profileInput->action == "get") {
-    $perfilOutput = toOutput();
-} else {
-    changesUser();
-}
-
-function convertBase64ToObject() {
-    $data = $_GET["data"];
-    return Util::base64ToObject($data);
-}
+echo json_encode($perfilOutput);
 
 /**
- * @return UserEntity|null
+ * @return void
  */
-function getUser()
-{
-    $createAccountInput = convertBase64ToObject();
-    $userRepository = new UserRepository();
-    return $userRepository->findByEmail($createAccountInput->email);
-}
-
-function toOutput()
-{
-    $user = getUser();
-    $perfilOutput = new PerfilOutput();
-
-    $perfilOutput->name = $user->getName();
-    $perfilOutput->lastName = $user->getLastName();
-    $perfilOutput->birthday = $user->getBirthday();
-    $perfilOutput->status = $user->getStatus();
-
-    return $perfilOutput;
-}
-
 function changesUser()
 {
-    $createAccountInput = convertBase64ToObject();
-
-    $userEntity = new UserEntity();
-    $userEntity->setName($createAccountInput->name);
-    $userEntity->setLastName($createAccountInput->lastName);
-    $userEntity->setBirthday($createAccountInput->birthday);
-    $userEntity->setStatus($createAccountInput->status);
+    $userEntity = getUserPost();
 
     $userRepository = new UserRepository();
     $userRepository->update($userEntity);
 }
 
-$json = json_encode($perfilOutput);
-echo Util::objectToBase64($perfilOutput);
+/**
+ * @return UserEntity
+ */
+function getUserPost()
+{
+    $userEntity = new UserEntity();
+    $userEntity->setName($_POST["name"]);
+    $userEntity->setLastName($_POST["lastName"]);
+    $userEntity->setBirthday($_POST["birthday"]);
+    $userEntity->setStatus($_POST["status"]);
+    $photo = str_replace('data:image/png;base64,', '', $_POST["photo"]);
+    $userEntity->setPhoto($photo);
+
+    var_dump($userEntity);
+    die();
+
+    return $userEntity;
+}
