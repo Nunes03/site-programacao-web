@@ -1,4 +1,16 @@
-var usuario;
+/**
+ *
+ * @type {{birthday: string, lastName: string, name: string, photo: Blob, email: string, status: string}}
+ */
+var usuario = {
+    name: "",
+    lastName: "",
+    birthday: "",
+    status: "",
+    photo: "",
+    email: ""
+};
+
 const profilePhpUrl = "perfil.php";
 const methodUtilPhpUrl = "../utils/method-util.php";
 
@@ -47,7 +59,7 @@ function populateUserDatas() {
     document.querySelector('#birthday').value = usuario.birthday;
     document.querySelector('#status').value = usuario.status;
 
-    if (usuario.photo != null) {
+    if (usuario?.photo) {
         document.querySelector('#photo').src = usuario.photo;
     } else {
         document.querySelector('#photo').src = "../../assets/emptyPicture.jpg";
@@ -61,10 +73,9 @@ async function updateUser() {
     usuario.status = document.querySelector('#status').value;
     usuario.email = getEmailByLocalStorage();
 
-    const imagem = document.querySelector("#filePhoto").files[0];
+    const imagem = document.querySelector("#photo");
 
-    if (imagem != null) {
-        console.log("AQUI")
+    if (imagem?.src) {
         usuario.photo = await fetch(imagem.src).then(response => response.blob());
     }
 }
@@ -89,7 +100,7 @@ function checkFiles() {
     const fup = document.querySelector('#filePhoto');
     const file = fup.files[0];
 
-    if (file) {
+    if (file != null) {
         const reader = new FileReader();
 
         reader.onload = function (progressEvent) {

@@ -13,22 +13,21 @@ const SELECT_BY_EMAIL_AND_PASSWORD = "select * from user where user.email = '{em
 define(
     "INSERT_SQL",
     "insert into user "
-        . "(name, last_name, birthday, status, email, password) "
-        . "values "
-        . "('{nome}', '{lastName}', '{birthday}', '{status}', '{email}', '{password}')"
+    . "(name, last_name, birthday, status, email, password) "
+    . "values "
+    . "('{nome}', '{lastName}', '{birthday}', '{status}', '{email}', '{password}')"
 );
 
 define(
     "UPDATE_BY_EMAIL_SQL",
     "update user "
-        . "set "
-        . "name = '{name}', "
-        . "last_name = '{lastName}', "
-        . "birthday = '{birthday}', "
-        . "status = '{status}', "
-        . "email = '{email}', "
-        . "password = '{password}' "
-        . "where email = '{email}'"
+    . "set "
+    . "name = '{name}', "
+    . "last_name = '{lastName}', "
+    . "birthday = '{birthday}', "
+    . "status = '{status}', "
+    . "photo = '{photo}' "
+    . "where email = '{email}'"
 );
 
 class UserRepository extends AbstractRepository
@@ -55,13 +54,15 @@ class UserRepository extends AbstractRepository
     public function update($entity)
     {
         $sql = str_replace(
-            array("{name}", "{lastName}", "{birthday}", "{status}", "{email}"),
+            array("{name}", "{lastName}", "{birthday}", "{status}", "{photo}", "{email}"),
             array(
                 $entity->getName(), $entity->getLastName(), $entity->getBirthday(),
-                $entity->getStatus(), $entity->getEmail()
+                $entity->getStatus(), $entity->getPhoto(), $entity->getEmail()
             ),
             UPDATE_BY_EMAIL_SQL
         );
+
+        var_dump($sql);
 
         parent::execute($sql);
     }
@@ -120,7 +121,7 @@ class UserRepository extends AbstractRepository
             array($email, $password),
             SELECT_BY_EMAIL_AND_PASSWORD
         );
-        
+
         $resultSet = parent::executeQuery($sql, new UserConverter());
         return $resultSet != null;
     }

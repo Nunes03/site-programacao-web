@@ -16,11 +16,16 @@ const DATABASE_NAME = "uniaservice";
 class DatabaseConnection
 {
 
-    public static function executeSql($query)
+    /**
+     * @param $sql string
+     * @param $statemantParameters array
+     * @return bool|mysqli_result
+     */
+    public static function executeSql($sql, $statemantParameters)
     {
         self::createDatabase();
         $connection = self::getConnectionDatabase();
-        return self::executeSqlNotValidation($query, $connection);
+        return self::executeSqlNotValidation($connection, $sql, $statemantParameters);
     }
 
     private static function createDatabase()
@@ -30,13 +35,25 @@ class DatabaseConnection
 
         foreach ($createdatabaseSql as $sql) {
             $connection = self::getConnectionServer();
-            self::executeSqlNotValidation($sql, $connection);
+            self::executeSqlNotValidation($sql, $connection, array());
         }
     }
 
-    private static function executeSqlNotValidation($sql, $connection)
+    /**
+     * @param $connection mysqli
+     * @param $sql string
+     * @param $statemantParameters array
+     * @return bool|mysqli_result
+     */
+    private static function executeSqlNotValidation($connection, $sql, $statemantParameters)
     {
-        $resultSet = mysqli_query($connection, $sql);
+        $statement = $connection->prepare($sql);
+
+        foreach ($statemantParameters as $parameter) {
+            $statement->bind_param($parameter->name, $parameter->value);
+        }
+
+        $resultSet = $statement->get_result();
         mysqli_close($connection);
 
         return $resultSet;

@@ -32,11 +32,10 @@ function getUserPost()
     $userEntity->setLastName($_POST["lastName"]);
     $userEntity->setBirthday($_POST["birthday"]);
     $userEntity->setStatus($_POST["status"]);
-    $photo = str_replace('data:image/png;base64,', '', $_POST["photo"]);
-    $userEntity->setPhoto($photo);
-
-    var_dump($userEntity);
-    die();
+    if ($_FILES["photo"] != null) {
+        $photoBlob = file_get_contents($_FILES["photo"]["tmp_name"]);
+        $userEntity->setPhoto($photoBlob);
+    }
 
     return $userEntity;
 }
