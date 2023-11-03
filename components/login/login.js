@@ -6,7 +6,7 @@ loginButton.addEventListener("click", () => login());
 createAccountButton.addEventListener("click", () => createAccountRedirect());
 
 function createAccountRedirect() {
-    window.location.pathname = "/site-programacao-web-main/components/create-account/create-account.html";
+    window.location.pathname = "/site-programacao-web/components/create-account/create-account.html";
 }
 
 function login() {
@@ -39,7 +39,8 @@ function vefifyUserExists() {
 
     xmlHttpRequest.onreadystatechange = function () {
         if (this.readyState === 4) {
-            const responseObject = base64ToObject(this.responseText);
+            console.log(this.responseText)
+            const responseObject = JSON.parse(this.responseText);
 
             if (responseObject.userExists) {
                 userExists();
@@ -49,38 +50,48 @@ function vefifyUserExists() {
         }
     };
 
-    const url = buildCreateAccountUrl();
-    xmlHttpRequest.open("GET", url, true);
-    xmlHttpRequest.send();
+    const url = "login.php"
+    const body = buildBody();
+
+    xmlHttpRequest.open("POST", url, true);
+    xmlHttpRequest.send(body);
 }
 
 function userExists() {
     const valueEmail = document.querySelector("#email").value;
+    const jsonLocalStorege = JSON.stringify({email: valueEmail});
 
-    localStorage.setItem(
-        "data", JSON.stringify([
-            {
-                user: {
-                    name: valueEmail
-                }
-            }
-        ])
-    )
-    window.location.pathname = "/site-programacao-web-main/components/home/home.html";
+    localStorage.setItem("user", jsonLocalStorege);
+    window.location.pathname = "/site-programacao-web/components/home/home.html";
 }
 
 function userNotExists(responseObject) {
     infoMessage.innerHTML = responseObject.message;
 }
 
-function buildCreateAccountUrl() {
-    const object = buildCreateAccountObject();
-    const base64Object = objectToBase64(object);
+/**
+ *
+ * @returns {FormData}
+ */
+function buildBody() {
+    const user = getUserObject();
+    const formData = new FormData();
 
-    return `login.php?data=${base64Object}`;
+    Object
+        .keys(user)
+        .forEach(
+            key => formData.append(key, user[key])
+        )
+    ;
+
+    return formData;
 }
 
-function buildCreateAccountObject() {
+/**
+ *
+ * @returns {{password: string, email: string}}
+ */
+function getUserObject() {
     const valueEmail = document.querySelector("#email").value;
     const valuePassword = document.querySelector("#password").value;
 
@@ -88,23 +99,4 @@ function buildCreateAccountObject() {
         email: valueEmail,
         password: valuePassword
     }
-}
-
-function objectToBase64(object) {
-    const objectJson = JSON.stringify(object);
-
-    return stringToBase64(objectJson);
-}
-
-function base64ToObject(base64) {
-    const string = base64ToString(base64);
-    return JSON.parse(string);
-}
-
-function stringToBase64(value) {
-    return window.btoa(value);
-}
-
-function base64ToString(value) {
-    return decodeURIComponent(atob(value));
 }

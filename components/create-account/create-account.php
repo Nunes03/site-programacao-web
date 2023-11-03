@@ -4,41 +4,53 @@ require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Databas
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Dto/CreateAccountOutput.php");
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Utils/Util.php");
 
-header("Content-Type: text/html; charset=utf-8");
-
 $createAccountOutput = new CreateAccountOutput();
 
 if (userExists()) {
-    $createAccountOutput->message = utf8_encode("J� existe um usu�rio cadastrado com esse email.");
+    $createAccountOutput->message = "Já existe um usuário cadastrado com esse email.";
 } else {
     createUser();
-    $createAccountOutput->message = utf8_encode("Usu�rio criado com sucesso!");
+    $createAccountOutput->message = "Usuário criado com sucesso!";
 }
 
-function convertBase64ToObject() {
-    $data = $_GET["data"];
-    return Util::base64ToObject($data);
+echo json_encode($createAccountOutput);
+
+/**
+ * @return UserEntity
+ */
+function getUserPost()
+{
+    $userEntity = new UserEntity();
+    $userEntity->setName($_POST['name']);
+    $userEntity->setEmail($_POST['email']);
+    $userEntity->setPassword($_POST['password']);
+
+    return $userEntity;
 }
 
+/**
+ * @return bool
+ */
 function userExists()
 {
-    $createAccountInput = convertBase64ToObject();
+    $userEntity = getUserPost();
+
     $userRepository = new UserRepository();
-    return $userRepository->existByEmail($createAccountInput->email);
+    return $userRepository->existByEmail($userEntity->getEmail());
 }
 
+/**
+ * @return void
+ */
 function createUser()
 {
-    $createAccountInput = convertBase64ToObject();
+    $userPost = getUserPost();
 
     $userEntity = new UserEntity();
-    $userEntity->setName($createAccountInput->name);
-    $userEntity->setEmail($createAccountInput->email);
-    $userEntity->setPassword($createAccountInput->password);
+    $userEntity->setName($userPost->getName());
+    $userEntity->setEmail($userPost->getEmail());
+    $userEntity->setPassword($userPost->getPassword());
 
     $userRepository = new UserRepository();
     $userRepository->create($userEntity);
 }
-
-$json = json_encode($createAccountOutput);
-echo Util::objectToBase64($createAccountOutput);

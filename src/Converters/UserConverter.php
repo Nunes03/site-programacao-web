@@ -1,9 +1,10 @@
 <?php
-require __DIR__.str_replace("/", DIRECTORY_SEPARATOR, "/../Database/Entities/UserEntity.php");
-require __DIR__.str_replace("/", DIRECTORY_SEPARATOR, "/Interfaces/ConverterInterface.php");
+require __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../Database/Entities/UserEntity.php");
+require __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/Interfaces/ConverterInterface.php");
 
 class UserConverter implements ConverterInterface
 {
+
     public function convert($resultSet)
     {
         $userEntities = array();
@@ -28,11 +29,10 @@ class UserConverter implements ConverterInterface
         $userEntity->setLastName($row["last_name"]);
         $userEntity->setBirthday($row["birthday"]);
         $userEntity->setStatus($row["status"]);
+        $userEntity->setPhoto($row["photo"]);
         $userEntity->setEmail($row["email"]);
         $userEntity->setPassword($row["password"]);
-        
+
         return $userEntity;
     }
 }
-
-?>

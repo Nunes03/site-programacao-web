@@ -1,7 +1,6 @@
 const createAccountButton = document.querySelector("#createAccount");
 const viewPasswordButton = document.querySelector("#viewPassword");
 const backToLoginButton = document.querySelector("#backToLogin");
-
 const infoMessage = document.querySelector("#infoMessage");
 
 createAccountButton.addEventListener("click", () => validatePassword());
@@ -36,9 +35,13 @@ function viewPassword() {
 }
 
 function backToLogin() {
-    window.location.pathname = "/site-programacao-web-main/components/login/login.html";
+    window.location.pathname = "/site-programacao-web/components/login/login.html";
 }
 
+/**
+ *
+ * @returns {boolean}
+ */
 function validateEmptyFields() {
     const inputFields = document.querySelectorAll("input");
 
@@ -63,51 +66,49 @@ function callToCreateAccountPhp() {
 
     xmlHttpRequest.onreadystatechange = function () {
         if (this.readyState === 4) {
-            const responseObject = base64ToObject(this.responseText);
+            const responseObject = JSON.parse(this.responseText);
 
             infoMessage.innerHTML = responseObject.message;
         }
     };
 
-    const url = buildCreateAccountUrl();
-    xmlHttpRequest.open("GET", url, true);
-    xmlHttpRequest.send();
+    const url = "create-account.php";
+    const body = buildBody();
+
+    xmlHttpRequest.open("POST", url, true);
+    xmlHttpRequest.send(body);
 }
 
-function buildCreateAccountUrl() {
-    const object = buildCreateAccountObject();
-    const base64Object = objectToBase64(object);
+/**
+ *
+ * @returns {FormData}
+ */
+function buildBody() {
+    const user = getUserObject();
+    const formData = new FormData();
 
-    return `create-account.php?data=${base64Object}`;
+    Object
+        .keys(user)
+        .forEach(
+            key => formData.append(key, user[key])
+        )
+    ;
+
+    return formData;
 }
 
-function buildCreateAccountObject() {
-    const valueName = document.querySelector("#name").value;
-    const valueEmail = document.querySelector("#email").value;
-    const valuePassword = document.querySelector("#password").value;
+/**
+ *
+ * @returns {{password: string, name: string, email: string}}
+ */
+function getUserObject() {
+    const name = document.querySelector("#name").value;
+    const email = document.querySelector("#email").value;
+    const password = document.querySelector("#password").value;
 
     return {
-        name: valueName,
-        email: valueEmail,
-        password: valuePassword
+        name: name,
+        email: email,
+        password: password
     }
-}
-
-function objectToBase64(object) {
-    const objectJson = JSON.stringify(object);
-
-    return stringToBase64(objectJson);
-}
-
-function base64ToObject(base64) {
-    const string = base64ToString(base64);
-    return JSON.parse(string);
-}
-
-function stringToBase64(value) {
-    return window.btoa(value);
-}
-
-function base64ToString(value) {
-    return atob(value);
 }
