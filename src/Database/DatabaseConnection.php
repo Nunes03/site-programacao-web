@@ -18,14 +18,25 @@ class DatabaseConnection
 
     /**
      * @param $sql string
-     * @param $statemantParameters array
      * @return bool|mysqli_result
      */
-    public static function executeSql($sql, $statemantParameters)
+    public static function executeSql($sql)
     {
         self::createDatabase();
         $connection = self::getConnectionDatabase();
-        return self::executeSqlNotValidation($connection, $sql, $statemantParameters);
+        return self::executeSqlNotValidation($connection, $sql);
+    }
+
+    /**
+     * @param $sql string
+     * @param $statementParameter StatementParameter
+     * @return bool|mysqli_result
+     */
+    public static function executeSqlStatement($sql, $statementParameter)
+    {
+        self::createDatabase();
+        $connection = self::getConnectionDatabase();
+        return self::executeSqlNotValidationStatement($connection, $sql, $statementParameter);
     }
 
     private static function createDatabase()
@@ -35,24 +46,48 @@ class DatabaseConnection
 
         foreach ($createdatabaseSql as $sql) {
             $connection = self::getConnectionServer();
-            self::executeSqlNotValidation($sql, $connection, array());
+            self::executeSqlNotValidation($connection, $sql);
         }
     }
 
     /**
      * @param $connection mysqli
      * @param $sql string
-     * @param $statemantParameters array
      * @return bool|mysqli_result
      */
-    private static function executeSqlNotValidation($connection, $sql, $statemantParameters)
+    private static function executeSqlNotValidation($connection, $sql)
+    {
+        $resultSet = mysqli_query($connection, $sql);
+        mysqli_close($connection);
+
+        return $resultSet;
+    }
+
+    /**
+     * @param $connection mysqli
+     * @param $sql string
+     * @param $statementParameter StatementParameter
+     * @return bool|mysqli_result
+     */
+    private static function executeSqlNotValidationStatement($connection, $sql, $statementParameter)
     {
         $statement = $connection->prepare($sql);
 
-        foreach ($statemantParameters as $parameter) {
-            $statement->bind_param($parameter->name, $parameter->value);
+        $bindParams = array();
+        $bindParams[] = &$statement;
+        $bindParams[] = &$statementParameter->types;
+
+        foreach ($statementParameter->values as $key => $value) {
+            $bindParams[] = &$statementParameter->values[$key];
         }
 
+        call_user_func_array(
+            'mysqli_stmt_bind_param',
+            $bindParams
+        );
+
+
+        $statement->execute();
         $resultSet = $statement->get_result();
         mysqli_close($connection);
 

@@ -1,50 +1,55 @@
 <?php
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../Converters/UserConverter.php");
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/AbstractRepository.php");
+require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../Dto/StatementParameter.php");
 
 const SELECT_ALL = "select * from user";
 
-const SELECT_BY_ID = "select * from user where user.id = {id}";
+const SELECT_BY_ID = "select * from user where user.id = ?";
 
-const SELECT_BY_EMAIL = "select * from user where user.email = '{email}'";
+const SELECT_BY_EMAIL = "select * from user where user.email = ?";
 
-const SELECT_BY_EMAIL_AND_PASSWORD = "select * from user where user.email = '{email}' and user.password = '{password}'";
+const SELECT_BY_EMAIL_AND_PASSWORD = "select * from user where user.email = ? and user.password = ?";
 
 define(
     "INSERT_SQL",
     "insert into user "
-    . "(name, last_name, birthday, status, email, password) "
+    . "(name, email, password) "
     . "values "
-    . "('{nome}', '{lastName}', '{birthday}', '{status}', '{email}', '{password}')"
+    . "(?, ?, ?)"
 );
 
 define(
     "UPDATE_BY_EMAIL_SQL",
     "update user "
     . "set "
-    . "name = '{name}', "
-    . "last_name = '{lastName}', "
-    . "birthday = '{birthday}', "
-    . "status = '{status}', "
-    . "photo = '{photo}' "
-    . "where email = '{email}'"
+    . "name = ?, "
+    . "last_name = ?, "
+    . "birthday = ?, "
+    . "status = ?, "
+    . "photo = ? "
+    . "where email = ?"
 );
 
 class UserRepository extends AbstractRepository
 {
 
+    /**
+     * @param $entity UserEntity
+     * @return void
+     */
     public function create($entity)
     {
-        $sql = str_replace(
-            array("{nome}", "{lastName}", "{birthday}", "{status}", "{email}", "{password}"),
+        $statementParameter = new StatementParameter(
+            "sss",
             array(
-                $entity->getName(), $entity->getLastName(), $entity->getBirthday(),
-                $entity->getStatus(), $entity->getEmail(), $entity->getPassword()
-            ),
-            INSERT_SQL
+                $entity->getName(),
+                $entity->getEmail(),
+                $entity->getPassword()
+            )
         );
 
-        parent::execute($sql);
+        parent::executeStatement(INSERT_SQL, $statementParameter);
     }
 
     /**
@@ -53,18 +58,21 @@ class UserRepository extends AbstractRepository
      */
     public function update($entity)
     {
-        $sql = str_replace(
-            array("{name}", "{lastName}", "{birthday}", "{status}", "{photo}", "{email}"),
+        var_dump($entity);
+
+        $statementParameter = new StatementParameter(
+            "ssssbs",
             array(
-                $entity->getName(), $entity->getLastName(), $entity->getBirthday(),
-                $entity->getStatus(), $entity->getPhoto(), $entity->getEmail()
-            ),
-            UPDATE_BY_EMAIL_SQL
+                $entity->getName(),
+                $entity->getLastName(),
+                $entity->getBirthday(),
+                $entity->getStatus(),
+                $entity->getPhoto(),
+                $entity->getEmail()
+            )
         );
 
-        var_dump($sql);
-
-        parent::execute($sql);
+        parent::executeStatement(UPDATE_BY_EMAIL_SQL, $statementParameter);
     }
 
     public function findAll()
@@ -72,15 +80,18 @@ class UserRepository extends AbstractRepository
         return parent::executeQueryList(SELECT_ALL, new UserConverter());
     }
 
+    /**
+     * @param $id int
+     * @return mixed|null
+     */
     public function findById($id)
     {
-        $sql = str_replace(
-            "{id}",
-            $id,
-            SELECT_BY_ID
+        $statementParameter = new StatementParameter(
+            "i",
+            array($id)
         );
 
-        return parent::executeQuery($sql, new UserConverter());
+        return parent::executeQueryStatemant(SELECT_BY_ID, $statementParameter, new UserConverter());
     }
 
     /**
@@ -89,40 +100,60 @@ class UserRepository extends AbstractRepository
      */
     public function findByEmail($email)
     {
-        $sql = str_replace(
-            "{email}",
-            $email,
-            SELECT_BY_EMAIL
+        $statementParameter = new StatementParameter(
+            "s",
+            array($email)
         );
 
-        return parent::executeQuery($sql, new UserConverter());
+        return parent::executeQueryStatemant(SELECT_BY_EMAIL, $statementParameter, new UserConverter());
     }
 
+    /**
+     * @param $id int
+     * @return null
+     */
     public function deleteById($id)
     {
         return null;
     }
 
+    /**
+     * @param $id int
+     * @return null
+     */
     public function existById($id)
     {
         return null;
     }
 
+    /**
+     * @param $email string
+     * @return bool
+     */
     public function existByEmail($email)
     {
         $resultSet = self::findByEmail($email);
         return $resultSet != null;
     }
 
+    /**
+     * @param $email string
+     * @param $password string
+     * @return bool
+     */
     public function existByEmailAndPassword($email, $password)
     {
-        $sql = str_replace(
-            array("{email}", "{password}"),
-            array($email, $password),
-            SELECT_BY_EMAIL_AND_PASSWORD
+        $statementParameter = new StatementParameter(
+            "ss",
+            array($email, $password)
         );
 
-        $resultSet = parent::executeQuery($sql, new UserConverter());
+        $resultSet = parent::executeQueryStatemant(
+            SELECT_BY_EMAIL_AND_PASSWORD,
+            $statementParameter,
+            new UserConverter()
+        );
+
         return $resultSet != null;
     }
 }
