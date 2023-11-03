@@ -38,3 +38,4 @@ create table if not exists uniaservice.amigos
     CONSTRAINT fk_user_id_user FOREIGN KEY (id_user) REFERENCES uniaservice.user(id),
     CONSTRAINT fk_user_id_amigo FOREIGN KEY (id_user) REFERENCES uniaservice.user(id)
 );
+
