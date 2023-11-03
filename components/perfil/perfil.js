@@ -1,20 +1,27 @@
-/**
- *
- * @type {{birthday: string, lastName: string, name: string, photo: Blob, email: string, status: string}}
- */
-var usuario = {
+const userInput = {
     name: "",
     lastName: "",
     birthday: "",
     status: "",
-    photo: "",
+    photoFileName: "",
+    photoFileContent: new Blob(),
     email: ""
 };
 
-const profilePhpUrl = "perfil.php";
-const methodUtilPhpUrl = "../utils/method-util.php";
+var userOutput = {
+    name: "",
+    lastName: "",
+    birthday: "",
+    status: "",
+    photoFileName: "",
+    email: ""
+}
 
-getUserByEmailPhp();
+const PROFILE_PHP_URL = "perfil.php";
+const METHOD_UTIL_PHP_URL = "../utils/method-util.php";
+const USER_DEFAULT_PROFILE_PHOTO = "../../assets/fotoPerfil.jpg";
+
+getUserByEmailPhp(true);
 disableFields(true);
 hiddenButons(true);
 
@@ -27,14 +34,12 @@ document.querySelector('#buttonSave').onclick = () => {
     if (validateEmptyFields()) {
         disableFields(true);
         hiddenButons(true);
-        updateUser()
-            .then(
-                value => {
-                    populateUserDatas();
-                    saveUserPhp();
-                }
-            )
-        ;
+        updateUser().then(
+            value => {
+                populateUserDatas();
+                saveUserPhp();
+            }
+        );
     }
 }
 
@@ -53,30 +58,61 @@ document.querySelector('#filePhoto').onchange = () => {
 }
 
 function populateUserDatas() {
-    document.querySelector('#name').value = usuario.name;
-    document.querySelector('#lastName').value = usuario.lastName;
-    document.querySelector('#fullName').innerText = usuario.name + ' ' + usuario.lastName;
-    document.querySelector('#birthday').value = usuario.birthday;
-    document.querySelector('#status').value = usuario.status;
+    const lastName = userOutput.lastName == null
+        ? ""
+        : userOutput.lastName
+    ;
 
-    if (usuario?.photo) {
-        document.querySelector('#photo').src = usuario.photo;
+    document.querySelector('#name').value = userOutput.name;
+    document.querySelector('#lastName').value = lastName;
+    document.querySelector('#fullName').innerText = userOutput.name + " " + lastName;
+    document.querySelector('#birthday').value = userOutput.birthday;
+    document.querySelector('#status').value = userOutput.status;
+
+    if (userOutput?.photoFileName) {
+        const localStorageEmail = getEmailByLocalStorage()
+            .replaceAll("@", "_")
+            .replaceAll(".", "_")
+        ;
+
+        document.querySelector('#photo').src = "../../src/UserFile/Profile/"
+            + localStorageEmail
+            + "/"
+            + userOutput.photoFileName
+        ;
     } else {
-        document.querySelector('#photo').src = "../../assets/emptyPicture.jpg";
+        document.querySelector('#photo').src = USER_DEFAULT_PROFILE_PHOTO;
     }
 }
 
 async function updateUser() {
-    usuario.name = document.querySelector('#name').value;
-    usuario.lastName = document.querySelector('#lastName').value;
-    usuario.birthday = document.querySelector('#birthday').value;
-    usuario.status = document.querySelector('#status').value;
-    usuario.email = getEmailByLocalStorage();
+    userInput.name = document.querySelector('#name').value;
+    userInput.lastName = document.querySelector('#lastName').value;
+    userInput.birthday = document.querySelector('#birthday').value;
+    userInput.status = document.querySelector('#status').value;
+    userInput.email = getEmailByLocalStorage();
 
-    const imagem = document.querySelector("#photo");
+    const image = document.querySelector("#photo");
+    if (image.src !== null && image.src !== USER_DEFAULT_PROFILE_PHOTO) {
+        const fup = document.querySelector('#filePhoto');
+        const file = fup.files[0];
 
-    if (imagem?.src) {
-        usuario.photo = await fetch(imagem.src).then(response => response.blob());
+        if (file != null) {
+            const reader = new FileReader();
+
+            reader.onload = function (progressEvent) {
+                const photoInput = document.querySelector('#photo');
+                userInput.photoFileName = file.name;
+                photoInput.src = progressEvent.target.result;
+                photoInput.style.maxWidth = "400px";
+                photoInput.style.maxHeight = "300px";
+            };
+
+            reader.readAsDataURL(file);//CONTINUAR AQUI
+        }
+
+        userInput.photoFileName
+        userInput.photoFileContent = await fetch(image.src).then(response => response.blob());
     }
 }
 
@@ -105,6 +141,7 @@ function checkFiles() {
 
         reader.onload = function (progressEvent) {
             const photoInput = document.querySelector('#photo');
+            userInput.photoFileName = file.name;
             photoInput.src = progressEvent.target.result;
             photoInput.style.maxWidth = "400px";
             photoInput.style.maxHeight = "300px";
@@ -115,7 +152,6 @@ function checkFiles() {
 }
 
 /**
- *
  * @returns {boolean}
  */
 function validateEmptyFields() {
@@ -136,31 +172,34 @@ function validateEmptyFields() {
     return true;
 }
 
-function getUserByEmailPhp() {
-    const userDataJson = localStorage.getItem("user");
-    const user = JSON.parse(userDataJson);
-
+/**
+ *
+ * @param populationUser boolean
+ */
+function getUserByEmailPhp(populationUser) {
     const xmlHttpRequest = new XMLHttpRequest();
 
     xmlHttpRequest.onreadystatechange = function () {
         if (this.readyState === 4) {
-            usuario = JSON.parse(this.responseText);
-            populateUserDatas();
+            userOutput = JSON.parse(this.responseText);
+
+            if (populationUser) {
+                populateUserDatas();
+            }
         }
     };
 
     const getUserByEmailObject = {
         methodName: "findUserByEmail",
-        methodParameters: [user.email]
+        methodParameters: [getEmailByLocalStorage()]
     };
     const body = buildBody(getUserByEmailObject);
 
-    xmlHttpRequest.open("POST", methodUtilPhpUrl, true);
+    xmlHttpRequest.open("POST", METHOD_UTIL_PHP_URL, true);
     xmlHttpRequest.send(body);
 }
 
 function saveUserPhp() {
-    console.log(usuario)
     const xmlHttpRequest = new XMLHttpRequest();
 
     xmlHttpRequest.onreadystatechange = function () {
@@ -169,9 +208,10 @@ function saveUserPhp() {
         }
     };
 
-    const body = buildBody(usuario);
+    console.log("User Input: ", userInput)
+    const body = buildBody(userInput);
 
-    xmlHttpRequest.open("POST", profilePhpUrl, true);
+    xmlHttpRequest.open("POST", PROFILE_PHP_URL, true);
     xmlHttpRequest.send(body);
 }
 

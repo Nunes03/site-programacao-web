@@ -3,16 +3,14 @@ require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Databas
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Database/Entities/UserEntity.php");
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Dto/PerfilOutput.php");
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Utils/Util.php");
+require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/UserFile/UserFileManagement.php");
 
-$perfilOutput = new PerfilOutput();
-$profileInput = getUserPost();
-
-changesUser();
+$perfilOutput = changesUser();
 
 echo json_encode($perfilOutput);
 
 /**
- * @return void
+ * @return PerfilOutput
  */
 function changesUser()
 {
@@ -20,6 +18,15 @@ function changesUser()
 
     $userRepository = new UserRepository();
     $userRepository->update($userEntity);
+
+    $perfilOutput = new PerfilOutput();
+    $perfilOutput->name = $userEntity->getName();
+    $perfilOutput->lastName = $userEntity->getLastName();
+    $perfilOutput->birthday = $userEntity->getBirthday();
+    $perfilOutput->status = $userEntity->getStatus();
+    $perfilOutput->photoFileName = $userEntity->getPhotoFileName();
+
+    return $perfilOutput;
 }
 
 /**
@@ -32,9 +39,20 @@ function getUserPost()
     $userEntity->setLastName($_POST["lastName"]);
     $userEntity->setBirthday($_POST["birthday"]);
     $userEntity->setStatus($_POST["status"]);
-    if ($_FILES["photo"] != null) {
-        $photoBlob = file_get_contents($_FILES["photo"]["tmp_name"]);
-        $userEntity->setPhoto($photoBlob);
+    $userEntity->setEmail($_POST["email"]);
+
+    $photoName = $_POST["photoFileName"];
+
+    if ($photoName != null) {
+        $userEntity->setPhotoFileName($photoName);
+        $photoBlob = addslashes($_FILES["photoFileContent"]["tmp_name"]);
+        $photoBlob = file_get_contents($photoBlob);
+
+        UserFileManagement::saveProfileFile(
+            $userEntity->getEmail(),
+            $photoName,
+            $photoBlob
+        );
     }
 
     return $userEntity;

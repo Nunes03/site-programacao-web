@@ -32,7 +32,7 @@ class UserEntity
     /**
      * @var string
      */
-    private $photo;
+    private $photoFileName;
 
     /**
      * @var string
@@ -127,17 +127,17 @@ class UserEntity
     /**
      * @return string
      */
-    public function getPhoto()
+    public function getPhotoFileName()
     {
-        return $this->photo;
+        return $this->photoFileName;
     }
 
     /**
      * @param string $photo
      */
-    public function setPhoto($photo)
+    public function setPhotoFileName($photo)
     {
-        $this->photo = $photo;
+        $this->photoFileName = $photo;
     }
 
     /**
@@ -182,9 +182,8 @@ class UserEntity
         $userDto->lastName = $this->getLastName();
         $userDto->birthday = $this->getBirthday();
         $userDto->status = $this->getStatus();
-        $userDto->photo = $this->getPhoto();
+        $userDto->photoFileName = $this->getPhotoFileName();
         $userDto->email = $this->getEmail();
-        $userDto->password = $this->getPassword();
 
         return $userDto;
     }
