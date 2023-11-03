@@ -1,63 +1,58 @@
-const userInput = {
-    name: "",
-    lastName: "",
-    birthday: "",
-    status: "",
-    photoFileName: "",
-    photoFileContent: new Blob(),
-    email: ""
-};
-
-var userOutput = {
-    name: "",
-    lastName: "",
-    birthday: "",
-    status: "",
-    photoFileName: "",
-    email: ""
-}
-
 const PROFILE_PHP_URL = "perfil.php";
 const METHOD_UTIL_PHP_URL = "../utils/method-util.php";
 const USER_DEFAULT_PROFILE_PHOTO = "../../assets/fotoPerfil.jpg";
+const PATH_TO_HOME = "/site-programacao-web/components/home/home.html";
+const PROFILE_PHOTO_PATH = "../../src/UserFile/Profile/";
 
-getUserByEmailPhp(true);
+const buttonEdit = document.querySelector('#buttonEdit');
+const buttonSave = document.querySelector('#buttonSave');
+const buttonCancel = document.querySelector('#buttonCancel');
+const buttonBack = document.querySelector('#buttonBack');
+const inputFilePhoto = document.querySelector('#inputFilePhoto');
+
+var alteredPhoto = false;
+
+buttonEdit.addEventListener("click", () => edit());
+buttonSave.addEventListener("click", () => save());
+buttonCancel.addEventListener("click", () => cancel());
+buttonBack.addEventListener("click", () => backToHome());
+inputFilePhoto.addEventListener("change", () => updateFilePhoto());
+
+populateUserData();
 disableFields(true);
 hiddenButons(true);
 
-document.querySelector('#buttonEdit').onclick = () => {
+function edit() {
     disableFields(false);
     hiddenButons(false);
 }
 
-document.querySelector('#buttonSave').onclick = () => {
+function save() {
     if (validateEmptyFields()) {
         disableFields(true);
         hiddenButons(true);
-        updateUser().then(
-            value => {
-                populateUserDatas();
-                saveUserPhp();
-            }
-        );
+        updateUser();
     }
 }
 
-document.querySelector('#buttonCancel').onclick = () => {
+function cancel() {
     disableFields(true);
     hiddenButons(true);
-    populateUserDatas();
+    populateUserData();
 }
 
-document.querySelector('#buttonBack').onclick = () => {
-    window.location.pathname = "/site-programacao-web/components/home/home.html";
+function backToHome() {
+    window.location.pathname = PATH_TO_HOME
 }
 
-document.querySelector('#filePhoto').onchange = () => {
-    checkFiles();
+function updateFilePhoto() {
+    getFile();
 }
 
-function populateUserDatas() {
+function populateUserData() {
+    const userOutput = findUserByEmailPhp();
+    alteredPhoto = false;
+
     const lastName = userOutput.lastName == null
         ? ""
         : userOutput.lastName
@@ -69,57 +64,65 @@ function populateUserDatas() {
     document.querySelector('#birthday').value = userOutput.birthday;
     document.querySelector('#status').value = userOutput.status;
 
-    if (userOutput?.photoFileName) {
-        const localStorageEmail = getEmailByLocalStorage()
+    let profilePhotoPath;
+    if (userOutput.photoFileName != null) {
+        const profilePhotoPathByEmail = getEmailByLocalStorage()
             .replaceAll("@", "_")
             .replaceAll(".", "_")
         ;
 
-        document.querySelector('#photo').src = "../../src/UserFile/Profile/"
-            + localStorageEmail
-            + "/"
-            + userOutput.photoFileName
-        ;
+        profilePhotoPath = `${PROFILE_PHOTO_PATH}${profilePhotoPathByEmail}/${userOutput.photoFileName}`;
     } else {
-        document.querySelector('#photo').src = USER_DEFAULT_PROFILE_PHOTO;
+        profilePhotoPath = USER_DEFAULT_PROFILE_PHOTO;
     }
+
+    document.querySelector('#photo').src = profilePhotoPath;
 }
 
-async function updateUser() {
+function updateUser() {
+    buildUserInput()
+        .then(
+            userInput => {
+                console.log("Input: ", userInput)
+                saveUserPhp(userInput);
+                populateUserData();
+            }
+        )
+    ;
+}
+
+async function buildUserInput() {
+    const userInput = {};
+
     userInput.name = document.querySelector('#name').value;
     userInput.lastName = document.querySelector('#lastName').value;
     userInput.birthday = document.querySelector('#birthday').value;
     userInput.status = document.querySelector('#status').value;
     userInput.email = getEmailByLocalStorage();
+    userInput.alteredPhoto = alteredPhoto;
 
-    const image = document.querySelector("#photo");
-    if (image.src !== null && image.src !== USER_DEFAULT_PROFILE_PHOTO) {
-        const fup = document.querySelector('#filePhoto');
-        const file = fup.files[0];
+    if (alteredPhoto) {
+        console.log("Entrou")
+        const fileInputPhoto = document.querySelector("#inputFilePhoto");
+        const photoSelected = fileInputPhoto.files[0];
+        userInput.photoFileName = photoSelected.name;
 
-        if (file != null) {
-            const reader = new FileReader();
+        const reader = new FileReader();
+        reader.onload = function (progressEvent) {
+            document.querySelector("#photo").src = progressEvent.target.result;
+        };
+        reader.readAsDataURL(photoSelected);
 
-            reader.onload = function (progressEvent) {
-                const photoInput = document.querySelector('#photo');
-                userInput.photoFileName = file.name;
-                photoInput.src = progressEvent.target.result;
-                photoInput.style.maxWidth = "400px";
-                photoInput.style.maxHeight = "300px";
-            };
-
-            reader.readAsDataURL(file);//CONTINUAR AQUI
-        }
-
-        userInput.photoFileName
-        userInput.photoFileContent = await fetch(image.src).then(response => response.blob());
     }
+    userInput.photoFileContent = await fetch(document.querySelector("#photo").src).then(response => response.blob());
+
+    return userInput;
 }
 
 function hiddenButons(hiddden) {
     document.querySelector('#buttonSave').hidden = hiddden;
     document.querySelector('#buttonCancel').hidden = hiddden;
-    document.querySelector('#filePhoto').hidden = hiddden;
+    document.querySelector('#inputFilePhoto').hidden = hiddden;
     document.querySelector('#buttonEdit').hidden = !hiddden;
     document.querySelector('#buttonBack').hidden = !hiddden;
 }
@@ -132,22 +135,19 @@ function disableFields(disable) {
     document.querySelector('#status').disabled = disable;
 }
 
-function checkFiles() {
-    const fup = document.querySelector('#filePhoto');
-    const file = fup.files[0];
+function getFile() {
+    const inputFile = document.querySelector('#inputFilePhoto');
+    const fileSelected = inputFile.files[0];
 
-    if (file != null) {
+    if (fileSelected != null) {
+        alteredPhoto = true;
         const reader = new FileReader();
 
         reader.onload = function (progressEvent) {
-            const photoInput = document.querySelector('#photo');
-            userInput.photoFileName = file.name;
-            photoInput.src = progressEvent.target.result;
-            photoInput.style.maxWidth = "400px";
-            photoInput.style.maxHeight = "300px";
+            document.querySelector('#photo').src = progressEvent.target.result
         };
 
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(fileSelected);
     }
 }
 
@@ -159,7 +159,7 @@ function validateEmptyFields() {
 
     const amountEmptyFields = Array
         .from(inputFields)
-        .filter(inputField => (inputField.value == null || inputField.value === "") && inputField.id !== 'filePhoto')
+        .filter(inputField => (inputField.value == null || inputField.value === "") && inputField.id !== 'inputFilePhoto')
         .length
     ;
 
@@ -172,20 +172,13 @@ function validateEmptyFields() {
     return true;
 }
 
-/**
- *
- * @param populationUser boolean
- */
-function getUserByEmailPhp(populationUser) {
+function findUserByEmailPhp() {
+    let userOutput;
     const xmlHttpRequest = new XMLHttpRequest();
 
     xmlHttpRequest.onreadystatechange = function () {
         if (this.readyState === 4) {
             userOutput = JSON.parse(this.responseText);
-
-            if (populationUser) {
-                populateUserDatas();
-            }
         }
     };
 
@@ -195,23 +188,21 @@ function getUserByEmailPhp(populationUser) {
     };
     const body = buildBody(getUserByEmailObject);
 
-    xmlHttpRequest.open("POST", METHOD_UTIL_PHP_URL, true);
+    xmlHttpRequest.open("POST", METHOD_UTIL_PHP_URL, false);
     xmlHttpRequest.send(body);
+
+    return userOutput;
 }
 
-function saveUserPhp() {
+function saveUserPhp(userInput) {
     const xmlHttpRequest = new XMLHttpRequest();
 
     xmlHttpRequest.onreadystatechange = function () {
-        if (this.readyState === 4) {
-            const response = JSON.parse(this.responseText);
-        }
     };
 
-    console.log("User Input: ", userInput)
     const body = buildBody(userInput);
 
-    xmlHttpRequest.open("POST", PROFILE_PHP_URL, true);
+    xmlHttpRequest.open("POST", PROFILE_PHP_URL, false);
     xmlHttpRequest.send(body);
 }
 

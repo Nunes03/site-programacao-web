@@ -41,9 +41,8 @@ function getUserPost()
     $userEntity->setStatus($_POST["status"]);
     $userEntity->setEmail($_POST["email"]);
 
-    $photoName = $_POST["photoFileName"];
-
-    if ($photoName != null) {
+    if ($_POST["alteredPhoto"] == "true") {
+        $photoName = $_POST["photoFileName"];
         $userEntity->setPhotoFileName($photoName);
         $photoBlob = addslashes($_FILES["photoFileContent"]["tmp_name"]);
         $photoBlob = file_get_contents($photoBlob);
@@ -53,6 +52,10 @@ function getUserPost()
             $photoName,
             $photoBlob
         );
+    } else {
+        $userRepository = new UserRepository();
+        $currentUserEntity = $userRepository->findByEmail($userEntity->getEmail());
+        $userEntity->setPhotoFileName($currentUserEntity->getPhotoFileName());
     }
 
     return $userEntity;
