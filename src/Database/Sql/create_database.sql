@@ -29,3 +29,12 @@ create table if not exists uniaservice.image_post
     foreign key (post_id)
         references post (id)
 );
+
+create table if not exists uniaservice.amigos
+(
+    id        int auto_increment primary key,
+    id_user   int not null,
+    id_amigo  int not null,
+    CONSTRAINT fk_user_id_user FOREIGN KEY (id_user) REFERENCES uniaservice.user(id),
+    CONSTRAINT fk_user_id_amigo FOREIGN KEY (id_user) REFERENCES uniaservice.user(id)
+);
