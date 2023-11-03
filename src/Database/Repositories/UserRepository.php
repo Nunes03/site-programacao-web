@@ -27,7 +27,7 @@ define(
     . "last_name = ?, "
     . "birthday = ?, "
     . "status = ?, "
-    . "photo = ? "
+    . "photo_file_name = ? "
     . "where email = ?"
 );
 
@@ -58,16 +58,14 @@ class UserRepository extends AbstractRepository
      */
     public function update($entity)
     {
-        var_dump($entity);
-
         $statementParameter = new StatementParameter(
-            "ssssbs",
+            "ssssss",
             array(
                 $entity->getName(),
                 $entity->getLastName(),
                 $entity->getBirthday(),
                 $entity->getStatus(),
-                $entity->getPhoto(),
+                $entity->getPhotoFileName(),
                 $entity->getEmail()
             )
         );

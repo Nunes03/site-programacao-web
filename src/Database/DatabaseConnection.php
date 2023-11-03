@@ -81,14 +81,12 @@ class DatabaseConnection
             $bindParams[] = &$statementParameter->values[$key];
         }
 
-        call_user_func_array(
-            'mysqli_stmt_bind_param',
-            $bindParams
-        );
-
+        call_user_func_array('mysqli_stmt_bind_param', $bindParams);
 
         $statement->execute();
         $resultSet = $statement->get_result();
+
+        mysqli_stmt_close($statement);
         mysqli_close($connection);
 
         return $resultSet;

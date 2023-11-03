@@ -29,7 +29,7 @@ class UserConverter implements ConverterInterface
         $userEntity->setLastName($row["last_name"]);
         $userEntity->setBirthday($row["birthday"]);
         $userEntity->setStatus($row["status"]);
-        $userEntity->setPhoto($row["photo"]);
+        $userEntity->setPhotoFileName($row["photo_file_name"]);
         $userEntity->setEmail($row["email"]);
         $userEntity->setPassword($row["password"]);
 
