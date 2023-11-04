@@ -3,7 +3,7 @@
     background-color: orange;
     border-radius: 3px;
     border-color: orange;
-    padding: 2px;
+    padding: 4px;
 }
 
 .conhecer-pessoas-img {
@@ -30,4 +30,10 @@
 
 .conhecer-pessoas-botao {
     margin-left: 60px;
+}
+
+button:hover {
+    box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.2);
+    transition: box-shadow ease-out 0.6s;
+    cursor: pointer;
 }

@@ -30,7 +30,7 @@ create table if not exists uniaservice.image_post
         references post (id)
 );
 
-create table if not exists uniaservice.amigos
+create table if not exists uniaservice.amigo
 (
     id        int auto_increment primary key,
     id_user   int not null,

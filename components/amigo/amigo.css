@@ -1,0 +1,84 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(241, 239, 239);
+    font-family: sans-serif;
+}
+
+.container {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.container-menu {
+    color: white;
+    font-size: 16px;
+    background-color: rgb(0,200,155);
+    text-align: right;
+    padding: 1%;
+    padding-right: 5%;
+}
+
+.menu-item {
+    font-weight: bold;
+}
+
+.botao-pesquisar {
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+.container-informacoes-amigos {
+    width: 35%;
+    margin: auto;
+    margin-top: 30px;
+}
+
+.conteudo {
+    display: block;
+    background-color: white;
+    border-radius: 5px;
+    width: 100%;
+    padding: 8px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.foto-perfil {
+    width: 35px;
+    height: 30px;
+}
+
+.nome-usuario {
+    font-size: 14px;
+    font-weight: bold;
+    color: rgb(51, 50, 50);
+}
+
+.cabecalho-info {
+    width: 50%;
+    display: inline-block;
+}
+
+.cabecalho-botao {
+    width: 50%;
+    float: right;
+    text-align: end;
+}
+
+.botao {
+    font-weight: 400;
+    background-color: orange;
+    border-color: orange;
+    border-radius: 3px;
+    color: white;
+    margin-bottom: 5px;
+    padding: 3px;
+}
+
+.botao:hover {
+    box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.2);
+    transition: box-shadow ease-out 0.6s;
+    cursor: pointer;
+}
