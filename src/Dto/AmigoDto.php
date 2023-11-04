@@ -3,14 +3,14 @@
 class AmigoDto {
 
     /**
-     * @var int
+     * @var string
      */
-    public $id_user;
+    public $user_email;
 
     /**
-     * @var int
+     * @var string
      */
-    public $id_amigo
+    public $amigo_email
 
 }
 

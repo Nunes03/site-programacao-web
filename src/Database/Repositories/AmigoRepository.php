@@ -6,11 +6,11 @@ require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../Dto/Stateme
 
 const SELECT_ALL = `SELECT * FROM amigo`;
 
-const SELECT_BY_USER_ID = `SEELCT * FROM amigo WHERE id_user = ?`;
+const SELECT_BY_USER_EMAIL = `SEELCT * FROM amigo WHERE email_user = ?`;
 
 define(
     "INSERT_SQL",
-    `INSERT INTO amigo (id_user, id_amigo) VALUES (?, ?)`
+    `INSERT INTO amigo (email_user, email_amigo) VALUES (?, ?)`
 );
 
 define(
@@ -26,10 +26,10 @@ class AmigoRepository extends AbstractRepository {
      */
     public function create($entity) {
         $statementParameter = new StatementParameter(
-            "create",
+            "ss",
             array(
-                $entity->getIdUser(),
-                $entity->getIdAmigo()
+                $entity->getUserEmail(),
+                $entity->getAmigoEmail()
             )
         );
 
@@ -49,7 +49,7 @@ class AmigoRepository extends AbstractRepository {
      */
     public function deleteById($id) {
         $statementParameter = new StatementParameter(
-            "delete",
+            "i",
             array($id)
         );
 
@@ -58,16 +58,16 @@ class AmigoRepository extends AbstractRepository {
     }
 
     /**
-     * @param int $id_user
+     * @param string $user_email
      * @return AmigoEntity $entity
      */
-    public function findByUserId($id_user) {
+    public function findByUserEmail($user_email) {
         $statementParameter = new StatementParameter(
-            "selectByUserId",
-            array($id_user)
+            "s",
+            array($user_email)
         );
 
-        return parent::executeQueryStatement(SELECT_BY_USER_ID, $statementParameter);
+        return parent::executeQueryStatement(SELECT_BY_USER_EMAIL, $statementParameter);
     }
 
 }

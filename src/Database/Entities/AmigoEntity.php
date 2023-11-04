@@ -10,17 +10,17 @@ class AmigoEntity {
     private $id;
 
     /**
-     * @var int
+     * @var string
      */
-    private $id_user;
+    private $email_user;
 
     /**
-     * @var int
+     * @var string
      */
-    private $id_amigo;
+    private $email_amigo;
 
     /**
-     * @return int
+     * @return int $id
      */
     public function getId(){
         return $this->id;
@@ -34,31 +34,31 @@ class AmigoEntity {
     }
 
     /**
-     * @return int
+     * @return string $email_user
      */
-    public function getIdUser() {
-        return $this->id_user;
+    public function getUserEmail() {
+        return $this->email_user;
     }
 
     /**
-     * @param int $id_user
+     * @param string $email_user
      */
-    public function setIdUser($id_user) {
-        $this->id_user = $id_user;
+    public function setUserEmail($email_user) {
+        $this->email_user = $email_user;
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getIdAmigo() {
-        return $this->id_amigo;
+    public function getAmigoEmail() {
+        return $this->email_amigo;
     }
 
     /**
-     * @param int $id_amigo
+     * @param string $email_amigo
      */
-    public function setIdAmigo($id_amigo) {
-        $this->id_amigo = $id_amigo;
+    public function setAmigoEmail($email_amigo) {
+        $this->email_amigo = $email_amigo;
     }
 
     /**
@@ -66,8 +66,8 @@ class AmigoEntity {
      */
     public function toDto() {
         $amigoDto = new AmigoDto();
-        $amigoDto->id_user = $this->getIdUser();
-        $amigoDto->id_amigo = $this-getIdAmigo();
+        $amigoDto->email_user = $this->getUserEmail();
+        $amigoDto->email_amigo = $this-getAmigoEmail();
 
         return $amigoDto;
     }

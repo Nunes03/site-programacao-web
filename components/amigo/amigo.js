@@ -1,36 +1,12 @@
+const BUTTON_PERFIL = document.querySelector("#perfilButton");
+const BUTTON_HOME = document.querySelector("#homeButton");
 const METHOD_UTIL_PHP_URL = "../utils/method-util.php";
+const CURRENT_USER_EMAIL = getEmailByLocalStorage();
 
-window.alert("a");
 populateData();
 
 function populateData() {
-    const userOutput = findUserByEmailPhp();
-    debugger;
-    console.log(userOutput);
-    userOutput.id;
-    var amigo = document.createElement('div class="conteudo"');
-}
-
-function findUserByEmailPhp() {
-    let userOutput;
-    const xmlHttpRequest = new XMLHttpRequest();
-
-    xmlHttpRequest.onreadystatechange = function () {
-        if (this.readyState === 4) {
-            userOutput = JSON.parse(this.responseText);
-        }
-    };
-
-    const getUserByEmailObject = {
-        methodName: "findUserByEmail",
-        methodParameters: [getEmailByLocalStorage()]
-    };
-    const body = buildBody(getUserByEmailObject);
-
-    xmlHttpRequest.open("POST", METHOD_UTIL_PHP_URL, false);
-    xmlHttpRequest.send(body);
-
-    return userOutput;
+    // var amigo = document.createElement('div class="conteudo"');
 }
 
 /**
@@ -42,18 +18,9 @@ function getEmailByLocalStorage() {
     return JSON.parse(userJson).email;
 }
 
-/**
- *
- * @param user
- * @returns {FormData}
- */
-function buildBody(user) {
-    const formData = new FormData();
+BUTTON_PERFIL.addEventListener("click", () => redirect("/site-programacao-web/components/perfil/perfil.html"));
+BUTTON_HOME.addEventListener("click", () => redirect("/site-programacao-web/components/home/home.html"));
 
-    Object
-        .keys(user)
-        .forEach(key => formData.append(key, user[key]))
-    ;
-
-    return formData;
-}
+function redirect(path) {
+    window.location.pathname = path;
+} 

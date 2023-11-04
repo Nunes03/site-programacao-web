@@ -33,10 +33,10 @@ create table if not exists uniaservice.image_post
 create table if not exists uniaservice.amigo
 (
     id        int auto_increment primary key,
-    id_user   int not null,
-    id_amigo  int not null,
-    foreign key (id_user)
-        references user(id),
-    foreign key (id_amigo)
-        references user(id)
+    email_user   varchar(120) not null,
+    email_amigo  varchar(120) not null,
+    foreign key (email_user)
+        references user(email),
+    foreign key (email_amigo)
+        references user(email)
 );

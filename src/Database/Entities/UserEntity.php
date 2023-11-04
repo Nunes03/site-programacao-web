@@ -178,6 +178,7 @@ class UserEntity
     public function toDto()
     {
         $userDto = new UserDto();
+        $userDto->id = $this->getId();
         $userDto->name = $this->getName();
         $userDto->lastName = $this->getLastName();
         $userDto->birthday = $this->getBirthday();
