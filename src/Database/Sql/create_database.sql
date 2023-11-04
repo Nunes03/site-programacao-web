@@ -2,14 +2,14 @@ create database if not exists uniaservice;
 
 create table if not exists uniaservice.user
 (
-    id        int auto_increment primary key,
-    name      varchar(80)  not null,
-    last_name varchar(100),
-    birthday  date,
-    status    varchar(500),
-    photo     blob,
-    email     varchar(100) not null unique,
-    password  varchar(50)  not null
+    id              int auto_increment primary key,
+    name            varchar(80)  not null,
+    last_name       varchar(100),
+    birthday        date,
+    status          varchar(500),
+    photo_file_name varchar(255),
+    email           varchar(100) not null unique,
+    password        varchar(50)  not null
 );
 
 create table if not exists uniaservice.post

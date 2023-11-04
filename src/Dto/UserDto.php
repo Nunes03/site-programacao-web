@@ -3,11 +3,6 @@
 class UserDto
 {
     /**
-     * @var int
-     */
-    public $id;
-
-    /**
      * @var string
      */
     public $name;
@@ -30,15 +25,10 @@ class UserDto
     /**
      * @var string
      */
-    public $photo;
+    public $photoFileName;
 
     /**
      * @var string
      */
     public $email;
-
-    /**
-     * @var string
-     */
-    public $password;
 }
