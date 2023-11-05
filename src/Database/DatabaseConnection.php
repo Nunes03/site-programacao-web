@@ -57,8 +57,12 @@ class DatabaseConnection
      */
     private static function executeSqlNotValidation($connection, $sql)
     {
-        $resultSet = mysqli_query($connection, $sql);
-        mysqli_close($connection);
+        $resultSet = null;
+
+        if (!empty($sql)) {
+            $resultSet = mysqli_query($connection, $sql);
+            mysqli_close($connection);
+        }
 
         return $resultSet;
     }

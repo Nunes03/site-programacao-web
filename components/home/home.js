@@ -1,7 +1,7 @@
 const perfilButton = document.querySelector("#perfilButton");
 
-perfilButton.addEventListener("click", () => perfilRedirect());
+perfilButton.addEventListener("click", () => redirectProfile());
 
-function perfilRedirect() {
-    window.location.pathname = "/site-programacao-web/components/pefil/perfil.html";
+function redirectProfile() {
+    window.location.pathname = "/site-programacao-web/components/perfil/perfil.html";
 }

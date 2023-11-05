@@ -1,6 +1,7 @@
 <?php
 
-class AmigoDto {
+class AmigoDto
+{
 
     /**
      * @var int
@@ -10,8 +11,6 @@ class AmigoDto {
     /**
      * @var int
      */
-    public $id_amigo
+    public $id_amigo;
 
 }
-
-?>

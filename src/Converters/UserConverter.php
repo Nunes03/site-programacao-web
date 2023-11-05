@@ -36,5 +36,3 @@ class UserConverter implements ConverterInterface
         return $userEntity;
     }
 }
-
-?>
