@@ -27,7 +27,7 @@ body, html {
     display: inline-block;
 }
 
-.container-postagem {
+.postContainer {
     width: 60%;
     margin: auto;
 }
@@ -59,20 +59,25 @@ iframe {
     border-radius: 5px;
 }
 
-.postagem {
-    display: block;
-    background-color: white;
+.post {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-color: red;
     border-radius: 5px;
+
     width: 100%;
     padding: 10px;
 }
 
-.postagem-foto-perfil {
+.postUserProfilePhoto {
     width: 30px;
     height: 25px;
 }
 
-.postagem-dados {
+.postImage {
     padding: 15px;
     font-size: 15px;
     color: rgb(51, 50, 50);
@@ -82,9 +87,9 @@ table {
     width: 100%;
 }
 
-.postagem-data-postagem {
+.datePosting {
     font-size: 10px;
-    color: gray;
+    color: rgb(128, 128, 128);
 }
 
 .postagem-nome-usuario {
@@ -94,7 +99,10 @@ table {
 }
 
 .postagem-dados-foto {
-    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
 }
 
 .botao-curtir-imagem {
@@ -186,4 +194,8 @@ button:hover {
     box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.2);
     transition: box-shadow ease-out 0.6s;
     cursor: pointer;
+}
+
+img {
+    border-radius: 3px;
 }
