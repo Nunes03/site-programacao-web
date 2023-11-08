@@ -6,7 +6,12 @@ const CURRENT_USER_EMAIL = getEmailByLocalStorage();
 populateData();
 
 function populateData() {
-    // var amigo = document.createElement('div class="conteudo"');
+    console.log(CURRENT_USER_EMAIL)
+    var friends = findFriendsByUserEmailPhp();
+    console.log(friends);
+    if (friends != null) {
+        // var amigo = document.createElement('div class="conteudo"');
+    }
 }
 
 /**
@@ -24,3 +29,41 @@ BUTTON_HOME.addEventListener("click", () => redirect("/site-programacao-web/comp
 function redirect(path) {
     window.location.pathname = path;
 } 
+
+function findFriendsByUserEmailPhp() {
+    let amigoOutput;
+    const xmlHttpRequest = new XMLHttpRequest();
+
+    xmlHttpRequest.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            console.log(this.responseText)
+            amigoOutput = JSON.parse(this.responseText);
+        }
+    };
+
+    const getFriendsByUserEmailObject = {
+        methodName: "findAmigosByUserEmail",
+        methodParameters: [CURRENT_USER_EMAIL]
+    };
+    const body = buildBody(getFriendsByUserEmailObject);
+
+    xmlHttpRequest.open("POST", METHOD_UTIL_PHP_URL, false);
+    xmlHttpRequest.send(body);
+
+    return amigoOutput;
+}
+
+/**
+ * @param user
+ * @returns {FormData}
+ */
+function buildBody(user) {
+    const formData = new FormData();
+
+    Object
+        .keys(user)
+        .forEach(key => formData.append(key, user[key]))
+    ;
+
+    return formData;
+}

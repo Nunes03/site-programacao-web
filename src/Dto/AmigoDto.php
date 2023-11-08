@@ -10,8 +10,6 @@ class AmigoDto {
     /**
      * @var string
      */
-    public $amigo_email
+    public $amigo_email;
 
 }
-
-?>
