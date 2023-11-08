@@ -27,7 +27,7 @@ body, html {
     display: inline-block;
 }
 
-.postContainer {
+.post-master-container {
     width: 60%;
     margin: auto;
 }
