@@ -59,40 +59,73 @@ iframe {
     border-radius: 5px;
 }
 
-.post {
+.post-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
-    background-color: red;
+    background-color: rgb(255, 255, 255);
     border-radius: 5px;
 
     width: 100%;
     padding: 10px;
 }
 
-.postUserProfilePhoto {
+.post-header-container {
+    display: flex;
+    text-align: start;
+    justify-content: start;
+    
+    width: 100%;
+    padding-bottom: 5px;
+}
+
+.post-user-profile-photo {
     width: 30px;
     height: 25px;
 }
 
-.postImage {
+.post-image {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
     padding: 15px;
     font-size: 15px;
     color: rgb(51, 50, 50);
+}
+
+.post-date {
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    width: 100%;
+    padding-bottom: 5px;
+}
+
+.post-content {
+    display: flex;
+    justify-content: start;
+    width: 100%;
+}
+
+.post-button {
+    display: flex;
+    justify-content: start;
+    width: 100%;
 }
 
 table {
     width: 100%;
 }
 
-.datePosting {
+.date-posting {
     font-size: 10px;
     color: rgb(128, 128, 128);
 }
 
-.postagem-nome-usuario {
+.user-name-post {
     font-size: 14px;
     font-weight: bold;
     color: orange;
@@ -174,12 +207,6 @@ h4 {
     border-color: rgb(212, 223, 65);
     border-radius: 3px;
     color: white;
-    display: inline-block;
-}
-
-.postagem-cabecalho-info {
-    text-align: start;
-    width: 150px;
     display: inline-block;
 }
 
