@@ -10,8 +10,10 @@
     <div class="container-menu">
         <span class="menu-item">UNIASERVICE</span>
 
-        <label for="inputSearch"></label>
-        <input id="inputSearch" type="text" placeholder="Pesquisar..."/>
+        <input id="nomePesquisa"  list="listaPessoas" placeholder="Pesquisar..." />
+        <datalist id="listaPessoas">
+        </datalist>
+        <button id="botaoPesquisar" class="botao-pesquisar">Pesquisar</button>
 
         <button class="botao-pesquisar">Pesquisar</button>
         <button id="perfilButton" type="button" class="menu-item">Perfil</button>

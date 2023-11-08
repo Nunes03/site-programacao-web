@@ -368,3 +368,76 @@ function buildPathPostPhoto(post) {
     const folderName = post.user.email.replace("@", "_").replace(".", "_");
     return `../../src/UserFile/Post/${folderName}/${post.fileName}`;
 }
+// const perfilButton = document.querySelector("#perfilButton");
+const botoaPesquisa = document.querySelector('#botaoPesquisar');
+
+// perfilButton.addEventListener("click", () => perfilRedirect());
+botoaPesquisa.addEventListener("click", () => buscarPessoas());
+
+
+function perfilRedirect() {
+    window.location.pathname = "/site-programacao-web/components/pefil/perfil.html";
+}
+
+function buscarPessoas() {
+    const xmlHttpRequest = new XMLHttpRequest();
+
+    xmlHttpRequest.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            const responseObject = JSON.parse(this.responseText);
+
+            if (responseObject.users) {
+                criaOpcoesSelecionarPessoa(responseObject.users);
+            }
+        }
+    };
+
+    const url = "home.php"
+    const body = buildBody();
+
+    xmlHttpRequest.open("POST", url, true);
+    xmlHttpRequest.send(body);
+}
+
+function criaOpcoesSelecionarPessoa(users) {
+    if (!Array.isArray(users)) {
+        users = [users];
+    }
+
+    users.forEach(user => {
+        var pessoa = document.createElement('option');
+        total.innerText = user.name;
+        document.querySelector(`listaPessoas`).appendChild(valor1);
+    });
+}
+
+
+/**
+ *
+ * @returns {FormData}
+ */
+function buildBody() {
+    const user = getUserObject();
+    const formData = new FormData();
+
+    Object
+        .keys(user)
+        .forEach(
+            key => formData.append(key, user[key])
+        )
+        ;
+
+    return formData;
+}
+
+/**
+ *
+ * @returns {{password: string, email: string}}
+ */
+function getUserObject() {
+    const name = document.querySelector("#nomePesquisa").value;
+
+    return {
+        name: name
+    }
+}
