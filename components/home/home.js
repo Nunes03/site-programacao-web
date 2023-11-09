@@ -374,20 +374,29 @@ const botoaPesquisa = document.querySelector('#botaoPesquisar');
 // perfilButton.addEventListener("click", () => perfilRedirect());
 botoaPesquisa.addEventListener("click", () => buscarPessoas());
 
+this.buscarPessoas();
+
 
 function perfilRedirect() {
     window.location.pathname = "/site-programacao-web/components/pefil/perfil.html";
 }
 
+function limparListaPessoas() {
+    document.querySelector('#listaPessoas').querySelectorAll('option').forEach(option => {
+        option.remove();
+    });
+}
+
 function buscarPessoas() {
+    this.limparListaPessoas();
     const xmlHttpRequest = new XMLHttpRequest();
 
     xmlHttpRequest.onreadystatechange = function () {
         if (this.readyState === 4) {
             const responseObject = JSON.parse(this.responseText);
 
-            if (responseObject.users) {
-                criaOpcoesSelecionarPessoa(responseObject.users);
+            if (responseObject) {
+                criaOpcoesSelecionarPessoa(responseObject);
             }
         }
     };
@@ -406,8 +415,8 @@ function criaOpcoesSelecionarPessoa(users) {
 
     users.forEach(user => {
         var pessoa = document.createElement('option');
-        total.innerText = user.name;
-        document.querySelector(`listaPessoas`).appendChild(valor1);
+        pessoa.innerText = user.name;
+        document.querySelector('#listaPessoas').appendChild(pessoa);
     });
 }
 

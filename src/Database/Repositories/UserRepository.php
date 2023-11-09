@@ -9,8 +9,11 @@ const SELECT_BY_ID = "select * from user where user.id = ?";
 
 const SELECT_BY_EMAIL = "select * from user where user.email = ?";
 
+const SELECT_ALL_BY_NAME = "select * from user where user.name like concat(?, '%')";
+
+const SELECT_LIMIT_10_BY_NAME = "select * from user order by name limit 10";
+
 const SELECT_BY_EMAIL_AND_PASSWORD = "select * from user where user.email = ? and user.password = ?";
-const SELECT_ALL_BY_NAME = "select * from user where user.name like ?";
 
 const SELECT_RANDOM_USER = "SELECT * FROM user WHERE user.email NOT LIKE ? and 0 = (SELECT COUNT(*) from amigo where amigo.email_user like ? and amigo.email_amigo like user.email) ORDER BY RAND() LIMIT 1";
 
@@ -189,5 +192,10 @@ class UserRepository extends AbstractRepository
             new UserConverter()
         );
         return $resultSet;
+    }
+
+    public function findAllByLimit10()
+    {
+        return parent::executeQueryList(SELECT_LIMIT_10_BY_NAME, new UserConverter());
     }
 }

@@ -6,14 +6,22 @@ require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Utils/U
 
 $listaUsersOutput = array();
 
+if($_POST["name"])
 $users =  getUsersByName();
+else
+$users =  getUsersLimit10();
 
-foreach ($users as $key => $user) {
-    $listaUsersOutput += [$key => $users[$key]];
-    // array_push($listaUsersOutput, $key => $users[$key]);
-}
+foreach ($users as $user) {
+    $listaUsersOutput[] = $user->toDto();
+} 
 
 echo json_encode($listaUsersOutput);
+
+function getUsersLimit10()
+{
+    $userRepository = new UserRepository();
+    return $userRepository->findAllByLimit10();
+}
 
 function getUsersByName()
 {
