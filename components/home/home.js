@@ -3,7 +3,7 @@ const perfilButton = document.querySelector("#perfilButton");
 perfilButton.addEventListener("click", () => redirectProfile());
 
 for (let i = 0; i < 2; i++) {
-    createTrInPostTable();
+    // createTrInPostTable();
 }
 
 function redirectProfile() {
@@ -25,7 +25,7 @@ function createTrInPostTable() {
 
 function createDivPostContainer() {
     const div = document.createElement("div");
-    div.class = "post-container";
+    div.className = "post-container";
 
     const userMock = {name: "Lucas", lastName: "Nunes"}
 
@@ -46,11 +46,11 @@ function createDivPostContainer() {
 
 function createDivPostHeaderContainer(user) {
     const div = document.createElement("div");
-    div.class = "post-header-container";
+    div.className = "post-header-container";
 
     const img = document.createElement("img");
     img.alt = "Foto de Perfil";
-    img.class = "post-user-profile-photo";
+    img.className = "post-user-profile-photo";
     img.src = "../../assets/fotoPerfil.jpg";//buildPathProfilePhoto() + user.photoFileName;
 
     let fullName = user.name;
@@ -59,8 +59,8 @@ function createDivPostHeaderContainer(user) {
     }
 
     const span = document.createElement("span");
-    span.class = "user-name-post";
-    span.value = fullName;//fullName
+    span.className = "user-name-post";
+    span.textContent = fullName;//fullName
 
     div.appendChild(img);
     div.appendChild(span);
@@ -70,11 +70,11 @@ function createDivPostHeaderContainer(user) {
 
 function createDivPostDate(user) {
     const div = document.createElement("div");
-    div.class = "post-date";
+    div.className = "post-date";
 
     const span = document.createElement("span");
-    span.class = "date-posting";
-    span.value = "Postado: 15/10/2023"//user.birthday
+    span.className = "date-posting";
+    span.textContent = "Postado: 15/10/2023"//user.birthday
 
     div.appendChild(span);
 
@@ -83,10 +83,10 @@ function createDivPostDate(user) {
 
 function createDivPostContent(post) {
     const div = document.createElement("div");
-    div.class = "post-content";
+    div.className = "post-content";
 
     const span = document.createElement("span");
-    span.value = "Olá, primeira postagem!!"//post.content
+    span.textContent = "Olá, primeira postagem!!"//post.content
 
     div.appendChild(span);
 
@@ -95,11 +95,11 @@ function createDivPostContent(post) {
 
 function createDivPostImage(post) {
     const div = document.createElement("div");
-    div.class = "post-image";
+    div.className = "post-image";
 
     const img = document.createElement("img");
     img.alt = "Imagem";
-    img.class = "postagem-dados-foto";
+    img.className = "postagem-dados-foto";
     img.src = "../../assets/emptyPicture.png";//buildPathPostPhoto() + post.file_name;
 
     div.appendChild(img);
@@ -109,15 +109,15 @@ function createDivPostImage(post) {
 
 function createDivPostButton(post) {
     const div = document.createElement("div");
-    div.class = "post-button";
+    div.className = "post-button";
 
     const img = document.createElement("img");
     img.alt = "Curtir";
-    img.class = "botao-curtir-imagem";
+    img.className = "botao-curtir-imagem";
     img.src = "../../assets/gostar.png";
 
     const button = document.createElement("button");
-    button.class = "like-button";
+    button.className = "like-button";
 
     button.appendChild(img);
 
