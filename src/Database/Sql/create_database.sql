@@ -18,7 +18,7 @@ create table if not exists uniaservice.post
     content text not null,
     user_id int  not null,
     foreign key (user_id)
-        references user (id)
+        references uniaservice.`user` (id)
 );
 
 create table if not exists uniaservice.image_post
@@ -27,7 +27,7 @@ create table if not exists uniaservice.image_post
     image   blob not null,
     post_id int  not null,
     foreign key (post_id)
-        references post (id)
+        references uniaservice.post (id)
 );
 
 create table if not exists uniaservice.amigo
@@ -36,7 +36,7 @@ create table if not exists uniaservice.amigo
     email_user   varchar(120) not null,
     email_amigo  varchar(120) not null,
     foreign key (email_user)
-        references user(email),
+        references uniaservice.`user`(email),
     foreign key (email_amigo)
-        references user(email)
+        references uniaservice.`user`(email)
 );
