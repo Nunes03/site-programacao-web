@@ -5,6 +5,13 @@ body, html {
     font-family: sans-serif;
 }
 
+span {
+    font-family: Verdana, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgb(60, 60, 61);
+}
+
 .container {
     display: block;
     width: 100%;
@@ -27,9 +34,8 @@ body, html {
     display: inline-block;
 }
 
-.post-master-container {
-    width: 60%;
-    margin: auto;
+.info-message {
+    margin-bottom: 5px;
 }
 
 .container-conhecer-pessoas {
@@ -59,6 +65,24 @@ iframe {
     border-radius: 5px;
 }
 
+.posts {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow-y: scroll;
+    height: 800px;
+}
+
+.post-master-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 60%;
+    margin: auto;
+}
+
 .post-container {
     display: flex;
     flex-direction: column;
@@ -68,7 +92,7 @@ iframe {
     background-color: rgb(255, 255, 255);
     border-radius: 5px;
 
-    width: 100%;
+    width: 60%;
     padding: 10px;
 }
 
@@ -79,6 +103,7 @@ iframe {
     align-items: center;
     width: 100%;
 
+    border-radius: 3px;
     border: 0.5px solid rgb(128, 128, 128);
     box-shadow: black -1px 0.5px;
 
@@ -98,9 +123,10 @@ iframe {
 
 .post-user-profile-photo {
     width: 30px;
-    height: 25px;
+    height: 30px;
 
     padding: 5px;
+    border-radius: 50px;
 }
 
 .user-name-post {
@@ -154,10 +180,6 @@ iframe {
     width: 100%;
 
     margin-top: 10px;
-}
-
-table {
-    width: 100%;
 }
 
 .postagem-dados-foto {

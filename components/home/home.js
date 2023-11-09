@@ -29,14 +29,12 @@ function createDivPostContainer() {
 
     const userMock = {name: "Lucas", lastName: "Nunes"}
 
-    const divPostHeaderContainer = createDivPostHeaderContainer(userMock);
-    const divPostDate = createDivPostDate(userMock);
+    const divSeparatorContent = createDivSeparatorContent(userMock);
     const divPostContent = createDivPostContent(userMock);
     const divPostImage = createDivPostImage(userMock);
     const divPostButton = createDivPostButton(userMock);
 
-    div.appendChild(divPostHeaderContainer);
-    div.appendChild(divPostDate);
+    div.appendChild(divSeparatorContent);
     div.appendChild(divPostContent);
     div.appendChild(divPostImage);
     div.appendChild(divPostButton);
@@ -44,6 +42,29 @@ function createDivPostContainer() {
     return div;
 }
 
+/**
+ *
+ * @param userMock
+ * @returns {HTMLDivElement}
+ */
+function createDivSeparatorContent(userMock) {
+    const div = document.createElement("div");
+    div.className = "separator-content";
+
+    const divPostHeaderContainer = createDivPostHeaderContainer(userMock);
+    const divPostDate = createDivPostDate(userMock);
+
+    div.appendChild(divPostHeaderContainer);
+    div.appendChild(divPostDate);
+
+    return div;
+}
+
+/**
+ *
+ * @param user
+ * @returns {HTMLDivElement}
+ */
 function createDivPostHeaderContainer(user) {
     const div = document.createElement("div");
     div.className = "post-header-container";
@@ -68,6 +89,11 @@ function createDivPostHeaderContainer(user) {
     return div;
 }
 
+/**
+ *
+ * @param user
+ * @returns {HTMLDivElement}
+ */
 function createDivPostDate(user) {
     const div = document.createElement("div");
     div.className = "post-date";
@@ -81,6 +107,11 @@ function createDivPostDate(user) {
     return div;
 }
 
+/**
+ *
+ * @param post
+ * @returns {HTMLDivElement}
+ */
 function createDivPostContent(post) {
     const div = document.createElement("div");
     div.className = "post-content";
@@ -93,6 +124,11 @@ function createDivPostContent(post) {
     return div;
 }
 
+/**
+ *
+ * @param post
+ * @returns {HTMLDivElement}
+ */
 function createDivPostImage(post) {
     const div = document.createElement("div");
     div.className = "post-image";
@@ -107,6 +143,11 @@ function createDivPostImage(post) {
     return div;
 }
 
+/**
+ *
+ * @param post
+ * @returns {HTMLDivElement}
+ */
 function createDivPostButton(post) {
     const div = document.createElement("div");
     div.className = "post-button";
@@ -114,7 +155,7 @@ function createDivPostButton(post) {
     const img = document.createElement("img");
     img.alt = "Curtir";
     img.className = "botao-curtir-imagem";
-    img.src = "../../assets/gostar.png";
+    img.src = "../../assets/like.png";
 
     const button = document.createElement("button");
     button.className = "like-button";
@@ -126,6 +167,10 @@ function createDivPostButton(post) {
     return div;
 }
 
+/**
+ *
+ * @returns {string}
+ */
 function buildPathProfilePhoto() {
     const user = JSON.parse(localStorage.getItem("user"));
     const folderName = user
@@ -137,6 +182,10 @@ function buildPathProfilePhoto() {
     return `../../src/UserFile/Profile/${folderName}/`;
 }
 
+/**
+ *
+ * @returns {string}
+ */
 function buildPathPostPhoto() {
     const user = JSON.parse(localStorage.getItem("user"));
     const folderName = user
