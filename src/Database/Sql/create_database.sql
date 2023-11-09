@@ -17,18 +17,10 @@ create table if not exists uniaservice.post
     id      int auto_increment primary key,
     content text     not null,
     date    datetime not null,
+    file_name varchar(255) not null,
     user_id int      not null,
     foreign key (user_id)
-        references user (id)
-);
-
-create table if not exists uniaservice.image_post
-(
-    id        int auto_increment primary key,
-    file_name varchar(255) not null,
-    post_id   int          not null,
-    foreign key (post_id)
-        references post (id)
+        references uniaservice.user (id)
 );
 
 create table if not exists uniaservice.amigo

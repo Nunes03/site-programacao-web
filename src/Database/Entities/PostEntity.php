@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../Dto/PostDto.php");
 
 class PostEntity
 {
@@ -16,6 +17,16 @@ class PostEntity
      * @var DateTime
      */
     private $date;
+
+    /**
+     * @var int
+     */
+    private $likes;
+
+    /**
+     * @var string
+     */
+    private $fileName;
 
     /**
      * @var UserEntity
@@ -71,6 +82,38 @@ class PostEntity
     }
 
     /**
+     * @return int
+     */
+    public function getLikes()
+    {
+        return $this->likes;
+    }
+
+    /**
+     * @param int $date
+     */
+    public function setLikes($likes)
+    {
+        $this->likes = $likes;
+    }
+
+    /**
+     * @param string $date
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->fileName;
+    }
+
+    /**
      * @return UserEntity
      */
     public function getUser()
@@ -84,5 +127,21 @@ class PostEntity
     public function setUser($user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return PostDto
+     */
+    public function toDto()
+    {
+        $postDto = new PostDto();
+        $postDto->id = $this->getId();
+        $postDto->content = $this->getContent();
+        $postDto->date = $this->getDate();
+        $postDto->likes = $this->getLikes();
+        $postDto->fileName = $this->getFileName();
+        $postDto->user = $this->getUser()->toDto();
+
+        return $postDto;
     }
 }

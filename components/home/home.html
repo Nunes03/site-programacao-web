@@ -1,70 +1,94 @@
 <!DOCTYPE html>
 
 <html lang="pt-br">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta charset="UTF-8"/>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
     <title>Página Inicial</title>
-    <link rel="stylesheet" type="text/css" href="home.css"/>
-</head>
+    <link rel="stylesheet" type="text/css" href="home.css" />
 
-<body>
-<div class="container">
     <div class="container-menu">
-        <a class="menu-item">UNIASERVICE</a>
-        <label for="inputSearch"></label>
-        <input id="inputSearch" type="text" placeholder="Pesquisar..."/>
+      <span class="menu-item">UNIASERVICE</span>
 
-        <button class="botao-pesquisar">Pesquisar</button>
-        <button id="perfilButton" type="button" class="menu-item">Perfil</button>
-        <button id="amigosButton" type="button" class="menu-item">Meus amigos</button>
+      <label for="inputSearch"></label>
+      <input id="inputSearch" type="text" placeholder="Pesquisar..." />
+
+      <button class="botao-pesquisar">Pesquisar</button>
+      <button id="perfilButton" type="button" class="menu-item">Perfil</button>
+      <button id="amigosButton" type="button" class="menu-item">
+        Meus amigos
+      </button>
     </div>
+  </head>
 
-    <div class="container-conhecer-pessoas">
-        <iframe title="Recomendações" src="../recomendar-amigos/recomendar-amigos.html"></iframe>
-    </div>
+  <body>
+    <div class="container">
+      <div class="container-conhecer-pessoas">
+        <iframe
+          title="Recomendações"
+          src="../recomendar-amigos/recomendar-amigos.html"
+        ></iframe>
+      </div>
 
-    <div class="container-postar">
+      <div class="container-postar">
         <label for="textAreaPost"></label>
-        <textarea id="textAreaPost" class="postar-texto" placeholder="Escreva algo aqui!"></textarea>
+        <textarea
+          id="textAreaPost"
+          class="postar-texto"
+          placeholder="Escreva algo aqui!"
+        ></textarea>
 
         <button>Postar</button>
 
-        <input type="file" name="arquivos" accept="image/png" multiple/>
-    </div>
+        <input type="file" name="arquivos" accept="image/png" multiple />
+      </div>
 
-    <span class="info-message">Confira o que há de novo!</span>
-
-    <div class="posts">
-        <div class="post-container">
-            <div class="separator-content">
-                <div class="post-header-container">
-                    <img alt="Foto de Perfil" class="post-user-profile-photo" src="../../assets/fotoPerfil.jpg">
-                    <span class="user-name-post">UsuarioFulano</span>
-                </div>
-
-                <div class="post-date">
-                    <span class="date-posting">Postado: 15/10/2023</span>
-                </div>
-            </div>
-
-            <div class="post-content">
-                <span>Bem vindo</span>
-            </div>
-
-            <div class="post-image">
-                <img alt="Imagem" class="postagem-dados-foto" src="../../assets/emptyPicture.png">
-            </div>
-
-            <div class="post-button">
-                <button class="like-button">
-                    <img alt="Curtir" class="botao-curtir-imagem" src="../../assets/like.png">
-                </button>
-            </div>
+      <div id="posts" class="posts">
+        <div class="info-message-container">
+          <span class="info-message">Confira o que há de novo!</span>
         </div>
-    </div>
-</div>
-</body>
 
-<script src="home.js"></script>
+        <!-- <div class="post-container">
+          <div class="separator-content">
+            <div class="post-header-container">
+              <img
+                alt="Foto de Perfil"
+                class="post-user-profile-photo"
+                src="../../assets/fotoPerfil.jpg"
+              />
+              <span class="user-name-post">UsuarioFulano</span>
+            </div>
+
+            <div class="post-date">
+              <span class="date-posting">Postado: 15/10/2023</span>
+            </div>
+          </div>
+
+          <div class="post-content">
+            <span>Bem vindo</span>
+          </div>
+
+          <div class="post-image">
+            <img
+              alt="Imagem"
+              class="postagem-dados-foto"
+              src="../../assets/emptyPicture.png"
+            />
+          </div>
+
+          <div class="post-button">
+            <button class="like-button">
+              <img
+                alt="Curtir"
+                class="botao-curtir-imagem"
+                src="../../assets/like.png"
+              />
+            </button>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </body>
+
+  <script src="home.js"></script>
 </html>
