@@ -3,6 +3,8 @@ require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../Converters/
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/AbstractRepository.php");
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../Dto/StatementParameter.php");
 
+define("TESTE", "TESTE");
+
 class PostRepository extends AbstractRepository
 {
 
@@ -32,6 +34,10 @@ class PostRepository extends AbstractRepository
     public function findById($id)
     {
         // TODO: Implement findById() method.
+    }
+
+    public function findAllRelatedByUserEmail($email) {
+
     }
 
     public function deleteById($id)

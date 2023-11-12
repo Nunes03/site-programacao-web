@@ -1,7 +1,7 @@
 <?php
-require __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../Database/Entities/PostEntity.php");
-require __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../Database/Entities/UserEntity.php");
-require __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/Interfaces/ConverterInterface.php");
+require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../Database/Entities/PostEntity.php");
+require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../Database/Entities/UserEntity.php");
+require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/Interfaces/ConverterInterface.php");
 
 class PostConverter implements ConverterInterface
 {
@@ -36,6 +36,7 @@ class PostConverter implements ConverterInterface
         $postEntity->setId($row["id"]);
         $postEntity->setContent($row["content"]);
         $postEntity->setDate($row["date"]);
+        $postEntity->setFileName($row["file_name"]);
 
         $userEntity = new UserEntity();
         $userEntity->setId($row["user_id"]);
