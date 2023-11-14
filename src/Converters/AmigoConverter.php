@@ -17,6 +17,7 @@ class AmigoConverter implements ConverterInterface {
                 $amountRegister++;
             }
         }
+
         return $amigoEntities;
     }
 

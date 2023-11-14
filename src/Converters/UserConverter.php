@@ -1,6 +1,6 @@
 <?php
-require __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../Database/Entities/UserEntity.php");
-require __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/Interfaces/ConverterInterface.php");
+require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../Database/Entities/UserEntity.php");
+require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/Interfaces/ConverterInterface.php");
 
 class UserConverter implements ConverterInterface
 {
@@ -36,5 +36,3 @@ class UserConverter implements ConverterInterface
         return $userEntity;
     }
 }
-
-?>

@@ -1,61 +1,94 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta charset="UTF-8" />
-        <title>Página Inicial</title>
-        <link rel="stylesheet" type="text/css" href="home.css" />
-    </head>
-    <body>
-        <div class="container">
-            <div class="container-menu">
-                <a class="menu-item">UNIASERVICE</a>
-                <input type="text" placeholder="Pesquisar..." />
-                <button class="botao-pesquisar">Pesquisar</button>
-                <button id="perfilButton" type="button" class="menu-item">Perfil</button>
-                <button id="amigoButton" type="button" class="menu-item">Meus amigos</button>
-            </div>
-            <div class="container-conhecer-pessoas">
-                <iframe src="../recomendar-amigos/recomendar-amigos.html"></iframe>
-            </div>
-            <div class="container-postar">
-                <textarea class="postar-texto" placeholder="Escreva algo aqui!"></textarea>
-                <button>Postar</button>
-                <input type="file" name="arquivos" accept="image/png, image/jpeg"  multiple />
-            </div>
-            <div class="container-postagem">
-                <a>Confira o que há de novo</a>
-                <table>
-                    <tr>
-                        <td>
-                            <div class="postagem">
-                                <div>
-                                    <div class="postagem-cabecalho-info">
-                                        <img class="postagem-foto-perfil" src="../../assets/fotoPerfil.jpg">
-                                        <a class="postagem-nome-usuario">UsuarioFulano</a>
-                                    </div>
-                                    <div class="postagem-cabecalho-botao">
-                                        <button class="postagem-botao-excluir">Excluir</button>
-                                        <button class="postagem-botao-editar">Editar</button>
-                                    </div>
-                                </div>
-                                <div>
-                                    <a class="postagem-data-postagem">Postado: 15/10/2023</a>
-                                </div>
-                                <div class="postagem-dados">
-                                    <a> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam illo enim nam! Vel earum reprehenderit a ipsa, nesciunt facere delectus dignissimos enim error in ipsam itaque corporis sequi praesentium laboriosam.</a>
-                                    <img class="postagem-dados-foto" src="../../assets/emptyPicture.jpg">
-                                </div>
-                                <div>
-                                    <button class="botao-curtir"><img class="botao-curtir-imagem" src="../../assets/gostar.png">Curtir</button>
-                                </div>
-                            </div> 
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </body>
 
-    <script src="home.js"></script>
+<html lang="pt-BR">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8"/>
+    <title>Página Inicial</title>
+    <link rel="stylesheet" type="text/css" href="home.css"/>
+
+    <div class="container-menu">
+        <span class="menu-item">UNIASERVICE</span>
+
+        <label for="inputSearch"></label>
+        <input id="inputSearch" type="text" placeholder="Pesquisar..."/>
+
+        <button class="botao-pesquisar">Pesquisar</button>
+        <button id="perfilButton" type="button" class="menu-item">Perfil</button>
+        <button id="amigosButton" type="button" class="menu-item">
+            Meus amigos
+        </button>
+    </div>
+</head>
+
+<body>
+<div class="container">
+    <div class="container-conhecer-pessoas">
+        <iframe
+                title="Recomendações"
+                src="../recomendar-amigos/recomendar-amigos.html"
+        ></iframe>
+    </div>
+
+    <div class="container-postar">
+        <label for="textAreaPost"></label>
+        <textarea
+                id="textAreaPost"
+                class="postar-texto"
+                placeholder="Escreva algo aqui!"
+        ></textarea>
+
+        <button>Postar</button>
+
+        <input type="file" name="arquivos" accept="image/png"/>
+    </div>
+
+    <div id="posts" class="posts">
+        <div class="info-message-container">
+            <span class="info-message">Confira o que há de novo!</span>
+        </div>
+
+        <!-- <div class="post-container">
+          <div class="separator-content">
+            <div class="post-header-container">
+              <img
+                alt="Foto de Perfil"
+                class="post-user-profile-photo"
+                src="../../assets/fotoPerfil.jpg"
+              />
+              <span class="user-name-post">UsuarioFulano</span>
+            </div>
+
+            <div class="post-date">
+              <span class="date-posting">Postado: 15/10/2023</span>
+            </div>
+          </div>
+
+          <div class="post-content">
+            <span>Bem vindo</span>
+          </div>
+
+          <div class="post-image">
+            <img
+              alt="Imagem"
+              class="postagem-dados-foto"
+              src="../../assets/emptyPicture.png"
+            />
+          </div>
+
+          <div class="post-button">
+            <button class="like-button">
+              <img
+                alt="Curtir"
+                class="botao-curtir-imagem"
+                src="../../assets/like.png"
+              />
+            </button>
+          </div>
+        </div> -->
+    </div>
+</div>
+</body>
+
+<script src="home.js"></script>
 </html>

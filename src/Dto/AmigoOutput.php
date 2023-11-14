@@ -1,6 +1,7 @@
 <?php
 
-class AmigoOutput {
+class AmigoOutput
+{
 
     /**
      * @var string
@@ -13,5 +14,3 @@ class AmigoOutput {
     public $amigo_email;
 
 }
-
-?>

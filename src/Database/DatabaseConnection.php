@@ -57,7 +57,6 @@ class DatabaseConnection
      */
     private static function executeSqlNotValidation($connection, $sql)
     {
-
         $resultSet = null;
 
         if (!empty($sql)) {
