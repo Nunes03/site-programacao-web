@@ -6,16 +6,17 @@ require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Dto/Ami
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Utils/Util.php");
 
 $amigoOutput = loadAmigos();
+var_dump("amigo.pho - loadAmigos() - amigoOutput");
+var_dump($amigoOutput);
 
 echo json_encode($amigoOutput);
 
 /**
- * @return AmigoEntity
+ * @return array
  */
-function loadAmigos(): AmigoEntity
+function loadAmigos()
 {
     $email = $_POST["email"];
-    var_dump($email.gettype());
     $amigoRepository = new AmigoRepository();
     return $amigoRepository->findByUserEmail(
         $email

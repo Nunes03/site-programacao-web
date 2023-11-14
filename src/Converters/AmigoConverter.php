@@ -17,18 +17,15 @@ class AmigoConverter implements ConverterInterface {
                 $amountRegister++;
             }
         }
-
         return $amigoEntities;
     }
 
     private function convertRow($row) {
         $amigoEntity = new AmigoEntity();
         $amigoEntity->setId($row["id"]);
-        $amigoEntity->setIdUser($row["id_user"]);
-        $amigoEntity->setIdAmigo($row["id_amigo"]);
+        $amigoEntity->setUserEmail($row["email_user"]);
+        $amigoEntity->setAmigoEmail($row["email_amigo"]);
 
         return $amigoEntity;
     }
 }
-
-?>

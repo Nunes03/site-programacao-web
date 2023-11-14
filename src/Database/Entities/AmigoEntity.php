@@ -29,7 +29,7 @@ class AmigoEntity {
     /**
      * @param int $id
      */
-    public function setId(int $id){
+    public function setId($id){
         $this->id = $id;
     }
 
@@ -43,7 +43,7 @@ class AmigoEntity {
     /**
      * @param string $email_user
      */
-    public function setUserEmail(string $email_user) {
+    public function setUserEmail($email_user) {
         $this->email_user = $email_user;
     }
 
@@ -57,7 +57,7 @@ class AmigoEntity {
     /**
      * @param string $email_amigo
      */
-    public function setAmigoEmail(string $email_amigo) {
+    public function setAmigoEmail($email_amigo) {
         $this->email_amigo = $email_amigo;
     }
 
@@ -71,5 +71,4 @@ class AmigoEntity {
 
         return $amigoDto;
     }
-
 }

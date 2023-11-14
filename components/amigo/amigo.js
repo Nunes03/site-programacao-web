@@ -6,9 +6,7 @@ const CURRENT_USER_EMAIL = getEmailByLocalStorage();
 populateData();
 
 function populateData() {
-    console.log(CURRENT_USER_EMAIL)
     var friends = findFriendsByUserEmailPhp();
-    console.log(friends);
     if (friends != null) {
         // var amigo = document.createElement('div class="conteudo"');
     }
@@ -36,8 +34,8 @@ function findFriendsByUserEmailPhp() {
 
     xmlHttpRequest.onreadystatechange = function () {
         if (this.readyState === 4) {
-            console.log(this.responseText)
             amigoOutput = JSON.parse(this.responseText);
+            console.log(this.responseText);
         }
     };
 
@@ -50,19 +48,21 @@ function findFriendsByUserEmailPhp() {
     xmlHttpRequest.open("POST", METHOD_UTIL_PHP_URL, false);
     xmlHttpRequest.send(body);
 
+    console.log("amigo.js - findFriendsByUserEmailPhp");
+    console.log(amigoOutput);
     return amigoOutput;
 }
 
 /**
- * @param user
+ * @param amigo
  * @returns {FormData}
  */
-function buildBody(user) {
+function buildBody(amigo) {
     const formData = new FormData();
 
     Object
-        .keys(user)
-        .forEach(key => formData.append(key, user[key]))
+        .keys(amigo)
+        .forEach(key => formData.append(key, amigo[key]))
     ;
 
     return formData;

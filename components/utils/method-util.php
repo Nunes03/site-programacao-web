@@ -29,10 +29,18 @@ function findUserByEmail($email)
 
 /**
  * @param $email string
- * @return AmigoDto
+ * @return array de AmigoDto
  */
 function findAmigosByUserEmail($email) {
     $amigoRepository = new AmigoRepository();
-    $amigoEntity = $amigoRepository->findByUserEmail($email);
-    return $amigoEntity->toDto();
+    $amigoEntities = $amigoRepository->findByUserEmail($email);
+    //transformar em dto pois tem seus atributos publicos
+    $arr['dto'] = new AmigoDto();
+    foreach ($amigoEntities as $result) {
+        $amigoDto = new AmigoDto();
+        $amigoDto->user_email = $result.$email;
+        
+        $amigoEntity->toDto();
+    }
+    return $amigoEntities;
 }

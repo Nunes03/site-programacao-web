@@ -53,15 +53,14 @@ class AmigoRepository extends AbstractRepository {
 
     /**
      * @param string $user_email
-     * @return AmigoEntity $entity
+     * @return array $AmigoEntity
      */
     public function findByUserEmail($user_email) {
         $statementParameter = new StatementParameter(
             "s",
             array($user_email)
         );
-
-        return parent::executeQueryStatemant(SELECT_BY_USER_EMAIL, $statementParameter, new AmigoConverter());
+        return parent::executeQueryListStatemant(SELECT_BY_USER_EMAIL, $statementParameter, new AmigoConverter());
     }
 
     public function update($entity) {
