@@ -1,10 +1,24 @@
-const perfilButton = document.querySelector("#perfilButton");
 const GET_POSTS_BY_USER_URL = "get-posts-by-user.php";
+const CREATE_POST_URL = "create-post.php";
+
+const perfilButton = document.querySelector("#perfilButton");
+const postButton = document.querySelector("#postButton");
 
 perfilButton.addEventListener("click", () => redirectProfile());
+postButton.addEventListener("click", () => createPostInPhp());
 
-const posts = getPostsByUserInPhp();
-posts.forEach((post) => addDivInDivPosts(post));
+updatePostsOnScreen();
+
+function updatePostsOnScreen() {
+    const postContainer = document.querySelector("#post-container");
+
+    if (postContainer != null) {
+        postContainer.innerHTML = "";
+    }
+
+    const posts = getPostsByUserInPhp();
+    posts.forEach((post) => addDivInDivPosts(post));
+}
 
 function getPostsByUserInPhp() {
     const xmlHttpRequest = new XMLHttpRequest();
@@ -49,6 +63,77 @@ function buildBody(user) {
 function redirectProfile() {
     window.location.pathname =
         "/site-programacao-web/components/perfil/perfil.html";
+}
+
+function createPostInPhp() {
+    if (validatePostFields()) {
+        const xmlHttpRequest = new XMLHttpRequest();
+    
+        xmlHttpRequest.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                updatePostsOnScreen();
+            }
+        };
+    
+        const body = buildPostCreate();
+    
+        xmlHttpRequest.open("POST", CREATE_POST_URL, false);
+        xmlHttpRequest.send(body);
+    
+        return postsFound;
+    }
+}
+
+/**
+ * 
+ * @returns boolean
+ */
+function validatePostFields() {
+    const textAreaPost = document.querySelector("#textAreaPost");
+    
+    if (textAreaPost.value == null || textAreaPost.value.trim() == "") {
+        window.alert("Para realizar uma postagem preencha o campo de conteúdo!");
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * 
+ * @returns FormData
+ */
+ function buildPostCreate() {
+    const formData = new FormData();
+    const newPost = {
+        userEmail: "",
+        content: "",
+        imageName: "",
+        imageContent: ""
+    };
+
+    const imageFile = document.querySelector("#imagePost");
+
+    if (imageFile.files.length != 0) {
+        const photoSelected = imageFile.files[0];
+        newPost.imageName = photoSelected.name;
+
+        const reader = new FileReader();
+        reader.onload = function (progressEvent) {
+            newPost.imageContent = progressEvent.target.result;
+        };
+        reader.readAsDataURL(photoSelected);
+    }
+    
+    newPost.content = document.querySelector("#textAreaPost").value;
+    newPost.userEmail = getUserByLocalStorage().email;
+
+    Object
+        .keys(newPost)
+        .forEach(key => formData.append(key, newPost[key]))
+    ;
+
+    return formData;
 }
 
 function addDivInDivPosts(post) {

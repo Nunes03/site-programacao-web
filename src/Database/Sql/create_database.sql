@@ -17,7 +17,8 @@ create table if not exists uniaservice.post
     id      int auto_increment primary key,
     content text     not null,
     date    datetime not null,
-    file_name varchar(255) not null,
+    file_name varchar(255),
+    likes int not null default 0,
     user_id int      not null,
     foreign key (user_id)
         references uniaservice.user (id)

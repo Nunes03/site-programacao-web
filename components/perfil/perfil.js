@@ -102,7 +102,6 @@ async function buildUserInput() {
     userInput.alteredPhoto = alteredPhoto;
 
     if (alteredPhoto) {
-        console.log("Entrou")
         const fileInputPhoto = document.querySelector("#inputFilePhoto");
         const photoSelected = fileInputPhoto.files[0];
         userInput.photoFileName = photoSelected.name;

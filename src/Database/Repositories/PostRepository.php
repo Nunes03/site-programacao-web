@@ -4,6 +4,14 @@ require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/AbstractRepositor
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/UserRepository.php");
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../Dto/StatementParameter.php");
 
+define (
+    "INSERT_POST_SQL",
+    "insert into uniaservice.post " .
+    "(content, date, likes, file_name, user_id) " .
+    "values " .
+    "(?, ?, ?, ?, ?) "
+);
+
 define(
     "SELECT_RELATED_BY_USER_EMAIL",
     "select "
@@ -19,6 +27,7 @@ define(
     . "`user`.id = ? "
     . "or amigo.id_amigo = ? "
     . "or amigo.id_user = ? "
+    . "order by post.date desc"
 );
 
 class PostRepository extends AbstractRepository
@@ -30,7 +39,18 @@ class PostRepository extends AbstractRepository
      */
     public function create($entity)
     {
-        // TODO: Implement create() method.
+        $statementParameter = new StatementParameter(
+            "ssisi",
+            array(
+                $entity->getContent(),
+                $entity->getDate(),
+                $entity->getLikes(),
+                $entity->getFileName(),
+                $entity->getUser()->getId(),
+            )
+        );
+
+        parent::executeStatement(INSERT_POST_SQL, $statementParameter);
     }
 
     /**

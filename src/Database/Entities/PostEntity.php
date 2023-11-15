@@ -98,7 +98,7 @@ class PostEntity
     }
 
     /**
-     * @param string $date
+     * @param string $fileName
      */
     public function setFileName($fileName)
     {
