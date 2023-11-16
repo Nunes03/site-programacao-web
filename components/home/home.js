@@ -1,6 +1,7 @@
 const GET_POSTS_BY_USER_URL = "get-posts-by-user.php";
 const CREATE_POST_URL = "create-post.php";
 const ADD_LIKE_IN_POST_URL = "add-like-in-post.php";
+const GET_POSTS_BY_USER_SELECTED = "get-posts-by-user-selected.php";
 
 const perfilButton = document.querySelector("#perfilButton");
 const postButton = document.querySelector("#postButton");
@@ -11,6 +12,7 @@ perfilButton.addEventListener("click", () => redirectProfile());
 postButton.addEventListener("click", () => createPostInPhp());
 amigosButton.addEventListener("click", () => redirectFriends())
 sigInButton.addEventListener("click", () => redirectLogin());
+document.querySelector("#nomePesquisa").addEventListener("change", () => getPostsByUserSelected(document.querySelector("#nomePesquisa").value));
 
 updatePostsOnScreen();
 
@@ -22,7 +24,6 @@ likeButtons.forEach(
 );
 
 function updatePostsOnScreen() {
-
     removeChildrenByTagId("posts");
 
     const posts = getPostsByUserInPhp();
@@ -49,7 +50,7 @@ function getPostsByUserInPhp() {
     };
 
     const user = getUserByLocalStorage();
-    const body = buildBody(user);
+    const body = buildBodyParameter(user);
 
     xmlHttpRequest.open("POST", GET_POSTS_BY_USER_URL, false);
     xmlHttpRequest.send(body);
@@ -67,13 +68,12 @@ function getUserByLocalStorage() {
  *
  * @returns {FormData}
  */
-function buildBody(user) {
+function buildBodyParameter(user) {
     const formData = new FormData();
-
     Object
         .keys(user)
         .forEach(key => formData.append(key, user[key]))
-    ;
+        ;
 
     return formData;
 }
@@ -387,6 +387,12 @@ function limparListaPessoas() {
     });
 }
 
+function limparPostagens() {
+    document.querySelector('#posts').querySelectorAll('div').forEach(option => {
+        option.remove();
+    });
+}
+
 function buscarPessoas() {
     this.limparListaPessoas();
     const xmlHttpRequest = new XMLHttpRequest();
@@ -401,8 +407,8 @@ function buscarPessoas() {
         }
     };
 
-    const url = "home.php"
-    const body = buildBody();
+    const url = "get-user-by-name.php"
+    const body = buildBodyByUserSearch();
 
     xmlHttpRequest.open("POST", url, true);
     xmlHttpRequest.send(body);
@@ -415,7 +421,15 @@ function criaOpcoesSelecionarPessoa(users) {
 
     users.forEach(user => {
         var pessoa = document.createElement('option');
-        pessoa.innerText = user.name;
+        pessoa.innerText = user.email + ' - ' + user.name;
+        pessoa.id = user.email;
+        pessoa.addEventListener("onclick", () =>
+            this.getPostsByUserSelected(pessoa.id)
+        );
+
+        pessoa.onclick = function () {
+            this.getPostsByUserSelected(pessoa.id);
+        }
         document.querySelector('#listaPessoas').appendChild(pessoa);
     });
 }
@@ -425,7 +439,7 @@ function criaOpcoesSelecionarPessoa(users) {
  *
  * @returns {FormData}
  */
-function buildBody() {
+function buildBodyByUserSearch() {
     const user = getUserObject();
     const formData = new FormData();
 
@@ -450,3 +464,30 @@ function getUserObject() {
         name: name
     }
 }
+
+function getPostsByUserSelected(email) {
+    if (email) {
+
+        email = email.split(' - ',)[0];
+        // if (document.querySelector('#listaPessoas').querySelectorAll('option')) {
+            const xmlHttpRequest = new XMLHttpRequest();
+        let postsFound = [];
+
+        xmlHttpRequest.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                postsFound = JSON.parse(this.responseText);
+                limparPostagens();
+                postsFound.forEach((post) => addDivInDivPosts(post));
+            }
+        };
+
+        const body = buildBodyParameter({ email: email });
+
+        xmlHttpRequest.open("POST", GET_POSTS_BY_USER_SELECTED, false);
+        xmlHttpRequest.send(body);
+
+        return postsFound;
+    }
+}
+
+
