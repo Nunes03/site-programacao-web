@@ -22,6 +22,7 @@ likeButtons.forEach(
 );
 
 function updatePostsOnScreen() {
+
     removeChildrenByTagId("posts");
 
     const posts = getPostsByUserInPhp();
