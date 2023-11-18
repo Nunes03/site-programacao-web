@@ -46,7 +46,16 @@ class UserFileManagement
 
         $currentDate = self::getCurrentDateString();
         $fileNameSplit = explode(".", $fileName);
-        $fileName = $fileName . $currentDate . "." . $fileNameSplit[count($fileNameSplit) - 1];
+
+        $fileName = "";
+        for ($i = 0; $i < count($fileNameSplit); $i++) {
+            if ($i == count($fileNameSplit) - 1) {
+                $fileName = $fileName . $currentDate . "." . $fileNameSplit[count($fileNameSplit) - 1];
+            } else {
+                $fileName = $fileName . $fileNameSplit[$i];
+            }
+        }
+
         file_put_contents($folderName . "\\" . $fileName, $fileContent);
 
         return $fileName;

@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Dto/ResponseUtil.php");
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../src/Database/Repositories/UserRepository.php");
 
 $parameters = $_POST["methodParameters"];

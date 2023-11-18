@@ -83,7 +83,6 @@ function updateUser() {
     buildUserInput()
         .then(
             userInput => {
-                console.log("Input: ", userInput)
                 saveUserPhp(userInput);
                 populateUserData();
             }
@@ -113,6 +112,7 @@ async function buildUserInput() {
         reader.readAsDataURL(photoSelected);
 
     }
+
     userInput.photoFileContent = await fetch(document.querySelector("#photo").src).then(response => response.blob());
 
     return userInput;
