@@ -3,9 +3,11 @@ const CREATE_POST_URL = "create-post.php";
 
 const perfilButton = document.querySelector("#perfilButton");
 const postButton = document.querySelector("#postButton");
+const amigosButton = document.querySelector("#amigosButton");
 
 perfilButton.addEventListener("click", () => redirectProfile());
 postButton.addEventListener("click", () => createPostInPhp());
+amigosButton.addEventListener("click", () => redirectFriends())
 
 updatePostsOnScreen();
 
@@ -67,6 +69,10 @@ function buildBody(user) {
 
 function redirectProfile() {
     window.location.pathname = "/site-programacao-web/components/perfil/perfil.html";
+}
+
+function redirectFriends() {
+    window.location.pathname = "/site-programacao-web/components/amigo/amigo.html";
 }
 
 function createPostInPhp() {
