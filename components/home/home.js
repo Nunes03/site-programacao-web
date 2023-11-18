@@ -1,7 +1,9 @@
 const GET_POSTS_BY_USER_URL = "get-posts-by-user.php";
 const CREATE_POST_URL = "create-post.php";
 const ADD_LIKE_IN_POST_URL = "add-like-in-post.php";
+const GET_POSTS_BY_USER_SELECTED = "get-posts-by-user-selected.php";
 
+const botaoLimparPesquisar = document.querySelector("#botaoLimparPesquisar");
 const perfilButton = document.querySelector("#perfilButton");
 const postButton = document.querySelector("#postButton");
 const sigInButton = document.querySelector("#sigIn");
@@ -11,6 +13,15 @@ perfilButton.addEventListener("click", () => redirectProfile());
 postButton.addEventListener("click", () => createPostInPhp());
 amigosButton.addEventListener("click", () => redirectFriends())
 sigInButton.addEventListener("click", () => redirectLogin());
+botaoLimparPesquisar.addEventListener("click", () => {
+    limparListaPessoas();
+    document.querySelector('#nomePesquisa').value = '';
+    limparPostagens();
+    buscarPessoas();
+    const posts = getPostsByUserInPhp();
+    posts.forEach((post) => addDivInDivPosts(post));
+});
+document.querySelector("#nomePesquisa").addEventListener("change", () => getPostsByUserSelected(document.querySelector("#nomePesquisa").value));
 
 updatePostsOnScreen();
 
@@ -22,7 +33,6 @@ likeButtons.forEach(
 );
 
 function updatePostsOnScreen() {
-
     removeChildrenByTagId("posts");
 
     const posts = getPostsByUserInPhp();
@@ -49,7 +59,7 @@ function getPostsByUserInPhp() {
     };
 
     const user = getUserByLocalStorage();
-    const body = buildBody(user);
+    const body = buildBodyParameter(user);
 
     xmlHttpRequest.open("POST", GET_POSTS_BY_USER_URL, false);
     xmlHttpRequest.send(body);
@@ -67,13 +77,12 @@ function getUserByLocalStorage() {
  *
  * @returns {FormData}
  */
-function buildBody(user) {
+function buildBodyParameter(user) {
     const formData = new FormData();
-
     Object
         .keys(user)
         .forEach(key => formData.append(key, user[key]))
-    ;
+        ;
 
     return formData;
 }
@@ -368,3 +377,126 @@ function buildPathPostPhoto(post) {
     const folderName = post.user.email.replace("@", "_").replace(".", "_");
     return `../../src/UserFile/Post/${folderName}/${post.fileName}`;
 }
+// const perfilButton = document.querySelector("#perfilButton");
+const botoaPesquisa = document.querySelector('#botaoPesquisar');
+
+// perfilButton.addEventListener("click", () => perfilRedirect());
+botoaPesquisa.addEventListener("click", () => buscarPessoas());
+
+this.buscarPessoas();
+
+
+function perfilRedirect() {
+    window.location.pathname = "/site-programacao-web/components/pefil/perfil.html";
+}
+
+function limparListaPessoas() {
+    document.querySelector('#listaPessoas').querySelectorAll('option').forEach(option => {
+        option.remove();
+    });
+}
+
+function limparPostagens() {
+    document.querySelector('#posts').querySelectorAll('div').forEach(option => {
+        option.remove();
+    });
+}
+
+function buscarPessoas() {
+    this.limparListaPessoas();
+    const xmlHttpRequest = new XMLHttpRequest();
+
+    xmlHttpRequest.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            const responseObject = JSON.parse(this.responseText);
+
+            if (responseObject) {
+                criaOpcoesSelecionarPessoa(responseObject);
+            }
+        }
+    };
+
+    const url = "get-user-by-name.php"
+    const body = buildBodyByUserSearch();
+
+    xmlHttpRequest.open("POST", url, true);
+    xmlHttpRequest.send(body);
+}
+
+function criaOpcoesSelecionarPessoa(users) {
+    if (!Array.isArray(users)) {
+        users = [users];
+    }
+
+    users.forEach(user => {
+        var pessoa = document.createElement('option');
+        pessoa.innerText = user.email + ' - ' + user.name;
+        pessoa.id = user.email;
+        pessoa.addEventListener("onclick", () =>
+            this.getPostsByUserSelected(pessoa.id)
+        );
+
+        pessoa.onclick = function () {
+            this.getPostsByUserSelected(pessoa.id);
+        }
+        document.querySelector('#listaPessoas').appendChild(pessoa);
+    });
+}
+
+
+/**
+ *
+ * @returns {FormData}
+ */
+function buildBodyByUserSearch() {
+    const user = getUserObject();
+    const formData = new FormData();
+
+    Object
+        .keys(user)
+        .forEach(
+            key => formData.append(key, user[key])
+        )
+        ;
+
+    return formData;
+}
+
+/**
+ *
+ * @returns {{password: string, email: string}}
+ */
+function getUserObject() {
+    const name = document.querySelector("#nomePesquisa").value;
+
+    return {
+        name: name
+    }
+}
+
+function getPostsByUserSelected(email) {
+    if (email) {
+
+        email = email.split(' - ',)[0];
+        // if (document.querySelector('#listaPessoas').querySelectorAll('option')) {
+        const xmlHttpRequest = new XMLHttpRequest();
+        let postsFound = [];
+
+        xmlHttpRequest.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                postsFound = JSON.parse(this.responseText);
+                limparPostagens();
+                postsFound.forEach((post) => addDivInDivPosts(post));
+            }
+        };
+
+        const body = buildBodyParameter({ email: email });
+
+        xmlHttpRequest.open("POST", GET_POSTS_BY_USER_SELECTED, false);
+        xmlHttpRequest.send(body);
+
+        return postsFound;
+    }
+}
+
+

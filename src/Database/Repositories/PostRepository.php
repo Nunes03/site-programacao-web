@@ -41,6 +41,18 @@ define(
     . "order by post.date desc"
 );
 
+define(
+    "SELECT_RELATED_BY_EMAIL_SELECTED",
+    "select "
+    . "distinct post.* "
+    . "from "
+    . "uniaservice.post post, uniaservice.`user` `user` "
+    . "where "
+    . "`user`.email = ? "
+    . "and post.user_id = `user`.id "
+
+);
+
 class PostRepository extends AbstractRepository
 {
 
@@ -159,5 +171,38 @@ class PostRepository extends AbstractRepository
     public function existById($id)
     {
         // TODO: Implement existById() method.
+    }
+
+    /**
+     * @param $email string
+     * @returnarray
+     */
+    public function findByEmailSelected($email)
+    {
+
+
+        $statementParameter = new StatementParameter(
+            "s",
+            array($email)
+        );
+        // var_dump($statementParameter);
+
+
+        $resultSet = parent::executeQueryListStatemant(
+            SELECT_RELATED_BY_EMAIL_SELECTED,
+            $statementParameter,
+            new PostConverter()
+        );
+
+
+        $userRepository = new UserRepository();
+
+        foreach ($resultSet as $post) {
+            $userId = $post->getUser()->getId();
+            $userFound = $userRepository->findById($userId);
+            $post->setUser($userFound);
+        }
+
+        return $resultSet;
     }
 }

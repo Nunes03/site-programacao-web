@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Entrar</title>
+
+    <link rel="stylesheet" type="text/css" href="login.css"/>
+</head>
+
+<body>
+<div class="container">
+    <div class="box">
+        <div class="line">
+            <h1 class="title">Uniaservice</h1>
+        </div>
+
+        <div class="line">
+            <label for="email"></label>
+            <input type="email" id="email" class="input" placeholder="Email"/>
+        </div>
+
+        <div class="line">
+            <label for="password"></label>
+            <input type="password" id="password" class="input" placeholder="Senha"/>
+        </div>
+
+        <div class="line">
+          <span
+                  id="infoMessage"
+                  class="infoMessage"
+          >
+              Prencha os campos para realizar o login
+          </span>
+        </div>
+
+        <div class="buttons">
+            <button
+                    id="login"
+                    class="button">
+                Entrar
+            </button>
+
+            <button
+                    id="createAccount"
+                    class="button">
+                Criar Conta
+            </button>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="login.js"></script>
+</html>

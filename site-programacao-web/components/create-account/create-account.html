@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Entrar</title>
+
+    <link rel="stylesheet" type="text/css" href="create-account.css"/>
+</head>
+
+<body>
+<div class="container">
+    <form class="box" action="create-account.php" method="post">
+        <div class="line">
+            <h1 class="title">Uniaservice</h1>
+        </div>
+
+        <div class="line">
+            <label for="name"></label>
+            <input
+                    id="name"
+                    name="name"
+                    type="text"
+                    class="input"
+                    placeholder="Nome"/>
+        </div>
+
+        <div class="line">
+            <label for="email"></label>
+            <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    class="input"
+                    placeholder="Email"/>
+        </div>
+
+        <div class="line">
+            <label for="password"></label>
+            <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    class="input"
+                    placeholder="Senha"
+            />
+        </div>
+
+        <div class="line">
+            <label for="confirmPassword"></label>
+            <input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    class="input"
+                    placeholder="Confirmar Senha"
+            />
+        </div>
+
+        <div class="line">
+            <span id="infoMessage" class="infoMessage">Preencha os campos corretamente</span>
+        </div>
+
+        <div class="buttons">
+            <button
+                    id="createAccount"
+                    type="button"
+                    class="button">
+                Criar
+            </button>
+
+            <button
+                    id="viewPassword"
+                    type="button"
+                    class="button">
+                Ver Senha
+            </button>
+
+            <button
+                    id="backToLogin"
+                    type="button"
+                    class="button">
+                Voltar
+            </button>
+        </div>
+    </form>
+</div>
+</body>
+
+<script src="create-account.js"></script>
+</html>

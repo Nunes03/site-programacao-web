@@ -1,0 +1,39 @@
+.botao-conhecer-pessoas {
+    color: white;
+    background-color: orange;
+    border-radius: 3px;
+    border-color: orange;
+    padding: 4px;
+}
+
+.conhecer-pessoas-img {
+    width: 120px;
+}
+
+.conhecer-pessoas-dados {
+    padding: 15px;
+    display: block;
+    margin-left: 45px;
+}
+
+.conhecer-pessoas-nome {
+    margin-left: 10px;
+    margin-top: 5px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.botao-conhecer-pessoas-adicionar {
+    background-color: green;
+    border-color: green;
+}
+
+.conhecer-pessoas-botao {
+    margin-left: 60px;
+}
+
+button:hover {
+    box-shadow: -3px 3px 3px rgba(0, 0, 0, 0.2);
+    transition: box-shadow ease-out 0.6s;
+    cursor: pointer;
+}
