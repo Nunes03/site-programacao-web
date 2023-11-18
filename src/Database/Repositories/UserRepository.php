@@ -53,7 +53,7 @@ class UserRepository extends AbstractRepository
                 $entity->getEmail(),
                 $entity->getPassword()
             )
-        );
+        ) ;
 
         parent::executeStatement(INSERT_SQL, $statementParameter);
     }
