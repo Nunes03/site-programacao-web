@@ -4,12 +4,23 @@ require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/AbstractRepositor
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/UserRepository.php");
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../Dto/StatementParameter.php");
 
+const SELECT_BY_ID_POST_SQL = "select * from uniaservice.post post where post.id = ?";
+
 define (
     "INSERT_POST_SQL",
     "insert into uniaservice.post " .
     "(content, date, likes, file_name, user_id) " .
     "values " .
     "(?, ?, ?, ?, ?) "
+);
+
+define (
+    "UPDATE_LIKE_POST_BY_ID_SQL",
+    "update uniaservice.post "
+    . "set "
+    . "likes = ? "
+    . "where "
+    . "id = ?"
 );
 
 define(
@@ -62,14 +73,49 @@ class PostRepository extends AbstractRepository
         // TODO: Implement update() method.
     }
 
+    /**
+     * @param $id int
+     * @return void
+     */
+    public function addLikesById($id) {
+        $postEntity = $this->findById($id);
+        $likes = $postEntity->getLikes() + 1;
+
+        $statementParameter = new StatementParameter(
+            "ii",
+            array(
+                $likes,
+                $id
+            )
+        );
+
+        parent::executeStatement(
+            UPDATE_LIKE_POST_BY_ID_SQL,
+            $statementParameter
+        );
+    }
+
     public function findAll()
     {
         // TODO: Implement findAll() method.
     }
 
+    /**
+     * @param $id
+     * @return mixed|null|PostEntity
+     */
     public function findById($id)
     {
-        // TODO: Implement findById() method.
+        $statementParameter = new StatementParameter(
+            "i",
+            array($id)
+        );
+
+        return parent::executeQueryStatemant(
+            SELECT_BY_ID_POST_SQL,
+            $statementParameter,
+            new PostConverter()
+        );
     }
 
     /**

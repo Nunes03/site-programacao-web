@@ -90,7 +90,7 @@ class PostEntity
     }
 
     /**
-     * @param int $date
+     * @param int $likes
      */
     public function setLikes($likes)
     {
