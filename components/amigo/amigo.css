@@ -13,7 +13,7 @@ body, html {
 .container-menu {
     color: white;
     font-size: 16px;
-    background-color: rgb(0,200,155);
+    background-color: rgb(0, 200, 155);
     text-align: right;
     padding: 1%;
     padding-right: 5%;
@@ -21,11 +21,9 @@ body, html {
 
 .menu-item {
     font-weight: bold;
-}
-
-.botao-pesquisar {
-    border-radius: 3px;
-    font-weight: 500;
+    border: none;
+    background-color: inherit;
+    color: white;
 }
 
 .container-informacoes-amigos {
