@@ -37,6 +37,7 @@ class PostConverter implements ConverterInterface
         $postEntity->setContent($row["content"]);
         $postEntity->setDate($row["date"]);
         $postEntity->setFileName($row["file_name"]);
+        $postEntity->setLikes($row["likes"]);
 
         $userEntity = new UserEntity();
         $userEntity->setId($row["user_id"]);

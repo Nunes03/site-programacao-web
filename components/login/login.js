@@ -39,7 +39,6 @@ function vefifyUserExists() {
 
     xmlHttpRequest.onreadystatechange = function () {
         if (this.readyState === 4) {
-            console.log(this.responseText)
             const responseObject = JSON.parse(this.responseText);
 
             if (responseObject.userExists) {

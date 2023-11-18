@@ -12,6 +12,8 @@ function getPostsByEmailUser()
     $postsEntities = $postRepository->findAllRelatedByUserEmail($_POST["email"]);
 
     foreach ($postsEntities as $postsEntity) {
+        $dateTimestamp = strtotime($postsEntity->getDate());
+        $postsEntity->setDate(date("d/m/Y H:i", $dateTimestamp));
         $posts[] = $postsEntity->toDto();
     }
 

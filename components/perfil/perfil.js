@@ -87,7 +87,6 @@ function updateUser() {
     buildUserInput()
         .then(
             userInput => {
-                console.log("Input: ", userInput)
                 saveUserPhp(userInput);
                 populateUserData();
             }
@@ -106,7 +105,6 @@ async function buildUserInput() {
     userInput.alteredPhoto = alteredPhoto;
 
     if (alteredPhoto) {
-        console.log("Entrou")
         const fileInputPhoto = document.querySelector("#inputFilePhoto");
         const photoSelected = fileInputPhoto.files[0];
         userInput.photoFileName = photoSelected.name;
@@ -118,6 +116,7 @@ async function buildUserInput() {
         reader.readAsDataURL(photoSelected);
 
     }
+
     userInput.photoFileContent = await fetch(document.querySelector("#photo").src).then(response => response.blob());
 
     return userInput;

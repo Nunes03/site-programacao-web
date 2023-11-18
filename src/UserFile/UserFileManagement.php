@@ -35,7 +35,7 @@ class UserFileManagement
      * @param $fileContent string
      * @return string Nome do arquivo criado
      */
-    public static function savePostFile($email, $fileName, $fileExtension, $fileContent)
+    public static function savePostFile($email, $fileName, $fileContent)
     {
         $folderName = self::buildUserFolderName($email, POST_PREFIX);
         $folderExist = self::existUserFolder($email, POST_PREFIX);
@@ -45,7 +45,17 @@ class UserFileManagement
         }
 
         $currentDate = self::getCurrentDateString();
-        $fileName = $fileName . $currentDate . "." . $fileExtension;
+        $fileNameSplit = explode(".", $fileName);
+
+        $fileName = "";
+        for ($i = 0; $i < count($fileNameSplit); $i++) {
+            if ($i == count($fileNameSplit) - 1) {
+                $fileName = $fileName . $currentDate . "." . $fileNameSplit[count($fileNameSplit) - 1];
+            } else {
+                $fileName = $fileName . $fileNameSplit[$i];
+            }
+        }
+
         file_put_contents($folderName . "\\" . $fileName, $fileContent);
 
         return $fileName;
