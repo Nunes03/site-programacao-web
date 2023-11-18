@@ -46,11 +46,11 @@ define(
     "select "
     . "distinct post.* "
     . "from "
-    . "uniaservice.post post "
-    . "inner join uniaservice.`user` `user` on "
-    . "post.user_id = `user`.id "
+    . "uniaservice.post post, uniaservice.`user` `user` "
     . "where "
     . "`user`.email = ? "
+    . "and post.user_id = `user`.id "
+
 );
 
 class PostRepository extends AbstractRepository
@@ -182,7 +182,7 @@ class PostRepository extends AbstractRepository
 
 
         $statementParameter = new StatementParameter(
-            "i",
+            "s",
             array($email)
         );
         // var_dump($statementParameter);
@@ -193,7 +193,6 @@ class PostRepository extends AbstractRepository
             $statementParameter,
             new PostConverter()
         );
-
 
 
         $userRepository = new UserRepository();

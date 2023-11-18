@@ -3,6 +3,7 @@ const CREATE_POST_URL = "create-post.php";
 const ADD_LIKE_IN_POST_URL = "add-like-in-post.php";
 const GET_POSTS_BY_USER_SELECTED = "get-posts-by-user-selected.php";
 
+const botaoLimparPesquisar = document.querySelector("#botaoLimparPesquisar");
 const perfilButton = document.querySelector("#perfilButton");
 const postButton = document.querySelector("#postButton");
 const sigInButton = document.querySelector("#sigIn");
@@ -12,6 +13,14 @@ perfilButton.addEventListener("click", () => redirectProfile());
 postButton.addEventListener("click", () => createPostInPhp());
 amigosButton.addEventListener("click", () => redirectFriends())
 sigInButton.addEventListener("click", () => redirectLogin());
+botaoLimparPesquisar.addEventListener("click", () => {
+    limparListaPessoas();
+    document.querySelector('#nomePesquisa').value = '';
+    limparPostagens();
+    buscarPessoas();
+    const posts = getPostsByUserInPhp();
+    posts.forEach((post) => addDivInDivPosts(post));
+});
 document.querySelector("#nomePesquisa").addEventListener("change", () => getPostsByUserSelected(document.querySelector("#nomePesquisa").value));
 
 updatePostsOnScreen();
@@ -470,7 +479,7 @@ function getPostsByUserSelected(email) {
 
         email = email.split(' - ',)[0];
         // if (document.querySelector('#listaPessoas').querySelectorAll('option')) {
-            const xmlHttpRequest = new XMLHttpRequest();
+        const xmlHttpRequest = new XMLHttpRequest();
         let postsFound = [];
 
         xmlHttpRequest.onreadystatechange = function () {
