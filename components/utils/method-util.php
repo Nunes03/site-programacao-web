@@ -11,6 +11,9 @@ switch ($_POST["methodName"]) {
     case "findAmigosByUserEmail":
         echo json_encode(findAmigosByUserEmail($parameters));
         break;
+    case "getRandomUser":
+        echo json_encode(getRandomUser($parameters));
+        break;
     default:
         echo "{}";
 }
@@ -39,4 +42,10 @@ function findAmigosByUserEmail($email) {
         $amigoDtoList[] = $amigoEntity->toDto();
     }
     return $amigoDtoList;
+}
+
+function getRandomUser($email) {
+    $userRepository = new UserRepository();
+    $userEntity = $userRepository->getRandomUser($email);
+    return $userEntity->toDto();
 }
