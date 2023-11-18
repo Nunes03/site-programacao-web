@@ -14,19 +14,22 @@ sigInButton.addEventListener("click", () => redirectLogin());
 
 updatePostsOnScreen();
 
-const likeButtons = document.querySelectorAll(".like-button");
-likeButtons.forEach(
-    (button) => {
-        button.addEventListener("click", () => addLike(button))
-    }
-);
+function  addEventListnersInLikeButton() {
+    const likeButtons = document.querySelectorAll(".like-button");
+    likeButtons.forEach(
+        (button) => {
+            button.addEventListener("click", () => addLike(button))
+        }
+    );
+}
 
 function updatePostsOnScreen() {
-
     removeChildrenByTagId("posts");
 
     const posts = getPostsByUserInPhp();
     posts.forEach((post) => addDivInDivPosts(post));
+
+    addEventListnersInLikeButton();
 }
 
 /**
@@ -163,6 +166,30 @@ function buildPostCreate() {
         };
 
         reader.readAsDataURL(photoSelected);
+    } else {
+        const formData = new FormData();
+
+        newPost.content = document.querySelector("#textAreaPost").value;
+        newPost.userEmail = getUserByLocalStorage().email;
+
+        Object
+            .keys(newPost)
+            .forEach(key => formData.append(key, newPost[key]))
+        ;
+
+        const xmlHttpRequest = new XMLHttpRequest();
+
+        xmlHttpRequest.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                updatePostsOnScreen();
+            }
+        };
+
+        xmlHttpRequest.open("POST", CREATE_POST_URL, false);
+        xmlHttpRequest.send(formData);
+
+        const textAreaPost = document.querySelector("#textAreaPost");
+        textAreaPost.value = "";
     }
 }
 

@@ -21,7 +21,7 @@ function buildPost()
     $newPost = new PostEntity();
     $newPost->setContent($_POST["content"]);
     $newPost->setUser(findUserByEmail());
-    $newPost->setDate(date('Y/m/d H:i'));
+    $newPost->setDate(date('Y/m/d H:i:s'));
     $newPost->setLikes(0);
 
     if ($_POST["imageName"] != null || trim($_POST["imageName"]) != "") {

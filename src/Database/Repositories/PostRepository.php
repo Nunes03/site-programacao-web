@@ -32,12 +32,12 @@ define(
     . "inner join uniaservice.`user` `user` on "
     . "post.user_id = `user`.id "
     . "left join uniaservice.amigo amigo on "
-    . "(`user`.id = amigo.id_user "
-    . "or `user`.id = amigo.id_amigo) "
+    . "(`user`.email = amigo.email_user "
+    . "or `user`.email = amigo.email_amigo) "
     . "where "
-    . "`user`.id = ? "
-    . "or amigo.id_amigo = ? "
-    . "or amigo.id_user = ? "
+    . "`user`.email = ? "
+    . "or amigo.email_user = ? "
+    . "or amigo.email_amigo = ? "
     . "order by post.date desc"
 );
 
@@ -124,15 +124,12 @@ class PostRepository extends AbstractRepository
      */
     public function findAllRelatedByUserEmail($email)
     {
-        $userRepository = new UserRepository();
-        $user = $userRepository->findByEmail($email);
-
         $statementParameter = new StatementParameter(
-            "iii",
+            "sss",
             array(
-                $user->getId(),
-                $user->getId(),
-                $user->getId()
+                $email,
+                $email,
+                $email
             )
         );
 
@@ -142,6 +139,7 @@ class PostRepository extends AbstractRepository
             new PostConverter()
         );
 
+        $userRepository = new UserRepository();
         foreach ($resultSet as $post) {
             $userId = $post->getUser()->getId();
             $userFound = $userRepository->findById($userId);
