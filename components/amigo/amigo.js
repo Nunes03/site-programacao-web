@@ -1,7 +1,7 @@
 const BUTTON_PERFIL = document.querySelector("#perfilButton");
 const BUTTON_HOME = document.querySelector("#homeButton");
 const METHOD_UTIL_PHP_URL = "../utils/method-util.php";
-const AMIGO_REPOSITORY_URL = "../../src/Database/Repositories/AmigoRepository.php"
+const DELETE_AMIGO_URL = "delete-amigo.php"
 const CURRENT_USER_EMAIL = getEmailByLocalStorage();
 const PROFILE_PHOTO_PATH = "../../src/UserFile/Profile/";
 const USER_DEFAULT_PROFILE_PHOTO = "../../assets/fotoPerfil.jpg";
@@ -22,6 +22,7 @@ function adicionarElementoAmigoNaTela(amigo) {
 
     let amigoContainer = document.createElement('div');
     amigoContainer.classList.add('conteudo');
+    amigoContainer.id = CURRENT_USER_EMAIL + amigo.email_amigo;
 
     let amigoCabecalho = document.createElement('div');
     amigoCabecalho.classList.add('cabecalho-info');
@@ -33,12 +34,6 @@ function adicionarElementoAmigoNaTela(amigo) {
 
     let containeraAmigoBotao = document.createElement('div');
     containeraAmigoBotao.classList.add('cabecalho-botao');
-
-    let verAmigoBotao = document.createElement('button');
-    verAmigoBotao.classList.add('botao');
-    let textVerAmigoBotao = document.createTextNode('Ver amigo');
-    verAmigoBotao.appendChild(textVerAmigoBotao);
-    containeraAmigoBotao.appendChild(verAmigoBotao);
 
     let removerAmigoBotao = document.createElement('button');
     removerAmigoBotao.classList.add('botao');
@@ -83,18 +78,34 @@ function getEmailByLocalStorage() {
     return JSON.parse(userJson).email;
 }
 
+function removeAmigoFromHTML(userEmail, amigoEmail) {
+    let amigoHtml = document.getElementById(userEmail + amigoEmail);
+    amigoHtml.parentNode.removeChild(amigoHtml);
+    location.reload();
+}
+
 function removerAmigo(email_amigo) {
+    const infoAmigo = {
+        userEmail: CURRENT_USER_EMAIL,
+        amigoEmail: email_amigo
+    };
+    const formData = new FormData();
+
+    Object
+        .keys(infoAmigo)
+        .forEach(key => formData.append(key, infoAmigo[key]))
+    ;
+
     const xmlHttpRequest = new XMLHttpRequest();
 
-    const deleteFriendObject = {
-        methodName: "deleteByUserEmailAndAmigoEmail",
-        methodParameters: [CURRENT_USER_EMAIL, email_amigo]
+    xmlHttpRequest.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            removeAmigoFromHTML(infoAmigo.userEmail, infoAmigo.amigoEmail);
+        }
     };
 
-    const body = buildBody(deleteFriendObject);
-
-    xmlHttpRequest.open("DELETE", METHOD_UTIL_PHP_URL, false);
-    xmlHttpRequest.send(body);
+    xmlHttpRequest.open("POST", DELETE_AMIGO_URL, false);
+    xmlHttpRequest.send(formData);
 }
 
 function findFriendDataByFriendEmail(email_amigo) {
@@ -141,15 +152,15 @@ function findFriendsByUserEmail() {
 }
 
 /**
- * @param amigo
+ * @param data
  * @returns {FormData}
  */
-function buildBody(amigo) {
+function buildBody(data) {
     const formData = new FormData();
 
     Object
-        .keys(amigo)
-        .forEach(key => formData.append(key, amigo[key]));
+        .keys(data)
+        .forEach(key => formData.append(key, data[key]));
 
     return formData;
 }
