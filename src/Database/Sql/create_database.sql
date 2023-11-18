@@ -34,3 +34,16 @@ create table if not exists uniaservice.amigo
     foreign key (email_amigo)
         references uniaservice.`user`(email)
 );
+
+INSERT INTO `uniaservice`.`user` (`id`, `name`, `last_name`, `birthday`, `status`, `photo_file_name`, `email`, `password`) VALUES (NULL, 'Suyanne', 'Candido', '2003-11-08', NULL, 'fotoSuy.png', 'suyannecandido@gmail.com', '123');
+INSERT INTO `uniaservice`.`user` (`id`, `name`, `last_name`, `birthday`, `status`, `photo_file_name`, `email`, `password`) VALUES (NULL, 'Lucas', 'Nunes', '2003-11-08', NULL, 'fotoLucas.png', 'lucasnunes@gmail.com', '123');
+INSERT INTO `uniaservice`.`user` (`id`, `name`, `last_name`, `birthday`, `status`, `photo_file_name`, `email`, `password`) VALUES (NULL, 'Marcelo', 'Schaefer', '2003-11-08', NULL, 'fotoMarcelo.png', 'marceloschaefer@gmail.com', '123');
+INSERT INTO `uniaservice`.`user` (`id`, `name`, `last_name`, `birthday`, `status`, `photo_file_name`, `email`, `password`) VALUES (NULL, 'Everton', 'Cruz', '2003-11-08', NULL, 'fotoEverton.png', 'evertoncruz@gmail.com', '123');
+INSERT INTO `uniaservice`.`user` (`id`, `name`, `last_name`, `birthday`, `status`, `photo_file_name`, `email`, `password`) VALUES (NULL, 'Benicio', 'Peixoto', '2003-11-08', NULL, 'imagempessoa1.png', 'beniciopeixoto@gmail.com', '123');
+INSERT INTO `uniaservice`.`user` (`id`, `name`, `last_name`, `birthday`, `status`, `photo_file_name`, `email`, `password`) VALUES (NULL, 'Bruno', 'Moraes', '2003-11-08', NULL, 'imagempessoa2.png', 'brunomoraes@gmail.com', '123');
+INSERT INTO `uniaservice`.`user` (`id`, `name`, `last_name`, `birthday`, `status`, `photo_file_name`, `email`, `password`) VALUES (NULL, 'Alexandre', 'Julio', '2003-11-08', NULL, 'imagempessoa3.png', 'alexandrejulio@gmail.com', '123');
+INSERT INTO `uniaservice`.`user` (`id`, `name`, `last_name`, `birthday`, `status`, `photo_file_name`, `email`, `password`) VALUES (NULL, 'Sebastiao', 'Jesus', '2003-11-08', NULL, 'imagempessoa4.png', 'sebastiaojesus@gmail.com', '123');
+
+INSERT INTO `uniaservice`.`amigo` (`id`, `email_user`, `email_amigo`) VALUES (NULL, 'evertoncruz@gmail.com', 'suyannecandido@gmail.com');
+INSERT INTO `uniaservice`.`amigo` (`id`, `email_user`, `email_amigo`) VALUES (NULL, 'evertoncruz@gmail.com', 'lucasnunes@gmail.com');
+INSERT INTO `uniaservice`.`amigo` (`id`, `email_user`, `email_amigo`) VALUES (NULL, 'evertoncruz@gmail.com', 'marceloschaefer@gmail.com');

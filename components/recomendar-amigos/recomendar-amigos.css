@@ -1,3 +1,7 @@
+html, body {
+    background-color: rgb(241, 239, 239);
+}
+
 .botao-conhecer-pessoas {
     color: white;
     background-color: orange;
@@ -8,6 +12,7 @@
 
 .conhecer-pessoas-img {
     width: 120px;
+    height: 120px;
     border-radius: 10px;
 }
 
