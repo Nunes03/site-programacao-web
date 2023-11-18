@@ -1,17 +1,28 @@
 const GET_POSTS_BY_USER_URL = "get-posts-by-user.php";
 const CREATE_POST_URL = "create-post.php";
+const ADD_LIKE_IN_POST_URL = "add-like-in-post.php";
 
 const perfilButton = document.querySelector("#perfilButton");
 const postButton = document.querySelector("#postButton");
+const sigInButton = document.querySelector("#sigIn");
 const amigosButton = document.querySelector("#amigosButton");
 
 perfilButton.addEventListener("click", () => redirectProfile());
 postButton.addEventListener("click", () => createPostInPhp());
 amigosButton.addEventListener("click", () => redirectFriends())
+sigInButton.addEventListener("click", () => redirectLogin());
 
 updatePostsOnScreen();
 
+const likeButtons = document.querySelectorAll(".like-button");
+likeButtons.forEach(
+    (button) => {
+        button.addEventListener("click", () => addLike(button))
+    }
+);
+
 function updatePostsOnScreen() {
+
     removeChildrenByTagId("posts");
 
     const posts = getPostsByUserInPhp();
@@ -73,6 +84,11 @@ function redirectProfile() {
 
 function redirectFriends() {
     window.location.pathname = "/site-programacao-web/components/amigo/amigo.html";
+}
+
+function redirectLogin() {
+    localStorage.removeItem("user");
+    window.location.pathname = "/site-programacao-web/components/login/login.html";
 }
 
 function createPostInPhp() {
@@ -297,10 +313,12 @@ function createDivPostButton(post) {
 
     const button = document.createElement("button");
     button.className = "like-button";
+    button.value = post.id;
 
     const span = document.createElement("span");
-    span.className = "like-message"
+    span.className = "like-message";
     span.textContent = post.likes + " curtidas";
+    span.accessKey = post.id;
 
     button.appendChild(img);
 
@@ -308,6 +326,27 @@ function createDivPostButton(post) {
     div.appendChild(span);
 
     return div;
+}
+
+function addLike(button) {
+    const xmlHttpRequest = new XMLHttpRequest();
+
+    xmlHttpRequest.onreadystatechange = function () {
+        if (this.readyState === 4) {
+        }
+    };
+
+    const body = new FormData();
+    body.append("postId", button.value)
+
+    xmlHttpRequest.open("POST", ADD_LIKE_IN_POST_URL, true);
+    xmlHttpRequest.send(body);
+
+    const span = document.querySelector(`span[accesskey="${button.value}"]`);
+    const textContentSpanSplit = span.textContent.split(" ");
+    let newLikes = parseInt(textContentSpanSplit[0]) + 1;
+
+    span.textContent = newLikes.toString().concat(" ").concat(textContentSpanSplit[1]);
 }
 
 /**
