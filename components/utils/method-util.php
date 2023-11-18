@@ -12,6 +12,9 @@ switch ($_POST["methodName"]) {
     case "findAmigosByUserEmail":
         echo json_encode(findAmigosByUserEmail($parameters));
         break;
+    case "deleteByUserEmailAndAmigoEmail":
+        deleteFriendByEmail($parameters);
+        break;
     default:
         echo "{}";
 }
@@ -34,13 +37,15 @@ function findUserByEmail($email)
 function findAmigosByUserEmail($email) {
     $amigoRepository = new AmigoRepository();
     $amigoEntities = $amigoRepository->findByUserEmail($email);
-    //transformar em dto pois tem seus atributos publicos
-    $arr['dto'] = new AmigoDto();
-    foreach ($amigoEntities as $result) {
-        $amigoDto = new AmigoDto();
-        $amigoDto->user_email = $result.$email;
-        
-        $amigoEntity->toDto();
+
+    $amigoDtoList = array();
+    foreach ($amigoEntities as $amigoEntity) {
+        $amigoDtoList[] = $amigoEntity->toDto();
     }
-    return $amigoEntities;
+    return $amigoDtoList;
+}
+
+function deleteFriendByEmail($parameters) {
+    $amigoRepository = new AmigoRepository();
+    $amigoRepository->deleteByUserEmailAndAmigoEmail($parameters[0], $parameters[1]);
 }

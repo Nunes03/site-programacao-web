@@ -5,11 +5,11 @@ class AmigoDto {
     /**
      * @var string
      */
-    public $user_email;
+    public $email_user;
 
     /**
      * @var string
      */
-    public $amigo_email;
+    public $email_amigo;
 
 }

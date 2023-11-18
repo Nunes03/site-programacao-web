@@ -6,11 +6,11 @@ require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../Dto/Stateme
 
 const SELECT_ALL_AMIGOS = "SELECT * FROM amigo";
 
-const SELECT_BY_USER_EMAIL = "SELECT * FROM amigo WHERE email_user = ?";
+const SELECT_BY_USER_EMAIL = "SELECT * FROM amigo WHERE amigo.email_user = ?";
 
 const INSERT_SQL_AMIGO = "INSERT INTO amigo (email_user, email_amigo) VALUES (?, ?)";
 
-const DELETE_BY_ID = "delete FROM amigo WHERE id = ?";
+const DELETE_BY_EMAIL = "DELETE FROM amigo WHERE amigo.email_user = ? AND amigo.email_amigo = ?";
 
 class AmigoRepository extends AbstractRepository {
 
@@ -38,17 +38,19 @@ class AmigoRepository extends AbstractRepository {
     }
 
     /**
-     * @param int $id
+     * @param string $email_user
+     * @param string $email_amigo
      * @return void
      */
-    public function deleteById($id) {
+    public function deleteByUserEmailAndAmigoEmail($email_user, $email_amigo) {
         $statementParameter = new StatementParameter(
-            "i",
-            array($id)
+            "ss",
+            array(
+                $email_user,
+                $email_amigo
+            )
         );
-
-        return parent::executeQueryStatemant(DELETE_BY_ID, $statementParameter, new AmigoConverter());
-
+        parent::executeStatement(DELETE_BY_EMAIL, $statementParameter);
     }
 
     /**
@@ -75,4 +77,7 @@ class AmigoRepository extends AbstractRepository {
         // not implemented
     }
 
+    public function deleteById($id) {
+        // not implemented
+    }
 }

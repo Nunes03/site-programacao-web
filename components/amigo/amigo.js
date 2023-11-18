@@ -1,15 +1,77 @@
 const BUTTON_PERFIL = document.querySelector("#perfilButton");
 const BUTTON_HOME = document.querySelector("#homeButton");
 const METHOD_UTIL_PHP_URL = "../utils/method-util.php";
+const AMIGO_REPOSITORY_URL = "../../src/Database/Repositories/AmigoRepository.php"
 const CURRENT_USER_EMAIL = getEmailByLocalStorage();
+const PROFILE_PHOTO_PATH = "../../src/UserFile/Profile/";
+const USER_DEFAULT_PROFILE_PHOTO = "../../assets/fotoPerfil.jpg";
 
+const ELEMENTO_AMIGO = document.querySelector('div.container-informacoes-amigos');
 populateData();
 
 function populateData() {
-    var friends = findFriendsByUserEmailPhp();
-    if (friends != null) {
-        // var amigo = document.createElement('div class="conteudo"');
+    let friends = findFriendsByUserEmail();
+
+    if (friends.length !== 0) {
+        friends.forEach(adicionarElementoAmigoNaTela);
     }
+}
+
+function adicionarElementoAmigoNaTela(amigo) {
+    let dadosAmigo = findFriendDataByFriendEmail(amigo.email_amigo);
+
+    let amigoContainer = document.createElement('div');
+    amigoContainer.classList.add('conteudo');
+
+    let amigoCabecalho = document.createElement('div');
+    amigoCabecalho.classList.add('cabecalho-info');
+
+    let amigoNome = document.createElement('span');
+    let textNomeAmigo = document.createTextNode(dadosAmigo.name.toString() + " " + dadosAmigo.lastName.toString());
+    amigoNome.classList.add('nome-usuario');
+    amigoNome.appendChild(textNomeAmigo);
+
+    let containeraAmigoBotao = document.createElement('div');
+    containeraAmigoBotao.classList.add('cabecalho-botao');
+
+    let verAmigoBotao = document.createElement('button');
+    verAmigoBotao.classList.add('botao');
+    let textVerAmigoBotao = document.createTextNode('Ver amigo');
+    verAmigoBotao.appendChild(textVerAmigoBotao);
+    containeraAmigoBotao.appendChild(verAmigoBotao);
+
+    let removerAmigoBotao = document.createElement('button');
+    removerAmigoBotao.classList.add('botao');
+    removerAmigoBotao.addEventListener("click", function () {
+        removerAmigo(dadosAmigo.email);
+    });
+
+    let textRemoverAmigoBotao = document.createTextNode('Remover amigo');
+    removerAmigoBotao.appendChild(textRemoverAmigoBotao);
+    containeraAmigoBotao.appendChild(removerAmigoBotao);
+
+    let amigoFoto = document.createElement('img');
+    amigoFoto.classList.add('foto-perfil');
+
+    let profilePhotoPath;
+    if (dadosAmigo.photoFileName != null) {
+        const profilePhotoPathByEmail = dadosAmigo.email
+            .replaceAll("@", "_")
+            .replaceAll(".", "_")
+        ;
+
+        profilePhotoPath = `${PROFILE_PHOTO_PATH}${profilePhotoPathByEmail}/${dadosAmigo.photoFileName}`;
+    } else {
+        profilePhotoPath = USER_DEFAULT_PROFILE_PHOTO;
+    }
+
+    amigoFoto.src = profilePhotoPath
+
+    amigoCabecalho.appendChild(amigoFoto)
+    amigoCabecalho.appendChild(amigoNome);
+    amigoContainer.appendChild(amigoCabecalho);
+    amigoContainer.appendChild(containeraAmigoBotao);
+    ELEMENTO_AMIGO.appendChild(amigoContainer);
 }
 
 /**
@@ -21,21 +83,48 @@ function getEmailByLocalStorage() {
     return JSON.parse(userJson).email;
 }
 
-BUTTON_PERFIL.addEventListener("click", () => redirect("/site-programacao-web/components/perfil/perfil.html"));
-BUTTON_HOME.addEventListener("click", () => redirect("/site-programacao-web/components/home/home.html"));
+function removerAmigo(email_amigo) {
+    const xmlHttpRequest = new XMLHttpRequest();
 
-function redirect(path) {
-    window.location.pathname = path;
-} 
+    const deleteFriendObject = {
+        methodName: "deleteByUserEmailAndAmigoEmail",
+        methodParameters: [CURRENT_USER_EMAIL, email_amigo]
+    };
 
-function findFriendsByUserEmailPhp() {
+    const body = buildBody(deleteFriendObject);
+
+    xmlHttpRequest.open("DELETE", METHOD_UTIL_PHP_URL, false);
+    xmlHttpRequest.send(body);
+}
+
+function findFriendDataByFriendEmail(email_amigo) {
+    let amigoData;
+    const xmlHttpRequest = new XMLHttpRequest();
+
+    xmlHttpRequest.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            amigoData = JSON.parse(this.responseText);
+        }
+    };
+
+    const friendDataObject = {
+        methodName: "findUserByEmail",
+        methodParameters: email_amigo
+    };
+    const body = buildBody(friendDataObject);
+
+    xmlHttpRequest.open("POST", METHOD_UTIL_PHP_URL, false);
+    xmlHttpRequest.send(body);
+    return amigoData;
+}
+
+function findFriendsByUserEmail() {
     let amigoOutput;
     const xmlHttpRequest = new XMLHttpRequest();
 
     xmlHttpRequest.onreadystatechange = function () {
         if (this.readyState === 4) {
             amigoOutput = JSON.parse(this.responseText);
-            console.log(this.responseText);
         }
     };
 
@@ -48,8 +137,6 @@ function findFriendsByUserEmailPhp() {
     xmlHttpRequest.open("POST", METHOD_UTIL_PHP_URL, false);
     xmlHttpRequest.send(body);
 
-    console.log("amigo.js - findFriendsByUserEmailPhp");
-    console.log(amigoOutput);
     return amigoOutput;
 }
 
@@ -62,8 +149,14 @@ function buildBody(amigo) {
 
     Object
         .keys(amigo)
-        .forEach(key => formData.append(key, amigo[key]))
-    ;
+        .forEach(key => formData.append(key, amigo[key]));
 
     return formData;
 }
+
+function redirect(path) {
+    window.location.pathname = path;
+}
+
+BUTTON_PERFIL.addEventListener("click", () => redirect("/site-programacao-web/components/perfil/perfil.html"));
+BUTTON_HOME.addEventListener("click", () => redirect("/site-programacao-web/components/home/home.html"));

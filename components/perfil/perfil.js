@@ -64,6 +64,10 @@ function populateUserData() {
     document.querySelector('#birthday').value = userOutput.birthday;
     document.querySelector('#status').value = userOutput.status;
 
+    //anotacao suy
+    //  desse jeito para capturar link da foto do banco
+    // e procurar no caminho C:\xampp\htdocs\site-programacao-web\src\UserFile\Profile
+
     let profilePhotoPath;
     if (userOutput.photoFileName != null) {
         const profilePhotoPathByEmail = getEmailByLocalStorage()
