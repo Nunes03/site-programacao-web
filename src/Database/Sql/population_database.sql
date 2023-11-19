@@ -10,3 +10,7 @@ INSERT INTO `uniaservice`.`user` (`id`, `name`, `last_name`, `birthday`, `status
 INSERT INTO `uniaservice`.`amigo` (`id`, `email_user`, `email_amigo`) VALUES (NULL, 'evertoncruz@gmail.com', 'suyannecandido@gmail.com');
 INSERT INTO `uniaservice`.`amigo` (`id`, `email_user`, `email_amigo`) VALUES (NULL, 'evertoncruz@gmail.com', 'lucasnunes@gmail.com');
 INSERT INTO `uniaservice`.`amigo` (`id`, `email_user`, `email_amigo`) VALUES (NULL, 'evertoncruz@gmail.com', 'marceloschaefer@gmail.com');
+
+INSERT INTO uniaservice.post (content, `date`, file_name, likes, user_id) VALUES ('Me sentindo assim hoje', '2023-11-18 17:18:43', 'cachorro3.png', 0, 1);
+INSERT INTO uniaservice.post (content, `date`, file_name, likes, user_id) VALUES ('Estilo cachorro KKKKKKKKK', '2023-11-18 22:06:48', 'cachorro1.png', 0, 2);
+INSERT INTO uniaservice.post (content, `date`, file_name, likes, user_id) VALUES ('Acho lindo esses cachorros', '2023-11-18 10:16:10', 'cachorro2.png', 0, 3);
