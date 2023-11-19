@@ -6,7 +6,7 @@ require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../Dto/Stateme
 
 const SELECT_BY_ID_POST_SQL = "select * from uniaservice.post post where post.id = ?";
 
-define (
+define(
     "INSERT_POST_SQL",
     "insert into uniaservice.post " .
     "(content, date, likes, file_name, user_id) " .
@@ -14,7 +14,7 @@ define (
     "(?, ?, ?, ?, ?) "
 );
 
-define (
+define(
     "UPDATE_LIKE_POST_BY_ID_SQL",
     "update uniaservice.post "
     . "set "
@@ -89,7 +89,8 @@ class PostRepository extends AbstractRepository
      * @param $id int
      * @return void
      */
-    public function addLikesById($id) {
+    public function addLikesById($id)
+    {
         $postEntity = $this->findById($id);
         $likes = $postEntity->getLikes() + 1;
 
@@ -183,8 +184,6 @@ class PostRepository extends AbstractRepository
             "s",
             array($email)
         );
-        // var_dump($statementParameter);
-
 
         $resultSet = parent::executeQueryListStatemant(
             SELECT_RELATED_BY_EMAIL_SELECTED,

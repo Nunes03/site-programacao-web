@@ -12,9 +12,9 @@ populateData();
 function populateData() {
     let friends = findFriendsByUserEmail();
 
-    if (friends.length !== 0) {
-        friends.forEach(adicionarElementoAmigoNaTela);
-    }
+    console.log(friends)
+
+    friends.forEach(adicionarElementoAmigoNaTela);
 }
 
 function adicionarElementoAmigoNaTela(amigo) {
