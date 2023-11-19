@@ -49,7 +49,7 @@ function vefifyUserExists() {
         }
     };
 
-    const url = "login.php"
+    const url = "components/login/login.php"
     const body = buildBody();
 
     xmlHttpRequest.open("POST", url, true);

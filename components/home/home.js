@@ -101,7 +101,7 @@ function redirectFriends() {
 
 function redirectLogin() {
     localStorage.removeItem("user");
-    window.location.pathname = "../login/index.html";
+    window.location.pathname = "site-programacao-web/index.html";
 }
 
 function createPostInPhp() {
