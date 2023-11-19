@@ -35,7 +35,7 @@ function viewPassword() {
 }
 
 function backToLogin() {
-    window.location.pathname = "/site-programacao-web/components/login/login.html";
+    window.location.pathname = "../login/index.html";
 }
 
 /**
