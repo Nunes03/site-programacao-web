@@ -5,6 +5,13 @@ define(
     __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/Sql/create_database.sql")
 );
 
+define(
+    "POPULATION_DATABASE_FILE_PATH",
+    __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/Sql/population_database.sql")
+);
+
+const CHECKS_IF_THERE_IS_DATA_IN_THE_DATABASE = "select * from uniaservice.`user` `user` where `user`.id > 0";
+
 const HOSTNAME = "localhost";
 
 const USERNAME = "root";
@@ -35,6 +42,7 @@ class DatabaseConnection
     public static function executeSqlStatement($sql, $statementParameter)
     {
         self::createDatabase();
+        self::populationDatabase();
         $connection = self::getConnectionDatabase();
         return self::executeSqlNotValidationStatement($connection, $sql, $statementParameter);
     }
@@ -47,6 +55,23 @@ class DatabaseConnection
         foreach ($createdatabaseSql as $sql) {
             $connection = self::getConnectionServer();
             self::executeSqlNotValidation($connection, $sql);
+        }
+    }
+
+    private static function populationDatabase()
+    {
+        $connection = self::getConnectionServer();
+        $resultSet = self::executeSqlNotValidation($connection, CHECKS_IF_THERE_IS_DATA_IN_THE_DATABASE);
+
+        $row = mysqli_fetch_array($resultSet);
+        if ($row["id"] == null) {
+            $fileContent = file_get_contents(POPULATION_DATABASE_FILE_PATH);
+            $populationDatabaseSql = explode(";", $fileContent);
+
+            foreach ($populationDatabaseSql as $sql) {
+                $connection = self::getConnectionServer();
+                self::executeSqlNotValidation($connection, $sql);
+            }
         }
     }
 

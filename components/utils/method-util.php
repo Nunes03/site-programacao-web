@@ -41,6 +41,7 @@ function findAmigosByUserEmail($email) {
     foreach ($amigoEntities as $amigoEntity) {
         $amigoDtoList[] = $amigoEntity->toDto();
     }
+
     return $amigoDtoList;
 }
 
