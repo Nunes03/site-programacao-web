@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../Database/Entities/AmigoEntity.php");
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/Interfaces/ConverterInterface.php");
 

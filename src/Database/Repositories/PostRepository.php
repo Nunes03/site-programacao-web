@@ -4,11 +4,11 @@ require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/AbstractRepositor
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/UserRepository.php");
 require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../Dto/StatementParameter.php");
 
-const SELECT_BY_ID_POST_SQL = "select * from uniaservice.post post where post.id = ?";
+const SELECT_BY_ID_POST_SQL = "select * from post post where post.id = ?";
 
 define(
     "INSERT_POST_SQL",
-    "insert into uniaservice.post " .
+    "insert into post " .
     "(content, date, likes, file_name, user_id) " .
     "values " .
     "(?, ?, ?, ?, ?) "
@@ -16,7 +16,7 @@ define(
 
 define(
     "UPDATE_LIKE_POST_BY_ID_SQL",
-    "update uniaservice.post "
+    "update post "
     . "set "
     . "likes = ? "
     . "where "
@@ -28,10 +28,10 @@ define(
     "select "
     . "distinct post.* "
     . "from "
-    . "uniaservice.post post "
-    . "inner join uniaservice.`user` `user` on "
+    . "post post "
+    . "inner join `user` on "
     . "post.user_id = `user`.id "
-    . "left join uniaservice.amigo amigo on "
+    . "left join amigo on "
     . "(`user`.email = amigo.email_user "
     . "or `user`.email = amigo.email_amigo) "
     . "where "
@@ -46,11 +46,10 @@ define(
     "select "
     . "distinct post.* "
     . "from "
-    . "uniaservice.post post, uniaservice.`user` `user` "
+    . "post, `user` "
     . "where "
     . "`user`.email = ? "
     . "and post.user_id = `user`.id "
-
 );
 
 class PostRepository extends AbstractRepository

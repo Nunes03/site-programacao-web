@@ -2,6 +2,10 @@ const createAccountButton = document.querySelector("#createAccount");
 const viewPasswordButton = document.querySelector("#viewPassword");
 const backToLoginButton = document.querySelector("#backToLogin");
 const infoMessage = document.querySelector("#infoMessage");
+const HOSTNAME = isDevelopment()
+    ? "/site-programacao-web"
+    : ""
+;
 
 createAccountButton.addEventListener("click", () => validatePassword());
 viewPasswordButton.addEventListener("click", () => viewPassword());
@@ -35,7 +39,7 @@ function viewPassword() {
 }
 
 function backToLogin() {
-    window.location.pathname = "../site-programacao-web/index.html";
+    window.location.pathname = `..${HOSTNAME}/index.html`;
 }
 
 /**
@@ -111,4 +115,23 @@ function getUserObject() {
         email: email,
         password: password
     }
+}
+
+function isDevelopment() {
+    const xmlHttpRequest = new XMLHttpRequest();
+    let isDevelopment = true;
+
+    xmlHttpRequest.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            const responseObject = JSON.parse(this.responseText);
+            isDevelopment = responseObject.isDevelopment;
+        }
+    };
+
+    const URL = "../utils/is-development.php"
+
+    xmlHttpRequest.open("POST", URL, false);
+    xmlHttpRequest.send();
+
+    return isDevelopment;
 }
