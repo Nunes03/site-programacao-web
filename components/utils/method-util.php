@@ -33,12 +33,19 @@ function findUserByEmail($email)
  * @param $email string
  * @return array de AmigoDto
  */
-function findAmigosByUserEmail($email) {
+function findAmigosByUserEmail($email_user) {
     $amigoRepository = new AmigoRepository();
-    $amigoEntities = $amigoRepository->findByUserEmail($email);
+    $amigoEntities = $amigoRepository->findByUserEmail($email_user);
 
     $amigoDtoList = array();
+    //  Caso o outro usuario adicione o atual usuario como amigo
+    //  esse if irá fazer a troca para que o resultado de email_user
+    //  seja igual ao email do usuario atual
     foreach ($amigoEntities as $amigoEntity) {
+        if ($amigoEntity->getAmigoEmail() == $email_user) {
+            $amigoEntity->setAmigoEmail($amigoEntity->getUserEmail());
+            $amigoEntity->setUserEmail($email_user);
+        }
         $amigoDtoList[] = $amigoEntity->toDto();
     }
 

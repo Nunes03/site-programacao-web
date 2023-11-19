@@ -11,9 +11,6 @@ populateData();
 
 function populateData() {
     let friends = findFriendsByUserEmail();
-
-    console.log(friends)
-
     friends.forEach(adicionarElementoAmigoNaTela);
 }
 

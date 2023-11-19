@@ -6,7 +6,7 @@ require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../../Dto/Stateme
 
 const SELECT_ALL_AMIGOS = "SELECT * FROM amigo";
 
-const SELECT_BY_USER_EMAIL = "SELECT * FROM amigo WHERE amigo.email_user = ?";
+const SELECT_BY_USER_EMAIL = "SELECT * FROM amigo WHERE amigo.email_user = ? or amigo.email_amigo = ?";
 
 const INSERT_SQL_AMIGO = "INSERT INTO amigo (email_user, email_amigo) VALUES (?, ?)";
 
@@ -59,8 +59,8 @@ class AmigoRepository extends AbstractRepository {
      */
     public function findByUserEmail($user_email) {
         $statementParameter = new StatementParameter(
-            "s",
-            array($user_email)
+            "ss",
+            array($user_email, $user_email)
         );
         return parent::executeQueryListStatemant(SELECT_BY_USER_EMAIL, $statementParameter, new AmigoConverter());
     }

@@ -15,7 +15,7 @@ const SELECT_LIMIT_10_BY_NAME = "select * from user order by name limit 10";
 
 const SELECT_BY_EMAIL_AND_PASSWORD = "select * from user where user.email = ? and user.password = ?";
 
-const SELECT_RANDOM_USER = "SELECT * FROM user WHERE user.email NOT LIKE ? and 0 = (SELECT COUNT(*) from amigo where amigo.email_user like ? and amigo.email_amigo like user.email) ORDER BY RAND() LIMIT 1";
+const SELECT_RANDOM_USER = "SELECT * FROM user WHERE user.email NOT LIKE ? and 0 = (SELECT COUNT(*) from amigo where amigo.email_user like user.email or amigo.email_amigo like user.email) ORDER BY RAND() LIMIT 1";
 
 define(
     "INSERT_SQL",
@@ -119,8 +119,8 @@ class UserRepository extends AbstractRepository
     public function getRandomUser($email)
     {
         $statementParameter = new StatementParameter(
-            "ss",
-            array($email, $email)
+            "s",
+            array($email)
         );
 
         return parent::executeQueryStatemant(SELECT_RANDOM_USER, $statementParameter, new UserConverter());
