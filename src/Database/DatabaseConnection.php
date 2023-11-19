@@ -1,8 +1,9 @@
 <?php
+require_once __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/../Dto/DatabaseConnectionDto.php");
 
 define(
-    "CREATE_DATABASE_FILE_PATH",
-    __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/Sql/create_database.sql")
+    "CREATE_TABLES_FILE_PATH",
+    __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/Sql/create_tables.sql")
 );
 
 define(
@@ -10,15 +11,7 @@ define(
     __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/Sql/population_database.sql")
 );
 
-const CHECKS_IF_THERE_IS_DATA_IN_THE_DATABASE = "select * from uniaservice.`user` `user` where `user`.id > 0";
-
-const HOSTNAME = "localhost";
-
-const USERNAME = "root";
-
-const PASSWORD = "";
-
-const DATABASE_NAME = "uniaservice";
+const CHECKS_IF_THERE_IS_DATA_IN_THE_DATABASE = "select * from `user` where id > 0";
 
 class DatabaseConnection
 {
@@ -29,7 +22,7 @@ class DatabaseConnection
      */
     public static function executeSql($sql)
     {
-        self::createDatabase();
+        self::createTables();
         $connection = self::getConnectionDatabase();
         return self::executeSqlNotValidation($connection, $sql);
     }
@@ -41,26 +34,26 @@ class DatabaseConnection
      */
     public static function executeSqlStatement($sql, $statementParameter)
     {
-        self::createDatabase();
+        self::createTables();
         self::populationDatabase();
         $connection = self::getConnectionDatabase();
         return self::executeSqlNotValidationStatement($connection, $sql, $statementParameter);
     }
 
-    private static function createDatabase()
+    private static function createTables()
     {
-        $fileContent = file_get_contents(CREATE_DATABASE_FILE_PATH);
+        $fileContent = file_get_contents(CREATE_TABLES_FILE_PATH);
         $createdatabaseSql = explode(";", $fileContent);
 
         foreach ($createdatabaseSql as $sql) {
-            $connection = self::getConnectionServer();
+            $connection = self::getConnectionDatabase();
             self::executeSqlNotValidation($connection, $sql);
         }
     }
 
     private static function populationDatabase()
     {
-        $connection = self::getConnectionServer();
+        $connection = self::getConnectionDatabase();
         $resultSet = self::executeSqlNotValidation($connection, CHECKS_IF_THERE_IS_DATA_IN_THE_DATABASE);
 
         $row = mysqli_fetch_array($resultSet);
@@ -69,7 +62,7 @@ class DatabaseConnection
             $populationDatabaseSql = explode(";", $fileContent);
 
             foreach ($populationDatabaseSql as $sql) {
-                $connection = self::getConnectionServer();
+                $connection = self::getConnectionDatabase();
                 self::executeSqlNotValidation($connection, $sql);
             }
         }
@@ -110,7 +103,7 @@ class DatabaseConnection
             $bindParams[] = &$statementParameter->values[$key];
         }
 
-        call_user_func_array('mysqli_stmt_bind_param', $bindParams);
+        call_user_func_array("mysqli_stmt_bind_param", $bindParams);
 
         $statement->execute();
         $resultSet = $statement->get_result();
@@ -121,13 +114,64 @@ class DatabaseConnection
         return $resultSet;
     }
 
-    private static function getConnectionServer()
-    {
-        return mysqli_connect(HOSTNAME, USERNAME, PASSWORD);
-    }
-
+    /**
+     * @return false|mysqli
+     */
     private static function getConnectionDatabase()
     {
-        return mysqli_connect(HOSTNAME, USERNAME, PASSWORD, DATABASE_NAME);
+        $databaseConnectionDto = self::isDevelopment()
+            ? self::getDevelopmentConnection()
+            : self::getProductionConnection();
+
+        return mysqli_connect(
+            $databaseConnectionDto->hostname,
+            $databaseConnectionDto->username,
+            $databaseConnectionDto->password,
+            $databaseConnectionDto->databaseName
+        );
+    }
+
+    /**
+     * @return DatabaseConnectionDto
+     */
+    private static function getDevelopmentConnection()
+    {
+        return new DatabaseConnectionDto(
+            "localhost",
+            "root",
+            "",
+            "uniaservice"
+        );
+    }
+
+    /**
+     * @return DatabaseConnectionDto
+     */
+    private static function getProductionConnection()
+    {
+        return new DatabaseConnectionDto(
+            "localhost",
+            "id21101561_root",
+            "SenhaSite01.",
+            "id21101561_uniaservice"
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isDevelopment()
+    {
+        return true;
+    }
+
+    /**
+     * @return string
+     */
+    public static function isDevelopmentFront()
+    {
+        return self::isDevelopment()
+            ? "true"
+            : "false";
     }
 }

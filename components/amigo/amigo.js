@@ -5,6 +5,10 @@ const DELETE_AMIGO_URL = "delete-amigo.php"
 const CURRENT_USER_EMAIL = getEmailByLocalStorage();
 const PROFILE_PHOTO_PATH = "../../src/UserFile/Profile/";
 const USER_DEFAULT_PROFILE_PHOTO = "../../assets/fotoPerfil.jpg";
+const HOSTNAME = isDevelopment()
+    ? "/site-programacao-web"
+    : ""
+;
 
 const ELEMENTO_AMIGO = document.querySelector('div.container-informacoes-amigos');
 populateData();
@@ -166,5 +170,28 @@ function redirect(path) {
     window.location.pathname = path;
 }
 
-BUTTON_PERFIL.addEventListener("click", () => redirect("/site-programacao-web/components/perfil/perfil.html"));
-BUTTON_HOME.addEventListener("click", () => redirect("/site-programacao-web/components/home/home.html"));
+/**
+ * A
+ * @returns {boolean}
+ */
+function isDevelopment() {
+    const xmlHttpRequest = new XMLHttpRequest();
+    let isDevelopment = true;
+
+    xmlHttpRequest.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            const responseObject = JSON.parse(this.responseText);
+            isDevelopment = responseObject.isDevelopment;
+        }
+    };
+
+    const URL = "../utils/is-development.php"
+
+    xmlHttpRequest.open("POST", URL, false);
+    xmlHttpRequest.send();
+
+    return isDevelopment;
+}
+
+BUTTON_PERFIL.addEventListener("click", () => redirect(`${HOSTNAME}/components/perfil/perfil.html`));
+BUTTON_HOME.addEventListener("click", () => redirect(`${HOSTNAME}/components/home/home.html`));

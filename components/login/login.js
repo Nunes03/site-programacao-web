@@ -1,12 +1,16 @@
 const loginButton = document.querySelector("#login");
 const createAccountButton = document.querySelector("#createAccount");
 const infoMessage = document.querySelector("#infoMessage");
+const HOSTNAME = isDevelopment()
+    ? "/site-programacao-web"
+    : ""
+;
 
 loginButton.addEventListener("click", () => login());
 createAccountButton.addEventListener("click", () => createAccountRedirect());
 
 function createAccountRedirect() {
-    window.location.pathname = "/site-programacao-web/components/create-account/create-account.html";
+    window.location.pathname = `${HOSTNAME}/components/create-account/create-account.html`;
 }
 
 function login() {
@@ -61,7 +65,7 @@ function userExists() {
     const jsonLocalStorege = JSON.stringify({email: valueEmail});
 
     localStorage.setItem("user", jsonLocalStorege);
-    window.location.pathname = "/site-programacao-web/components/home/home.html";
+    window.location.pathname = `${HOSTNAME}/components/home/home.html`;
 }
 
 function userNotExists(responseObject) {
@@ -98,4 +102,27 @@ function getUserObject() {
         email: valueEmail,
         password: valuePassword
     }
+}
+
+/**
+ *
+ * @returns {boolean}
+ */
+function isDevelopment() {
+    const xmlHttpRequest = new XMLHttpRequest();
+    let isDevelopment = true;
+
+    xmlHttpRequest.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            const responseObject = JSON.parse(this.responseText);
+            isDevelopment = responseObject.isDevelopment;
+        }
+    };
+
+    const URL = "components/utils/is-development.php"
+
+    xmlHttpRequest.open("POST", URL, false);
+    xmlHttpRequest.send();
+
+    return isDevelopment;
 }

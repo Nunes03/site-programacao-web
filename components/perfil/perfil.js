@@ -1,8 +1,12 @@
 const PROFILE_PHP_URL = "perfil.php";
 const METHOD_UTIL_PHP_URL = "../utils/method-util.php";
 const USER_DEFAULT_PROFILE_PHOTO = "../../assets/fotoPerfil.jpg";
-const PATH_TO_HOME = "/site-programacao-web/components/home/home.html";
 const PROFILE_PHOTO_PATH = "../../src/UserFile/Profile/";
+const HOSTNAME = isDevelopment()
+    ? "/site-programacao-web"
+    : ""
+;
+const PATH_TO_HOME = `${HOSTNAME}/components/home/home.html`;
 
 const buttonEdit = document.querySelector('#buttonEdit');
 const buttonSave = document.querySelector('#buttonSave');
@@ -42,7 +46,7 @@ function cancel() {
 }
 
 function backToHome() {
-    window.location.pathname = PATH_TO_HOME
+    window.location.pathname = PATH_TO_HOME;
 }
 
 function updateFilePhoto() {
@@ -232,4 +236,23 @@ function buildBody(user) {
     ;
 
     return formData;
+}
+
+function isDevelopment() {
+    const xmlHttpRequest = new XMLHttpRequest();
+    let isDevelopment = true;
+
+    xmlHttpRequest.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            const responseObject = JSON.parse(this.responseText);
+            isDevelopment = responseObject.isDevelopment;
+        }
+    };
+
+    const URL = "../utils/is-development.php"
+
+    xmlHttpRequest.open("POST", URL, false);
+    xmlHttpRequest.send();
+
+    return isDevelopment;
 }

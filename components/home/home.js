@@ -2,6 +2,10 @@ const GET_POSTS_BY_USER_URL = "get-posts-by-user.php";
 const CREATE_POST_URL = "create-post.php";
 const ADD_LIKE_IN_POST_URL = "add-like-in-post.php";
 const GET_POSTS_BY_USER_SELECTED = "get-posts-by-user-selected.php";
+const HOSTNAME = isDevelopment()
+    ? "/site-programacao-web"
+    : ""
+;
 
 const botaoLimparPesquisar = document.querySelector("#botaoLimparPesquisar");
 const perfilButton = document.querySelector("#perfilButton");
@@ -92,16 +96,16 @@ function buildBodyParameter(user) {
 }
 
 function redirectProfile() {
-    window.location.pathname = "/site-programacao-web/components/perfil/perfil.html";
+    window.location.pathname = `${HOSTNAME}/components/perfil/perfil.html`;
 }
 
 function redirectFriends() {
-    window.location.pathname = "/site-programacao-web/components/amigo/amigo.html";
+    window.location.pathname = `${HOSTNAME}/components/amigo/amigo.html`;
 }
 
 function redirectLogin() {
     localStorage.removeItem("user");
-    window.location.pathname = "site-programacao-web/index.html";
+    window.location.pathname = `${HOSTNAME}/index.html`;
 }
 
 function createPostInPhp() {
@@ -527,4 +531,21 @@ function getPostsByUserSelected(email) {
     }
 }
 
+function isDevelopment() {
+    const xmlHttpRequest = new XMLHttpRequest();
+    let isDevelopment = true;
 
+    xmlHttpRequest.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            const responseObject = JSON.parse(this.responseText);
+            isDevelopment = responseObject.isDevelopment;
+        }
+    };
+
+    const URL = "../utils/is-development.php"
+
+    xmlHttpRequest.open("POST", URL, false);
+    xmlHttpRequest.send();
+
+    return isDevelopment;
+}
