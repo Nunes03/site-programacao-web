@@ -110,14 +110,6 @@ function redirectLogin() {
 
 function createPostInPhp() {
     if (validatePostFields()) {
-        const xmlHttpRequest = new XMLHttpRequest();
-
-        xmlHttpRequest.onreadystatechange = function () {
-            if (this.readyState === 4) {
-                updatePostsOnScreen();
-            }
-        };
-
         buildPostCreate();
     }
 }
@@ -177,6 +169,7 @@ function buildPostCreate() {
 
             const textAreaPost = document.querySelector("#textAreaPost");
             textAreaPost.value = "";
+            imageFile.value = "";
         };
 
         reader.readAsDataURL(photoSelected);

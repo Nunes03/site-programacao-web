@@ -1,8 +1,8 @@
 <?php
 
-define("PROFILE_PREFIX", __DIR__ . "\\Profile\\");
+define("PROFILE_PREFIX", __DIR__ . "/Profile/");
 
-define("POST_PREFIX", __DIR__ . "\\Post\\");
+define("POST_PREFIX", __DIR__ . "/Post/");
 
 class UserFileManagement
 {
@@ -23,7 +23,7 @@ class UserFileManagement
         }
 
         self::deleteAllFilesFromFolder($folderName);
-        file_put_contents($folderName . "\\" . $fileName, $fileContent);
+        file_put_contents($folderName . "/" . $fileName, $fileContent);
 
         return $fileName;
     }
@@ -55,7 +55,7 @@ class UserFileManagement
             }
         }
 
-        file_put_contents($folderName . "\\" . $fileName, $fileContent);
+        file_put_contents($folderName . "/" . $fileName, $fileContent);
 
         return $fileName;
     }
@@ -103,7 +103,7 @@ class UserFileManagement
 
         while (($file = readdir($folder)) !== false) {
             if ($file != "." && $file != "..") {
-                $fileName = $folderName . "\\" . $file;
+                $fileName = $folderName . "/" . $file;
 
                 unlink($fileName);
             }
