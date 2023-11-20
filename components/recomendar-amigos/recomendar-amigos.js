@@ -2,41 +2,59 @@ const ELEMENTO_BOTAO_ADICIONAR = document.getElementById("botaoAdicionar");
 const ELEMENTO_BOTAO_PROXIMO = document.getElementById("botaoProximo");
 const ELEMENTO_AMIGO_NOME = document.getElementById("amigoNome");
 const ELEMENTO_AMIGO_IMAGEM = document.getElementById("amigoImagem");
+const ELEMENTO_SPAN_AVISO = document.querySelector("#aviso");
 const METHOD_UTIL_PHP_URL = "../utils/method-util.php";
 const CURRENT_USER_EMAIL = getEmailByLocalStorage();
 const PROFILE_PHOTO_PATH = "../../src/UserFile/Profile/";
 const USER_DEFAULT_PROFILE_PHOTO = "../../assets/fotoPerfil.jpg";
 const ADD_AMIGO_URL = "adicionar-amigo.php"
 
+suggestedFriendEmail = "";
 populateData();
+
+ELEMENTO_BOTAO_PROXIMO.addEventListener("click", function () {
+    ELEMENTO_AMIGO_NOME.innerText = "";
+    ELEMENTO_AMIGO_IMAGEM.src = USER_DEFAULT_PROFILE_PHOTO;
+    populateData();
+});
+
+ELEMENTO_BOTAO_ADICIONAR.addEventListener("click", function () {
+    adicionarAmigo(suggestedFriendEmail);
+    populateData();
+});
 
 function populateData() {
     let suggestedFriend = findRandonPersonToRecomendate();
 
-    let textNomeAmigo = document.createTextNode(suggestedFriend.name.toString() + " " + suggestedFriend.lastName.toString());
-    ELEMENTO_AMIGO_NOME.appendChild(textNomeAmigo);
-
-    let profilePhotoPath;
-    if (suggestedFriend.photoFileName != null) {
-        const profilePhotoPathByEmail = suggestedFriend.email
-            .replaceAll("@", "_")
-            .replaceAll(".", "_")
-        ;
-
-        profilePhotoPath = `${PROFILE_PHOTO_PATH}${profilePhotoPathByEmail}/${suggestedFriend.photoFileName}`;
+    if (suggestedFriend === null) {
+        ELEMENTO_SPAN_AVISO.style.display = "";
+        ELEMENTO_AMIGO_IMAGEM.style.visibility = "hidden";
+        ELEMENTO_AMIGO_NOME.style.visibility = "hidden";
+        ELEMENTO_BOTAO_ADICIONAR.style.visibility = "hidden";
     } else {
-        profilePhotoPath = USER_DEFAULT_PROFILE_PHOTO;
+        ELEMENTO_SPAN_AVISO.style.display = "none";
+        ELEMENTO_AMIGO_IMAGEM.style.visibility = "visible";
+        ELEMENTO_AMIGO_NOME.style.visibility = "visible";
+        ELEMENTO_BOTAO_ADICIONAR.style.visibility = "visible";
+        suggestedFriendEmail = suggestedFriend.email;
+
+        let textNomeAmigo = document.createTextNode(suggestedFriend.name.toString() + " " + suggestedFriend.lastName.toString());
+        ELEMENTO_AMIGO_NOME.appendChild(textNomeAmigo);
+
+        let profilePhotoPath;
+        if (suggestedFriend.photoFileName != null) {
+            const profilePhotoPathByEmail = suggestedFriend.email
+                .replaceAll("@", "_")
+                .replaceAll(".", "_")
+            ;
+
+            profilePhotoPath = `${PROFILE_PHOTO_PATH}${profilePhotoPathByEmail}/${suggestedFriend.photoFileName}`;
+        } else {
+            profilePhotoPath = USER_DEFAULT_PROFILE_PHOTO;
+        }
+
+        ELEMENTO_AMIGO_IMAGEM.src = profilePhotoPath;
     }
-
-    ELEMENTO_AMIGO_IMAGEM.src = profilePhotoPath;
-
-    ELEMENTO_BOTAO_ADICIONAR.addEventListener("click", function () {
-        adicionarAmigo(suggestedFriend.email);
-    });
-
-    ELEMENTO_BOTAO_PROXIMO.addEventListener("click", function () {
-        location.reload();
-    });
 }
 
 function adicionarAmigo(emailAmigo) {

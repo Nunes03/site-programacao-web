@@ -55,5 +55,9 @@ function findAmigosByUserEmail($email_user) {
 function getRandomUser($email) {
     $userRepository = new UserRepository();
     $userEntity = $userRepository->getRandomUser($email);
+
+    if ($userEntity == null) {
+        return null;
+    }
     return $userEntity->toDto();
 }

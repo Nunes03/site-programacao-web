@@ -1,21 +1,24 @@
 <html>
-    <link rel="stylesheet" type="text/css" href="recomendar-amigos.css" />
-    <div>
-        <div class="info-message-container">
-            <span class="info-message">Pessoas que você talvez conheça</span>
-        </div>
-        <div class="conhecer-pessoas-dados">
-            <div>
-                <img id="amigoImagem" class="conhecer-pessoas-img" alt="Imagem de amigo recomendado">
+    <body>
+        <link rel="stylesheet" type="text/css" href="recomendar-amigos.css" />
+        <div>
+            <div class="info-message-container">
+                <span class="info-message">Pessoas que você talvez conheça</span>
             </div>
-            <div class="conhecer-pessoas-nome">
-                <a id="amigoNome"></a>
+            <div class="conhecer-pessoas-dados">
+                <span id="aviso" class="info-message">Nenhuma sugestão de amizade encontrada.</span>
+                <div>
+                    <img id="amigoImagem" class="conhecer-pessoas-img" alt="Imagem de amigo recomendado">
+                </div>
+                <div class="conhecer-pessoas-nome">
+                    <a id="amigoNome"></a>
+                </div>
+            </div>
+            <div class="conhecer-pessoas-botao">
+                <button id="botaoAdicionar" class="botao-conhecer-pessoas botao-conhecer-pessoas-adicionar">Adicionar</button>
+                <button id="botaoProximo" class="botao-conhecer-pessoas">Próximo</button>
             </div>
         </div>
-        <div class="conhecer-pessoas-botao">
-            <button id="botaoAdicionar" class="botao-conhecer-pessoas botao-conhecer-pessoas-adicionar">Adicionar</button>
-            <button id="botaoProximo" class="botao-conhecer-pessoas">Próximo</button>
-        </div>
-    </div>
+    </body>
     <script src="recomendar-amigos.js"></script>
 </html>

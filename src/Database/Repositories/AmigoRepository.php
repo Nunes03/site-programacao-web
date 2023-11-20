@@ -10,7 +10,7 @@ const SELECT_BY_USER_EMAIL = "SELECT * FROM amigo WHERE amigo.email_user = ? or 
 
 const INSERT_SQL_AMIGO = "INSERT INTO amigo (email_user, email_amigo) VALUES (?, ?)";
 
-const DELETE_BY_EMAIL = "DELETE FROM amigo WHERE amigo.email_user = ? AND amigo.email_amigo = ?";
+const DELETE_BY_EMAIL = "DELETE FROM amigo WHERE amigo.email_user = ? AND amigo.email_amigo = ? or amigo.email_amigo = ? AND amigo.email_user = ?";
 
 class AmigoRepository extends AbstractRepository {
 
@@ -44,8 +44,10 @@ class AmigoRepository extends AbstractRepository {
      */
     public function deleteByUserEmailAndAmigoEmail($email_user, $email_amigo) {
         $statementParameter = new StatementParameter(
-            "ss",
+            "ssss",
             array(
+                $email_user,
+                $email_amigo,
                 $email_user,
                 $email_amigo
             )
