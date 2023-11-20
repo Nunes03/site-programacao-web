@@ -169,7 +169,8 @@ function buildPostCreate() {
 
             const textAreaPost = document.querySelector("#textAreaPost");
             textAreaPost.value = "";
-            imageFile.files = [];
+
+            imageFile.value = "";
         };
 
         reader.readAsDataURL(photoSelected);
