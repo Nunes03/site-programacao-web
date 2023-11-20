@@ -31,7 +31,6 @@ class UserFileManagement
     /**
      * @param $email string
      * @param $fileName string
-     * @param $fileExtension string
      * @param $fileContent string
      * @return string Nome do arquivo criado
      */

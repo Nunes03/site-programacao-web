@@ -151,9 +151,9 @@ class DatabaseConnection
     {
         return new DatabaseConnectionDto(
             "localhost",
-            "id21101561_root",
-            "SenhaSite01.",
-            "id21101561_uniaservice"
+            "id21544124_root",
+            "senhaSite1.",
+            "id21544124_uniaservice"
         );
     }
 
