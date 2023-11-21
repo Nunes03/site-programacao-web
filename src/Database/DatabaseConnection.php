@@ -11,7 +11,7 @@ define(
     __DIR__ . str_replace("/", DIRECTORY_SEPARATOR, "/Sql/population_database.sql")
 );
 
-const CHECKS_IF_THERE_IS_DATA_IN_THE_DATABASE = "select * from `user` where id > 0";
+const CHECKS_IF_THERE_IS_DATA_IN_THE_DATABASE = "select count(*) from `user` where id > 0";
 
 class DatabaseConnection
 {
@@ -57,7 +57,7 @@ class DatabaseConnection
         $resultSet = self::executeSqlNotValidation($connection, CHECKS_IF_THERE_IS_DATA_IN_THE_DATABASE);
 
         $row = mysqli_fetch_array($resultSet);
-        if ($row["id"] == null) {
+        if ($row["count(*)"] == 0) {
             $fileContent = file_get_contents(POPULATION_DATABASE_FILE_PATH);
             $populationDatabaseSql = explode(";", $fileContent);
 
